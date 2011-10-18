@@ -1,0 +1,31 @@
+<a href="<%=Config.base_url%>index/Admin">Admin</a>
+
+<a href="<%=Config.base_url%>index/Domain">Domain</a>
+
+<a href="<%=Config.base_url%>index/PaketSoal">PaketSoal</a>
+
+<a href="<%=Config.base_url%>index/PaketSoalDetail">PaketSoalDetail</a>
+
+<a href="<%=Config.base_url%>index/PaketSoalJawaban">PaketSoalJawaban</a>
+
+<a href="<%=Config.base_url%>index/PaketSoalTigaButir">PaketSoalTigaButir</a>
+
+<a href="<%=Config.base_url%>index/PaketSoalTigaButirDetail">PaketSoalTigaButirDetail</a>
+
+<a href="<%=Config.base_url%>index/PaketSoalTigaButirJawaban">PaketSoalTigaButirJawaban</a>
+
+<a href="<%=Config.base_url%>index/Pengajar">Pengajar</a>
+
+<a href="<%=Config.base_url%>index/PesertaTest">PesertaTest</a>
+
+<a href="<%=Config.base_url%>index/PesertaTestDomain">PesertaTestDomain</a>
+
+<a href="<%=Config.base_url%>index/PesertaTestJawabanDenganModel">PesertaTestJawabanDenganModel</a>
+
+<a href="<%=Config.base_url%>index/Pimpinan">Pimpinan</a>
+
+<a href="<%=Config.base_url%>index/Skl">Skl</a>
+
+<a href="<%=Config.base_url%>index/Soal">Soal</a>
+
+<a href="<%=Config.base_url%>index/WaliPesertaTest">WaliPesertaTest</a>

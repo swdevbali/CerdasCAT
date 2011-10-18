@@ -1,0 +1,241 @@
+/* ::::: http://www.playframework.org/public/stylesheets/main.css ::::: */
+
+/* ::::: http://www.playframework.org/public/stylesheets/reset.css ::::: */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent none repeat scroll 0% 0%; outline-color: -moz-use-text-color; outline-style: none; outline-width: 0pt; font-size: 100%; vertical-align: baseline; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+body { line-height: 1; }
+ol, ul { list-style-type: none; list-style-image: none; list-style-position: outside; }
+:focus { outline-color: -moz-use-text-color; outline-style: none; outline-width: 0pt; }
+table { border-collapse: collapse; border-spacing: 0pt; }
+html { overflow-y: scroll; }
+html, body { background: rgb(247, 247, 247) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; color: rgb(102, 102, 102); font-family: 'Lucida Grande',Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.5em ! important; text-shadow: 1px 1px 0px rgb(255, 255, 255); }
+h1, h2, h3, h4, h5 { color: rgb(51, 51, 51); }
+a { color: rgb(0, 0, 0); }
+a:hover { text-decoration: none; }
+.wrapper { margin: auto; width: 900px; position: relative; }
+.wrapper:after { content: " "; display: block; clear: both; }
+#footer { border-top: 1px solid rgba(0, 0, 0, 0.2); padding: 10px; background: rgb(136, 135, 135) none repeat scroll 0% 0%; margin-top: 50px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; font-size: 12px; color: rgb(238, 238, 238); -moz-box-shadow: 0pt 5px 5px rgba(0, 0, 0, 0.1) inset; text-shadow: -1px -1px 0px rgb(85, 85, 85); }
+#footer a { text-decoration: none; color: rgb(204, 204, 204); }
+#footer a:hover { color: rgb(255, 255, 255); }
+#footer ul { padding: 10px 0pt 20px; float: left; width: 216px; }
+#footer ul li { margin-bottom: 3px; }
+#footer h5 { margin-bottom: 5px; }
+#footer h5 a { color: rgb(255, 255, 255); }
+#footer .licence { padding-top: 8px; }
+#footer .zenexity { margin: 0pt 10px; float: right; }
+#footer hr { border-style: solid none; border-color: rgb(97, 96, 96) -moz-use-text-color rgb(147, 147, 147); border-width: 1px medium; margin: 20px 0pt; clear: both; }
+#header { background: rgb(68, 68, 68) none repeat scroll 0% 0%; height: 30px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#logo a {background-image:url(_desain\header.jpg)  -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; display: block; height: 50px; left: 0px; position: absolute; text-indent: -99em; top: 10px; width: 140px; }
+#menu { list-style-type: none; list-style-image: none; list-style-position: outside; position: absolute; right: 0pt; top: -10px; }
+#menu li { padding: 15px; float: left; position: relative; }
+#menu span { display: none; }
+#menu a { color: rgb(153, 153, 153); text-shadow: -1px -1px 0px rgb(0, 0, 0); text-decoration: none; font-size: 15px; }
+#menu a:hover { color: rgb(204, 204, 204); }
+#menu .selected a { color: rgb(255, 255, 255); }
+#menu .selected a:after { border-style: none solid solid; border-color: -moz-use-text-color transparent rgb(138, 220, 146); border-width: medium 0.8em 0.8em; content: " ."; display: block; text-indent: -99em; height: 0px; margin-left: -0.8em; margin-right: auto; margin-top: 14px; position: absolute; left: 50%; width: 1px; }
+//rgb(138, 220, 146)
+#top { border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding: 10px 0pt 0pt; background: rgb(0,0,0) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; margin-bottom: 20px; color: rgb(30, 68, 50); text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
+#top p { color: rgba(30, 68, 50, 0.8); }
+#top .category { margin: 0pt auto 10px; padding: 0pt; font-weight: lighter; font-size: 30px; color: rgb(30, 68, 50); line-height: 1.4em; width: 900px; }
+#quicklinks h3:not(:first-child) { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+#pageContent { width: 650px; }
+#docSidebar { overflow: hidden; font-size: 12px; }
+#docSidebar h2 { font-weight: bold; color: rgb(102, 102, 102); font-size: 120%; margin-bottom: 5px; margin-top: 20px; }
+#docSidebar p { margin: 1em 0pt; }
+#docSidebar h2:first-child { margin-top: 0pt; }
+#docSidebar ul, #docSidebar ol { list-style-type: square; list-style-image: none; list-style-position: outside; color: rgb(136, 136, 136); padding-left: 20px; line-height: 1.3em; }
+#docSidebar li { padding: 3px 0pt; }
+#docSidebar ol { list-style-type: decimal; }
+#docSidebar ul .selected { font-weight: bold ! important; }
+#docSidebar a { color: rgb(86, 140, 0); }
+#dsq-global-toolbar { display: none ! important; }
+#comments { border-top: 4px solid rgb(224, 224, 224); margin-top: 30px; }
+#comments p { margin: 1em 0pt; font-size: 90%; color: rgb(136, 136, 136); }
+#submenu, #docSidebar { padding: 11px 10px 0pt; background: transparent url('side-top.png') no-repeat scroll center top; float: right; font-size: 12px; position: relative; top: -65px; width: 200px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+/* ::::: http://www.playframework.org/public/stylesheets/wiki.css ::::: */
+
+.wikistyle h1, .wikistyle h2, .wikistyle h3, .wikistyle h4, .wikistyle h5, .wikistyle h6 { border: 0pt none  ! important; text-shadow: 1px 1px 0px rgb(255, 255, 255); }
+.wikistyle h1 { border-top: 4px solid rgb(170, 170, 170) ! important; font-size: 170% ! important; padding-top: 0.5em ! important; margin-top: 1.5em ! important; }
+.wikistyle h1:first-child { border-top: medium none ! important; margin-top: 0pt ! important; padding-top: 0.25em ! important; }
+.wikistyle h2 { border-top: 4px solid rgb(224, 224, 224) ! important; font-size: 150% ! important; margin-top: 1.5em ! important; padding-top: 0.5em ! important; }
+.wikistyle p { margin: 1em 0pt ! important; line-height: 1.5em ! important; }
+.wikistyle pre { border-left: 4px solid rgb(224, 224, 224) ! important; margin: 1em 0pt ! important; padding: 0.5em ! important; overflow: auto ! important; font-size: 90% ! important; background-color: rgb(248, 248, 255) ! important; line-height: 1.5em ! important; color: rgb(68, 68, 68) ! important; }
+.wikistyle pre code { border: medium none  ! important; padding: 0pt 0pt 0pt 10px ! important; display: block; font-size: 100% ! important; background-color: rgb(248, 248, 255) ! important; }
+.wikistyle code { border: 1px solid rgb(222, 222, 222) ! important; padding: 0pt 0.2em ! important; font-size: 90% ! important; background-color: rgb(248, 248, 255) ! important; color: rgb(68, 68, 68) ! important; }
+.wikistyle h1:after, .wikistyle h2:after, .wikistyle h3:after { content: ''; }
+.wikistyle a { color: rgb(68, 68, 68); }
+.wikistyle img { border: 4px solid rgb(224, 224, 224) ! important; max-width: 642px; }
+.wikistyle p.note { border-left: 6px solid rgb(243, 227, 120) ! important; padding: 10px ! important; background: rgb(255, 249, 216) none repeat scroll 0% 0% ! important; -moz-background-clip: border ! important; -moz-background-origin: padding ! important; -moz-background-inline-policy: continuous ! important; color: rgb(51, 51, 51) ! important; }
+/* ::::: http://playframework.disqus.com/styles.css ::::: */
+
+#dsq-content .dsq-header-avatar img { width: 32px; height: 32px; }
+/* ::::: http://mediacdn.disqus.com/1292032212/styles/dtpl/defaults.css ::::: */
+
+.dsq-popup h1, h2, h3, h4 { position: static; }
+button::-moz-focus-inner { border: 0pt none ; }
+button.dsq-button, button.dsq-button-small { border: 1px solid rgb(153, 153, 153); margin: 0pt; background: transparent url('button-large.png') repeat-x scroll left bottom; overflow: visible; color: inherit; font-family: Arial,Helvetica,Calibri,sans-serif; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+button.dsq-button { padding: 6px 8px; font-size: 12px; font-weight: bold; -moz-border-radius-topleft: 4px; -moz-border-radius-topright: 4px; -moz-border-radius-bottomright: 4px; -moz-border-radius-bottomleft: 4px; }
+button.dsq-button-small { padding: 2px 4px; font-size: 11px; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; }
+button.dsq-button-small:disabled, button.dsq-disabled-btn { opacity: 0.5; cursor: default ! important; }
+button.dsq-button:hover, button.dsq-button-small:hover { cursor: pointer; }
+button.dsq-button:active, button.dsq-button.dsq-toggled { border: 1px solid rgb(85, 85, 85); background: rgb(153, 153, 153) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; color: rgb(255, 255, 255); text-shadow: 0pt 1px 0pt rgb(102, 102, 102); }
+/* ::::: http://mediacdn.disqus.com/1292032212/styles/embed/thread.css? ::::: */
+
+#disqus_thread { margin-bottom: 10px; }
+#dsq-content iframe, .dsq-popup iframe { border: 0pt none ; overflow-y: auto; overflow-x: hidden; width: 100%; background-color: transparent; }
+#dsq-content #dsq-comments .dsq-header-avatar img {  }
+#dsq-content #dsq-global-toolbar { margin: 1em 0pt; }
+#dsq-content #dsq-global-toolbar table { width: 100%; }
+#dsq-content #dsq-global-toolbar table td { vertical-align: top; }
+#dsq-content .dsq-global-toolbar-likes { overflow: hidden; width: 100%; }
+#dsq-content .dsq-global-toolbar-likes a { float: left; }
+#dsq-content #dsq-global-toolbar .toolbar-item { border: 1px solid rgba(0, 0, 0, 0.2); margin: 0pt 3px 0pt 0pt; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; text-indent: -9999em; height: 22px; display: block; }
+#dsq-content #dsq-toolbar-dropdown { position: relative; }
+#dsq-content #dsq-toolbar-dropdown #dsq-toolbar-dropdown-wrap { border-style: none solid solid; border-color: -moz-use-text-color rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2); border-width: medium 1px 1px; padding: 6px; background: transparent url('toolbar-dropdown.png') repeat scroll 0% 0%; position: absolute; right: 0pt; top: 27px; width: 90px; color: rgb(255, 255, 255); -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 0pt; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; }
+#dsq-content #dsq-toolbar-dropdown:hover #dsq-toolbar-dropdown-wrap { display: block ! important; }
+#dsq-content #dsq-toolbar-dropdown #dsq-toolbar-dropdown-wrap a { color: rgb(238, 238, 238) ! important; }
+#dsq-content #dsq-toolbar-dropdown #dsq-toolbar-dropdown-wrap a:hover { color: rgb(255, 255, 255) ! important; }
+#dsq-content #dsq-toolbar-dropdown #dsq-toolbar-dropdown-wrap ul li h4 { margin: 0pt 0pt 8px; padding: 0pt; }
+#dsq-content #dsq-toolbar-dropdown .dsq-login-buttons { margin: 0pt; padding: 0pt; }
+#dsq-content #dsq-toolbar-dropdown .dsq-login-buttons li { margin: 0pt 0pt 3px; padding: 0pt; }
+#dsq-content #dsq-global-toolbar.dsq-community-preview .dsq-toolbar-logo { margin: 0pt 0pt 3px; background: transparent url('toolbar-sprite.png') repeat scroll -123px 0pt; width: 73px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-global-toolbar.dsq-community-preview #dsq-toolbar-dropdown:hover .dsq-toolbar-logo { border-bottom: 0pt none; margin: 0pt; background: transparent url('toolbar-sprite.png') repeat scroll -123px -22px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 0pt; -moz-border-radius-bottomleft: 0pt; height: 26px; }
+#dsq-content #dsq-global-toolbar .dsq-thread-like { background: transparent url('toolbar-sprite.png') repeat scroll 0% 0%; width: 54px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content #dsq-global-toolbar #dsq-like-thread-button:hover { background: transparent url('toolbar-sprite.png') repeat scroll 0pt -22px ! important; -moz-background-clip: border ! important; -moz-background-origin: padding ! important; -moz-background-inline-policy: continuous ! important; }
+#dsq-content #dsq-global-toolbar .dsq-thread-dislike { margin: 0pt 0.75em 0pt 0pt; background: transparent url('toolbar-sprite.png') repeat scroll -54px 0pt; width: 23px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content #dsq-global-toolbar #dsq-dislike-thread-button:hover { background: transparent url('toolbar-sprite.png') repeat scroll -54px -22px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content #dsq-global-toolbar .dsq-community-launcher { background: transparent url('toolbar-sprite.png') repeat scroll -77px 0pt; width: 23px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content #dsq-global-toolbar .dsq-community-launcher:hover { background: transparent url('toolbar-sprite.png') repeat scroll -77px -22px; width: 23px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content #dsq-global-toolbar a.dsq-community-launcher:active { background: transparent url('toolbar-sprite.png') repeat scroll -77px -22px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content .dsq-global-toolbar-likes .dsq-group { margin: 0pt 0pt 5px; float: left; }
+#dsq-content .dsq-like-faces { overflow: hidden; float: left; }
+#dsq-content .dsq-like-faces li { margin: 0pt 5px 5px 0pt; float: left; }
+#dsq-content .dsq-like-activity { padding: 3px 0pt 0pt; white-space: nowrap; }
+/* ::::: http://mediacdn.disqus.com/1292032212/build/themes/narcissus.css?1292032295& ::::: */
+
+#dsq-content ul, #dsq-content li, #dsq-content ol, #dsq-content cite, #dsq-content div, #dsq-content table, #dsq-content td, #dsq-content th, #dsq-content p, #dsq-content a, #dsq-content img, #dsq-content caption { border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent none repeat scroll 0% 0%; float: none; text-indent: 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; font-style: normal; text-align: left; }
+a:focus { outline-color: -moz-use-text-color; outline-style: none; outline-width: 0pt; }
+#dsq-content h3 { float: none; }
+#dsq-content ul, #dsq-content li, #dsq-content ol, #dsq-content cite, #dsq-content a, #dsq-content img, #dsq-content select { display: inline; width: auto; max-width: none; }
+#dsq-content div, #dsq-content p, #dsq-content h3 { display: block; }
+#dsq-content input { background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content img { max-width: none; }
+#dsq-content li, #dsq-content ul, #dsq-content ol { background: transparent none repeat scroll 0% 0%; list-style-type: none; list-style-image: none; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; display: block; }
+#dsq-content li:before { content: ""; }
+#dsq-content table { border-collapse: separate; border-spacing: 0pt; }
+#dsq-content { font-size: 12px; line-height: 1.5; }
+#dsq-content iframe { border: 0pt none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 100%; height: 90px; }
+#dsq-content .dsq-options { clear: left; margin-bottom: 1em; }
+#dsq-content .dsq-options span { margin-right: 10px; }
+#dsq-content .dsq-login-buttons { padding: 1em 0pt 0pt; margin-bottom: 1em; }
+#dsq-content .dsq-login-button { padding: 0pt ! important; background: transparent url('login-all.png') repeat scroll 0% 0%; float: left; display: block; margin-right: 3px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content .dsq-login-button a { margin: 0pt; padding: 0pt ! important; display: block; width: 89px; height: 21px; }
+#dsq-content .dsq-login-button-disqus { background-position: 0px 50%; }
+#dsq-content .dsq-login-button-twitter { background-position: -178px 50%; }
+#dsq-content .dsq-login-button-openid { background-position: -267px 50%; }
+#dsq-content .dsq-login-button-yahoo { background-position: -356px 50%; }
+#dsq-comments-title { clear: left; }
+#dsq-content .dsq-textarea .dsq-textarea-wrapper, #dsq-content .dsq-input-wrapper { border: 1px solid rgb(153, 153, 153); margin: 3px 0pt; padding: 3px 5px; background: rgb(255, 255, 255) url('inputshadow.gif') no-repeat scroll left top; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#dsq-content .dsq-textarea .dsq-textarea-wrapper { padding: 5px; overflow: hidden; }
+#dsq-content .dsq-textarea textarea, #dsq-content input { padding: 0pt; font-size: 12px; font-family: Arial,Helvetica,sans-serif; }
+#dsq-content .dsq-textarea textarea:focus, #dsq-content input:focus { outline-color: -moz-use-text-color; outline-style: none; outline-width: 0pt; }
+#dsq-content .dsq-subscribe-email img, #dsq-content .dsq-subscribe-rs img { width: 12px; height: 12px; vertical-align: middle; }
+#dsq-content .dsq-post-footer { margin: 8px 0pt 10px; position: relative; }
+#dsq-content .dsq-post-footer .dsq-button { float: right; margin-left: 3px; }
+#dsq-content .dsq-comment-footer-right button { vertical-align: top; }
+#dsq-content .dsq-comment-footer-reply, #dsq-content .dsq-comment-footer-reply-active { position: relative; }
+#dsq-content .dsq-comment-footer-reply-tab { border-style: solid solid none; border-color: rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) -moz-use-text-color; border-width: 1px 1px medium; margin: 0pt 0pt 0pt 2px; padding: 2px 4px 9px; background: rgba(0, 0, 0, 0.08) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; display: none; font-size: 11px; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 0pt; -moz-border-radius-bottomleft: 0pt; color: inherit; text-shadow: 0pt 1px 0pt rgb(255, 255, 255); font-family: Arial,Helvetica,Calibri,sans-serif; }
+#dsq-content .dsq-comment-footer-reply-tab::-moz-focus-inner { border: medium none ; }
+#dsq-content #dsq-comments { margin-bottom: 10px; }
+#dsq-content .dsq-comment-header { border: 1px solid rgba(0, 0, 0, 0.08); background: transparent url('header-grey.png') repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; line-height: normal; height: auto; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; }
+#dsq-content .dsq-comment-header img.dsq-moderator-star { display: none; }
+#dsq-content .dsq-comment-header table { width: 100%; }
+#dsq-content .dsq-comment-header td { vertical-align: middle; }
+#dsq-content .dsq-header-avatar { border: 0pt none ; padding: 0pt; width: 1%; }
+#dsq-content .dsq-header-avatar a.dsq-avatar { padding: 3px 0pt 3px 3px; display: block; }
+#dsq-content .dsq-comment .dsq-header-avatar a.dsq-avatar img { margin: 1px; padding: 3px; background: rgba(255, 255, 255, 0.4) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; -moz-box-shadow: 0pt 1px 2px rgba(0, 0, 0, 0.12); }
+#dsq-content .dsq-comment:hover .dsq-header-avatar a.dsq-avatar img { border: 1px solid rgb(187, 187, 187); margin: 0pt; padding: 3px; background: rgba(255, 255, 255, 0.7) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; -moz-box-shadow: 0pt 1px 3px rgba(0, 0, 0, 0.15); }
+#dsq-content .dsq-header-avatar a.dsq-avatar img { display: block; }
+#dsq-content .dsq-comment:hover .dsq-header-avatar:hover a.dsq-avatar { -moz-border-radius-topleft: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; -moz-border-radius-bottomleft: 3px; }
+#dsq-content .dsq-header-avatar img { margin: 0pt; padding: 0pt; }
+#dsq-content .dsq-comment-header cite { font-weight: bold; font-size: 110%; }
+#dsq-content .dsq-comment-header-meta { padding: 0pt 8px; }
+#dsq-content .dsq-comment-header-meta-wrapper { position: relative; }
+#dsq-content .dsq-comment-header-time { padding: 0pt 8px; }
+#dsq-content a.dsq-reply-link { color: inherit; opacity: 0.6; }
+#dsq-content .dsq-comment-hide-thread, #dsq-content .dsq-comment-show-thread { display: none; width: 14px; height: 14px; text-indent: -999em; position: absolute; right: 0px; top: 0px; }
+#dsq-content .dsq-comment-hide-thread { background: transparent url('show-hide-icons.png') repeat scroll 14px 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; opacity: 0.65; }
+#dsq-content .dsq-comment-hide-thread:hover { opacity: 1; }
+#dsq-content .dsq-collapsed-comment { display: none; }
+#dsq-content .dsq-full-comment:hover .dsq-comment-hide-thread { display: block; }
+#dsq-content .dsq-comment-hide-thread {  }
+#dsq-content .dsq-comment-header-time a { text-decoration: none; color: inherit; }
+#dsq-content .dsq-comment-header-time a:hover { border-bottom-width: 1px; border-bottom-style: dotted; }
+#dsq-content .dsq-comment-message { margin: 1em 0pt; line-height: 1.42; }
+#dsq-content .dsq-comment-footer { margin: 1em 0pt; overflow: hidden; }
+#dsq-content .dsq-comment-footer-left { float: left; visibility: hidden; }
+#dsq-content .dsq-comment:hover .dsq-comment-footer-left { visibility: visible; }
+#dsq-content .dsq-comment-footer-left a { margin-right: 0.5em; }
+#dsq-content .dsq-comment-footer-right { text-align: right; }
+#dsq-content .dsq-comment-footer-right button.dsq-button-small { margin-left: 2px; }
+#dsq-content .dsq-comment-footer-right .dsq-like { font-size: 11px; }
+#dsq-content .dsq-user-like { font-size: 11px; margin-left: 8px; padding-bottom: 3px; }
+#dsq-content .dsq-user-like a { color: inherit; }
+#dsq-content .dsq-user-like img { height: 16px; width: 16px; margin-right: 3px; vertical-align: middle; }
+#dsq-content .dsq-comment-buttons { white-space: nowrap; padding-left: 5px; }
+#dsq-content .dsq-pagination { margin: 1em 0pt; padding: 1em; text-align: center; }
+#dsq-content #dsq-comments .dsq-collapsed-comment { position: relative; }
+
+
+#rounded-corner { font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif; font-size: 12px;  text-align: left; border-collapse: collapse; }
+#rounded-corner thead th.rounded-company { background: rgb(185, 201, 254) url('left.png') no-repeat scroll left -1px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#rounded-corner thead th.rounded-q4 { background: rgb(185, 201, 254) url('right.png') no-repeat scroll right -1px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#rounded-corner th { padding: 8px; background: rgb(185, 201, 254) none repeat scroll 0% 0%; font-weight: normal; font-size: 13px; color: rgb(0, 51, 153); -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#rounded-corner td { border-top: 1px solid rgb(255, 255, 255); padding: 8px; background: rgb(232, 237, 255) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; color: rgb(102, 102, 153); }
+#rounded-corner tfoot td.rounded-foot-left { background: rgb(232, 237, 255) url('botleft.png') no-repeat scroll left bottom; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#rounded-corner tfoot td.rounded-foot-right { background: rgb(232, 237, 255) url('botright.png') no-repeat scroll right bottom; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+#rounded-corner tbody tr:hover td { background: rgb(208, 218, 253) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+
+	
+#hor-zebra { margin: 20px; font-family: "Lucida Sans Unicode","Lucida Grande",Sans-Serif; font-size: 12px; width: 480px; text-align: left; border-collapse: collapse; }
+#hor-zebra th { padding: 10px 8px; font-size: 14px; font-weight: normal; color: rgb(0, 51, 153); }
+#hor-zebra td { padding: 8px; color: rgb(102, 102, 153); }
+#hor-zebra .odd { background: rgb(232, 237, 255) none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; }
+
+/*
+	root element for the scrollable.
+	when scrolling occurs this element stays still.
+*/
+.scrollable {
+
+	/* required settings */
+	//position:relative;
+	text-align:center
+	overflow:hidden;
+	width: 660px;
+	height:90px;
+
+}
+
+/*
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a extremely large width to accommodate scrollable items.
+	it's enough that you set width and height for the root element and
+	not for this element.
+*/
+.scrollable .items {
+	/* this cannot be too large */
+	width:20000em;
+	position:absolute;
+	
+}
+
+/*
+	a single item. must be floated in horizontal scrolling.
+	typically, this element is the one that *you* will style
+	the most.
+*/
+.items div {
+	float:left;
+}
+

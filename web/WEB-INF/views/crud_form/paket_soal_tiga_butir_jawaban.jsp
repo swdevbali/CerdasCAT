@@ -1,0 +1,5 @@
+<input name="idpaket_soal_tiga_butir_jawaban" type="text" id="idpaket_soal_tiga_butir_jawaban" value="${model.idpaket_soal_tiga_butir_jawaban}">")
+<input name="idpaket_soal_tiga_butir" type="text" id="idpaket_soal_tiga_butir" value="${model.idpaket_soal_tiga_butir}">")
+<input name="idsoal" type="text" id="idsoal" value="${model.idsoal}">")
+<input name="idpeserta_test" type="text" id="idpeserta_test" value="${model.idpeserta_test}">")
+<input name="jawaban" type="text" id="jawaban" value="${model.jawaban}">")
