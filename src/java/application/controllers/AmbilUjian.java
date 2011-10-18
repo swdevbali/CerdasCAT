@@ -458,6 +458,7 @@ public class AmbilUjian extends Controller {
                     int iSkl_maks = 0, iSkl_Counter = 0;
                     iSkl_maks = Integer.parseInt(skl_maks[0][0]);
                     System.out.println("proporsional skl_maks #1 = " + iSkl_maks);
+                    boolean isAlreadyCycle=false;
                     do {
                         soalSelanjutnya.getSoalSelanjutnya(tingkat_kesukaran, userCredential.getId(), request.getSession().getAttribute("soal_terpakai") + "", jawaban_benar, iddomain, skl_aktif);
                         iSkl_Counter++;
@@ -467,6 +468,15 @@ public class AmbilUjian extends Controller {
                         if (soalSelanjutnya == null) {
                             skl_aktif = getNextIdSkl(skl_aktif, iddomain);
                             System.out.println("proporsional skl aktif ga ada, dimajukan ke = " + skl_aktif);
+                        }
+                        
+                        //SOLUTION : test with Mr. Ruk's 
+                        //cyclic this : solusi agar pemilhan soal selanjutnya jika skl tidak memenuhi, diulang dari pertam
+                        if(iSkl_Counter==iSkl_maks && soalSelanjutnya == null && !isAlreadyCycle)                            
+                        {
+                            System.out.println("cyclic skl : solusi u/ skl sudah habis, ulang dari awal");
+                            isAlreadyCycle = true;
+                            iSkl_Counter = 0;
                         }
                         
                     } while (soalSelanjutnya == null || iSkl_Counter < iSkl_maks);
