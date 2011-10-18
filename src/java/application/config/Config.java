@@ -15,7 +15,6 @@ public class Config {
     public static final String mainPage = "index.jsp";
     public static final String page404 =  "page404.jsp";
     public static final String base_url = "http://localhost:8084/CerdasCAT/";
-//    public static final String base_path = "E:\\_SWDEV\\GO\\25.RUK3\\work\\CerdasCAT\\build\\web\\";
     public static final String base_path = "D:\\work\\konsultan_ta\\rukli\\work\\CerdasCAT\\build\\web\\";
     public static final String application_title = "Aplikasi Cerdas CAT";
     public static final String production_year = "2011";

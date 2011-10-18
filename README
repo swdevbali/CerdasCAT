@@ -1,1 +1,15 @@
-This repository will held my work on CerdasCAT
+This repository will held my work on CerdasCAT.
+To use this, you must use Netbeans. and do the following :
+#1. Use the latest Ant
+#2. Copy catalina-ant.jar from Apache Tomcat Lib folder into netbeans ant lib 
+    folder, in [NETBEAN HOME]\java\ant\lib
+#3. Open build.properties, change :
+    tomcat.home= [tomcat path]
+    tomcat.username=[admin name]
+    tomcat.password=[admin password]
+    tomcat.url=http://localhost:[Tomcat Port]
+#4. Open application.config.Config.java and inspect the properties there, and change accordingly
+#5. Open applicaiton.controllers.Database.java and change the database configuration accordingly.
+
+That's all and you'll be going fast! :)
+Barokalloh..
