@@ -86,6 +86,7 @@ public class Db {
             urldb = getUrl();
             Logger.getLogger(Db.class.getName()).log(Level.INFO, "openConnectin : {0}", urldb);
             if (Database.DB_TYPE.equals("mysql")) {
+                System.out.print("Database.PASSWORD = " + Database.PASSWORD);
                 con = DriverManager.getConnection(urldb, Database.USER_NAME, Database.PASSWORD);
             } else if (Database.DB_TYPE.equals("mssql")) {
                 con = DriverManager.getConnection(urldb, Database.USER_NAME, Database.PASSWORD);
