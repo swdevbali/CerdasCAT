@@ -157,7 +157,7 @@
             <div id="pageContent">
 
                 <div class="wikistyle">
-                    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Laporan Penerimaan <!-- InstanceEndEditable --></h1>
+                    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Laporan Kelulusan <!-- InstanceEndEditable --></h1>
                     <!-- InstanceBeginEditable name="isi_modul" -->
                     <% //this is all the code that need to be done
                         String peserta[][] = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
@@ -174,7 +174,7 @@
                     <p id="aIntroductiona">&nbsp;</p>
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#666666">
                         <tr>
-                            <td colspan="2"><div align="center"><strong>LAPORAN PENERIMAAN </strong></div></td>
+                            <td colspan="2"><div align="center"><strong>LAPORAN KELULUSAN </strong></div></td>
                         </tr>
                         <tr>
                             <td width="49%">Inisialisasi</td>
@@ -314,7 +314,7 @@
                                 <td scope="col" class="rounded-q1">Nama Lengkap </td>
                                 <td scope="col" class="rounded-q1">Asal SD </td>
                                 <td scope="col" class="rounded-q1">Nilai Domain </td>
-                                <td scope="col" class="rounded-q1">Skor Penerimaan  </td>
+                                <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
                             </tr>
                         </thead>
                         <%
