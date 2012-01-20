@@ -18,9 +18,11 @@ package application.controllers;
 import application.models.DomainModel;
 import application.models.PengajarModel;
 import application.models.PesertaTestModel;
+import application.models.WaliPesertaTestModel;
 import java.util.List;
 import recite18th.controller.Controller;
 import recite18th.library.Db;
+import recite18th.model.Model;
 import recite18th.util.LoginUtil;
 
 /**
@@ -36,8 +38,26 @@ public class LihatHasilTest extends Controller {
 
     @Override
     public void index() {
-        PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
-        List domain = Db.get("select d.* from domain d,peserta_test_domain p where p.iddomain=d.iddomain and p.idpeserta_test=" + userCredential.getId(), DomainModel.class.getName());
+        String cetak = request.getParameter("cetak");
+        if (cetak != null && cetak.equals("true")) {
+            viewPage = "hasil_ujian/view_hasil_ujian_cetak.jsp";
+        } else {
+            viewPage = "hasil_ujian/view_hasil_ujian.jsp";
+        }
+        
+        Model model = LoginUtil.getLogin(request);
+        String idpeserta_test="";
+        if(model instanceof PesertaTestModel)
+        {
+            PesertaTestModel userCredential = (PesertaTestModel) model;
+            idpeserta_test = userCredential.getId();
+        } else if(model instanceof WaliPesertaTestModel) {
+            WaliPesertaTestModel userCredential = (WaliPesertaTestModel) model;
+            idpeserta_test = userCredential.getIdpeserta_test();
+        }
+        
+        //PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
+        List domain = Db.get("select d.* from domain d,peserta_test_domain p where p.iddomain=d.iddomain and p.idpeserta_test=" + idpeserta_test, DomainModel.class.getName());
         request.setAttribute("domain", domain);
         super.index();
     }
@@ -52,7 +72,7 @@ public class LihatHasilTest extends Controller {
 
     public void laporanPenerimaan() {
         String cetak = request.getParameter("cetak");
-        if (cetak!=null && cetak.equals("true")) {
+        if (cetak != null && cetak.equals("true")) {
             viewPage = "hasil_ujian/view_laporan_penerimaan_cetak.jsp";
         } else {
             viewPage = "hasil_ujian/view_laporan_penerimaan.jsp";

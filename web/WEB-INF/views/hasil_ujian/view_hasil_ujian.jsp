@@ -1,11 +1,25 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,recite18th.library.Db,application.config.Config,recite18th.library.Pagination,application.models.*,java.text.*" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,recite18th.library.Db,application.config.Config,recite18th.library.Pagination,recite18th.model.*, application.models.*,java.text.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%
 	String message="";
 	int pagenum;
 	pagenum = request.getParameter("pagenum")==null ?0:Integer.parseInt(request.getParameter("pagenum")+"");
-	PesertaTestModel p = (PesertaTestModel) session.getAttribute("user_credential");
+	Model model = (Model) session.getAttribute("user_credential");
+	PesertaTestModel p = null;
+	
+	if(model instanceof PesertaTestModel)
+	{
+		PesertaTestModel userCredential = (PesertaTestModel) model;
+		p = (PesertaTestModel) session.getAttribute("user_credential");
+	} else if(model instanceof WaliPesertaTestModel) {
+		WaliPesertaTestModel userCredential = (WaliPesertaTestModel) model;
+		p = new PesertaTestModel();
+		p.addCriteria("id", userCredential.getIdpeserta_test());
+		p.get();
+	}
+	
+
 	NumberFormat format = DecimalFormat.getInstance();
 %>
 <!DOCTYPE HTML>
@@ -122,14 +136,14 @@ window.api = root.data("scrollable");
 		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
 		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
 		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
-           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
+           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		<c:if test="${user_credential.peran=='Pengajar'}" >        
 			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
 			 <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
 			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>		
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>		
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		
 		<c:if test="${user_credential.peran=='Peserta Test'}" >        
@@ -139,11 +153,12 @@ window.api = root.data("scrollable");
          <c:if test="${user_credential.verified==1}"> 	
 			 <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
 			 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		 
 		<c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
-		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
+		 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujian Peserta Test</a></li>
+		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		
@@ -164,38 +179,38 @@ window.api = root.data("scrollable");
           <tr>
             <td width="31%" valign="top">Nomor Peserta </td>
             <td width="2%" valign="top">:</td>
-            <td width="38%" valign="top">${user_credential.nomor_peserta}</td>
-            <td width="29%" rowspan="7" valign="top"><img src="<%=Config.base_url%>upload/${user_credential.foto}" width="198" height="155"></td>
+            <td width="38%" valign="top"><%=p.getNomor_peserta()%></td>
+            <td width="29%" rowspan="7" valign="top"><img src="<%=Config.base_url%>upload/<%=p.getFoto()%>" width="198" height="155"></td>
           </tr>
           <tr valign="top">
             <td>Nama Peserta Test </td>
             <td>:</td>
-            <td>${user_credential.nama_lengkap}</td>
+            <td><%=p.getNama_lengkap()%></td>
           </tr>
           <tr valign="top">
             <td>Metode</td>
             <td>:</td>
-            <td>${user_credential.metode}</td>
+            <td><%=p.getMetode()%></td>
           </tr>
           <tr valign="top">
             <td>Inisialisasi</td>
             <td>:</td>
-            <td>${user_credential.inisialisasi_kemampuan}</td>
+            <td><%=p.getInisialisasi_kemampuan()%></td>
           </tr>
           <tr valign="top">
             <td>Model</td>
             <td>:</td>
-            <td>${user_credential.model_logistik}</td>
+            <td><%=p.getModel_logistik()%></td>
           </tr>
           <tr valign="top">
             <td>Penyajian Soal </td>
             <td>:</td>
-            <td>${user_credential.penyajian_soal}</td>
+            <td><%=p.getPenyajian_soal()%></td>
           </tr>
           <tr valign="top">
             <td>Nama Sekolah</td>
             <td>&nbsp;</td>
-            <td>${user_credential.asal}</td>
+            <td><%=p.getAsal()%></td>
           </tr>
         </table>
 		<c:forEach items="${domain}" var="item" varStatus="status" >
@@ -212,6 +227,7 @@ window.api = root.data("scrollable");
 							"' order by p.idpeserta_test_jawaban_dengan_model";
 			String data[][] = Db.getDataSet(sql);
 		%>
+	    <a href="<%=Config.base_url%>index/LihatHasilTest?cetak=true" target="_blank">Cetak</a>
 	    <table width="100%" border="0" id="rounded-corner">
 		<thead>
 			<tr>
