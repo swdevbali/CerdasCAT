@@ -47,14 +47,9 @@ function watchCountdown(periods) {
 <script>
 // What is $(document).ready ? See: http://flowplayer.org/tools/documentation/basics.html#document_ready
 $(document).ready(function() {
-
-// initialize scrollable together with the autoscroll plugin
-var root = $("#scroller").scrollable({circular: true}).autoscroll({ autoplay: true });
-
-// provide scrollable API for the action buttons
-window.api = root.data("scrollable");
-
-	
+	var root = $("#scroller").scrollable({circular: true}).autoscroll({ autoplay: true });
+	window.api = root.data("scrollable");
+	$("#scroller").play();
 });
 </script>
 
@@ -92,22 +87,25 @@ window.api = root.data("scrollable");
 										<p align="left" class="category">Computerized Adaptive Testing Cerdas
 										<c:if test="${user_credential==null}" >  
 										<img src="<%=Config.base_url%>/_desain/header.jpg" width="943" height="303"> </p>
-                                        <!--<div class="scrollable" id="scroller"align="center">   
+                                       
+									   
+									    <div class="scrollable" id="scroller"align="center">   
    
    
    <div class="items">
-      <div>
-         <div>
-           <div align="center"><img src="http://farm1.static.flickr.com/143/321464099_a7cfcb95cf_t.jpg" />
-             <img src="http://farm4.static.flickr.com/3089/2796719087_c3ee89a730_t.jpg" />
-             <img src="http://farm1.static.flickr.com/79/244441862_08ec9b6b49_t.jpg" />
-             <img src="http://farm1.static.flickr.com/28/66523124_b468cf4978_t.jpg" />
-             <img src="http://farm1.static.flickr.com/164/399223606_b875ddf797_t.jpg" />
+      <div align="center">
+         <div align="center">
+           <div align="center">
+		     <img src="<%=Config.base_url%>res/img/1.jpg" />
+             <img src="<%=Config.base_url%>res/img/2.jpg" />
+             <img src="<%=Config.base_url%>res/img/3.jpg" />
+             <img src="<%=Config.base_url%>res/img/4.jpg" />
+             <img src="<%=Config.base_url%>res/img/5.jpg" />
            </div>
         </div>
       </div>
    </div>
-</div>-->
+</div>
 
 </div>
 </c:if>

@@ -44,7 +44,7 @@ public class AmbilUjian extends Controller {
         {
             request.setAttribute("row_idsoal", (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain));
             index(page0);
-        } else if ("Futsuhilow".equals(userCredential.getMetode())) {
+        } else if ("Futsuhilow".equals(userCredential.getMetode()) || "Fusuhilow".equals(userCredential.getMetode()) || "Fumahilow".equals(userCredential.getMetode())) {
             List tigaSoal = (new SoalModel()).getTigaButirSoal(userCredential.getId(), iddomain);
             request.getSession().setAttribute("soal_terpakai", "");
             for (int i = 0; i < tigaSoal.size(); i++) {
@@ -287,202 +287,311 @@ public class AmbilUjian extends Controller {
         try {
             out = response.getWriter();
             if (isSukses) {
-
                 // selesaikan perhitungan model yg dipakai disini
-                Double tingkat_kesukaran = Double.parseDouble(soal.getRasch_b());
-                //, hasil_theta = "";
-                String hasil_tingkat_kesukaran = "";
-                Double u_sangat_rendah, u_rendah, u_sedang = null, u_tinggi = null, u_sangat_tinggi = null;
+                Double thetaSoal = Double.parseDouble(soal.getRasch_b());
+                double thetaAwalTigaSoal = 0.0;
+                double thetaHasilPerhitunganModel = 0.0;
 
-                double alpha = 0.0;
-                double theta = 0.0;
-                double theta_akhir = 0.0;
-                double sum_alpha = 0.0;
-                double sum_theta_x_alpha = 0.0;
+                if ("Futsuhilow".equals(userCredential.getMetode())) {
+                    Double u_sangat_rendah, u_rendah, u_sedang = null, u_tinggi = null, u_sangat_tinggi = null;
+                    double alpha = 0.0;
+                    double sum_alpha = 0.0;
+                    double sum_theta_x_alpha = 0.0;
 
-                //sangat tinggi
-                if (tingkat_kesukaran >= 2 && tingkat_kesukaran <= 4) {
-                    hasil_tingkat_kesukaran = "sangat tinggi";
-                    if (tingkat_kesukaran <= 2) {
-                        u_sangat_tinggi = 0.0;
-                        alpha = u_sangat_tinggi;
-                        theta = u_sangat_tinggi;
+                    //sangat tinggi
+                    if (thetaSoal >= 2 && thetaSoal <= 4) {
+                        if (thetaSoal <= 2) {
+                            u_sangat_tinggi = 0.0;
+                            alpha = u_sangat_tinggi;
+                            thetaAwalTigaSoal = u_sangat_tinggi;
 
-                        sum_alpha += alpha;
-                        sum_theta_x_alpha += alpha * theta;
+                            sum_alpha += alpha;
+                            sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
 
-                    } else if (tingkat_kesukaran >= 2 && tingkat_kesukaran <= 4) {
-                        u_sangat_tinggi = (tingkat_kesukaran - 2.0) / (4.0 - 2.0);
-                        alpha = u_sangat_tinggi;
-                        theta = (alpha * 2) + 2;
+                        } else if (thetaSoal >= 2 && thetaSoal <= 4) {
+                            u_sangat_tinggi = (thetaSoal - 2.0) / (4.0 - 2.0);
+                            alpha = u_sangat_tinggi;
+                            thetaAwalTigaSoal = (alpha * 2) + 2;
 
-                        sum_alpha += alpha;
-                        sum_theta_x_alpha += alpha * theta;
-                    } else if (tingkat_kesukaran >= 4) {
-                        u_sangat_tinggi = 1.0;
-                        alpha = u_sangat_tinggi;
-                        theta = 1.0;
+                            sum_alpha += alpha;
+                            sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                        } else if (thetaSoal >= 4) {
+                            u_sangat_tinggi = 1.0;
+                            alpha = u_sangat_tinggi;
+                            thetaAwalTigaSoal = 1.0;
 
-                        sum_alpha += alpha;
-                        sum_theta_x_alpha += alpha * theta;
+                            sum_alpha += alpha;
+                            sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                        }
+
                     }
 
+                    //tinggi
+                    //if (tingkat_kesukaran >= 0 && tingkat_kesukaran <= 4) {
+                    //  hasil_tingkat_kesukaran = "tinggi";
+                    if (thetaSoal >= 4) {
+                        u_tinggi = 0.0;
+                        alpha = u_tinggi;
+                        thetaAwalTigaSoal = u_tinggi;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+
+                    }
+                    if (thetaSoal >= 2.0 && thetaSoal <= 4.0) {
+                        u_tinggi = (4.0 - thetaSoal) / (4.0 - 2.0);
+                        alpha = u_tinggi;
+                        thetaAwalTigaSoal = 4.0 - (alpha * 2.0);
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal >= 0 && thetaSoal <= 2) {
+                        u_tinggi = thetaSoal / 2.0;
+                        alpha = u_tinggi;
+                        thetaAwalTigaSoal = alpha * 2.0;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+
+                    }
+                    if (thetaSoal <= 0.0) {
+                        u_tinggi = 0.0;
+                        alpha = u_tinggi;
+                        thetaAwalTigaSoal = u_tinggi;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    //}
+
+                    // sedang
+                    // if (tingkat_kesukaran >= -2 && tingkat_kesukaran <= 2) {
+                    //   hasil_tingkat_kesukaran = "sedang";
+                    if (thetaSoal >= 2.0) {
+                        u_sedang = 0.0;
+                        alpha = u_sedang;
+                        thetaAwalTigaSoal = u_sedang;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal >= 0.0 && thetaSoal <= 2.0) {
+                        u_sedang = (2.0 - thetaSoal) / 2.0;
+                        alpha = u_sedang;
+                        thetaAwalTigaSoal = 2.0 * (1.0 - alpha);
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal >= -2.0 && thetaSoal <= 0.0) {
+                        u_sedang = (thetaSoal - (-2.0)) / (0.0 - (-2.0));
+                        alpha = u_sedang;
+                        thetaAwalTigaSoal = 2.0 * (alpha - 1.0);
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal <= -2) {
+                        u_sedang = 0.0;
+                        alpha = u_sedang;
+                        thetaAwalTigaSoal = u_sedang;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    //}
+
+                    //rendah
+                    //if (tingkat_kesukaran >= -4 && tingkat_kesukaran <= 0) {
+                    //  hasil_tingkat_kesukaran = "rendah";
+                    if (thetaSoal >= 0.0) {
+                        u_rendah = 0.0;
+                        alpha = u_rendah;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal > -2.0 && thetaSoal <= 0.0) {
+                        u_rendah = (0.0 - thetaSoal) / (0.0 - (-2.0));
+                        alpha = u_rendah;
+                        thetaAwalTigaSoal = -2.0 * alpha;
+
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal >= -4 && thetaSoal <= -2) {
+
+                        u_rendah = (thetaSoal - (-4.0)) / (-2.0 - (-4.0));
+                        alpha = u_rendah;
+                        thetaAwalTigaSoal = 2.0 * (alpha - 2.0);
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal <= -4.0) {
+                        u_rendah = 0.0;
+                        alpha = u_rendah;
+                        thetaAwalTigaSoal = u_rendah;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    //}
+
+                    //sangat rendah
+                    //if (tingkat_kesukaran >= -4 && tingkat_kesukaran <= -2) {
+                    //  hasil_tingkat_kesukaran = "sangat rendah";
+                    if (thetaSoal >= -2.0) {
+                        u_sangat_rendah = 0.0;
+                        alpha = u_sangat_rendah;
+                        thetaAwalTigaSoal = 0.0;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal >= -4.0 && thetaSoal <= -2.0) {
+                        u_sangat_rendah = (-2.0 - thetaSoal) / (-2 - (-4));
+                        alpha = u_sangat_rendah;
+                        thetaAwalTigaSoal = -2 * (1 + alpha);
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    if (thetaSoal <= -4) {
+                        u_sangat_rendah = 1.0;
+                        alpha = u_sangat_rendah;
+                        thetaAwalTigaSoal = alpha;
+
+                        sum_alpha += alpha;
+                        sum_theta_x_alpha += alpha * thetaAwalTigaSoal;
+                    }
+                    //}
+
+                    //hasil perhitungan fuzzy lho ini
+                    thetaHasilPerhitunganModel = sum_theta_x_alpha / sum_alpha; //===>HASIL AKHIR FUTSUHILOW
+                } else if ("Fusuhilow".equals(userCredential.getMetode())) {
+                    //<== MULAI PENCARIAN NILAI THETA UNTUK FUSUHILOW
+                    //Sangat Tinggi
+                    double st_a = 0, st_b = 0, st_c = 0;
+
+                    if (thetaSoal >= 2 && thetaSoal <= 4) {
+                        st_b = (thetaSoal - 2) / (4 - 2);
+                    }
+
+                    if (thetaSoal >= 4) {
+                        st_b = 1;
+                    }
+
+                    //Tinggi
+                    double t_a = 0, t_b = 0, t_c = 0, t_d = 0;
+                    if (thetaSoal >= 2 && thetaSoal <= 4) {
+                        t_b = (4 - thetaSoal) / (4 - 2);
+                    }
+
+                    if (thetaSoal >= 0 && thetaSoal <= 2) {
+                        t_c = thetaSoal / 2;
+                    }
+
+                    //Sedang
+                    double s_a = 0, s_b = 0, s_c = 0;
+                    if (thetaSoal >= 0 && thetaSoal <= 2) {
+                        s_b = (2 - thetaSoal) / 2;
+                    }
+                    if (thetaSoal >= -2 && thetaSoal <= 0) {
+                        s_c = (thetaSoal + 2) / 2;
+                    }
+
+                    //Rendah
+                    double r_a = 0, r_b = 0, r_c = 0;
+                    if (thetaSoal >= -4 && thetaSoal <= -2) {
+                        r_b = (thetaSoal + 4) / 2;
+                    }
+                    if (thetaSoal >= -2 && thetaSoal <= 0) {
+                        r_c = -thetaSoal / 2;
+                    }
+
+
+                    //Sangat Rendah
+                    double sr_a = 0, sr_b = 0, sr_c = 0;
+                    if (thetaSoal >= -4 && thetaSoal <= -2) {
+                        sr_b = (-2 - thetaSoal) / 2;
+                    }
+
+                    if (thetaSoal <= -4) {
+                        sr_c = 1;
+                    }
+
+                    double sumU = 0, sumUxtheta = 0;
+                    sumU = (st_a + st_b + st_c) + (t_a + t_b + t_c) + (s_a + s_b + s_c) + (r_a + r_b + r_c) + (sr_a + sr_b + sr_c);
+                    sumUxtheta = (st_a + st_b + st_c) * 4.001 + (t_a + t_b + t_c) * 2.001 + (s_a + s_b + s_c) * 0.001 + (r_a + r_b + r_c) * -1.999 + (sr_a + sr_b + sr_c) * -3.999;
+                    thetaHasilPerhitunganModel = sumUxtheta / sumU;
+                } else if ("Fumahilow".equals(userCredential.getMetode())) {
+                    double st_b = 0, st_c = 0, t_b = 0, t_c = 0, s_b = 0, s_c = 0, r_b = 0, r_c = 0, sr_b = 0, sr_c = 0;
+
+                    //sangat tinggi
+                    if (thetaSoal >= 2 && thetaSoal <= 4) {
+                        st_b = (thetaSoal - 2) / 2;
+                    }
+                    if (thetaSoal >= 4) {
+                        st_c = 1;
+                    }
+                    //tinggi
+                    if (thetaSoal >= 2 && thetaSoal <= 4) {
+                        t_b = (4 - thetaSoal) / 2;
+                    }
+                    if (thetaSoal >= 0 && thetaSoal <= 2) {
+                        t_c = thetaSoal / 2;
+                    }
+                    //sedang
+                    if (thetaSoal >= 0 && thetaSoal <= 2) {
+                        s_b = (2 - thetaSoal) / 2;
+                    }
+                    if (thetaSoal >= -2 && thetaSoal <= 0) {
+                        s_c = (thetaSoal + 2) / 2;
+                    }
+                    //rendah
+                    if (thetaSoal >= -4 && thetaSoal <= -2) {
+                        r_b = (thetaSoal + 4) / 2;
+                    }
+                    if (thetaSoal >= -2 && thetaSoal <= 0) {
+                        r_c = (-thetaSoal) / 2;
+                    }
+
+                    //sangat rendah
+                    if (thetaSoal >= -4 && thetaSoal <= -2) {
+                        sr_b = (-2 - thetaSoal) / 2;
+                    }
+                    if (thetaSoal <= -4) {
+                        sr_c = 1;
+                    }
+
+                    //NEXT process
+                    double theta_st_b = 0, theta_st_c = 0, theta_t_b = 0, theta_t_c = 0, theta_s_b = 0, theta_s_c = 0, theta_r_b = 0, theta_r_c = 0, theta_sr_b = 0, theta_sr_c = 0;
+                    theta_st_b = 4 * st_b;
+                    theta_st_c = 4 * st_c;
+                    theta_t_b = 5 * t_b;
+                    theta_t_c = 5 * t_c;
+                    theta_s_b = s_b;
+                    theta_s_c = s_c;
+                    theta_r_b = -3 * r_b;
+                    theta_r_c = -3 * r_c;
+                    theta_sr_b = -7 * sr_b;
+                    theta_sr_c = -7 * sr_c;
+
+                    double sumTheta = theta_st_b + theta_st_c + theta_t_b + theta_t_c + theta_s_b + theta_s_c + theta_r_b + theta_r_c + theta_sr_b + theta_sr_c;
+                    double sumU = (st_b + st_c) * 1 + (t_b + t_c) * 2 + (s_b + s_c) * 2 + (r_b + r_c) * 2 + (sr_b + sr_c) * 2;
+                    thetaHasilPerhitunganModel = sumTheta / sumU;
                 }
-
-                //tinggi
-                //if (tingkat_kesukaran >= 0 && tingkat_kesukaran <= 4) {
-                //  hasil_tingkat_kesukaran = "tinggi";
-                if (tingkat_kesukaran >= 4) {
-                    u_tinggi = 0.0;
-                    alpha = u_tinggi;
-                    theta = u_tinggi;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-
-                }
-                if (tingkat_kesukaran >= 2.0 && tingkat_kesukaran <= 4.0) {
-                    u_tinggi = (4.0 - tingkat_kesukaran) / (4.0 - 2.0);
-                    alpha = u_tinggi;
-                    theta = 4.0 - (alpha * 2.0);
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran >= 0 && tingkat_kesukaran <= 2) {
-                    u_tinggi = tingkat_kesukaran / 2.0;
-                    alpha = u_tinggi;
-                    theta = alpha * 2.0;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-
-                }
-                if (tingkat_kesukaran <= 0.0) {
-                    u_tinggi = 0.0;
-                    alpha = u_tinggi;
-                    theta = u_tinggi;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                //}
-
-                // sedang
-                // if (tingkat_kesukaran >= -2 && tingkat_kesukaran <= 2) {
-                //   hasil_tingkat_kesukaran = "sedang";
-                if (tingkat_kesukaran >= 2.0) {
-                    u_sedang = 0.0;
-                    alpha = u_sedang;
-                    theta = u_sedang;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran >= 0.0 && tingkat_kesukaran <= 2.0) {
-                    u_sedang = (2.0 - tingkat_kesukaran) / 2.0;
-                    alpha = u_sedang;
-                    theta = 2.0 * (1.0 - alpha);
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran >= -2.0 && tingkat_kesukaran <= 0.0) {
-                    u_sedang = (tingkat_kesukaran - (-2.0)) / (0.0 - (-2.0));
-                    alpha = u_sedang;
-                    theta = 2.0 * (alpha - 1.0);
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran <= -2) {
-                    u_sedang = 0.0;
-                    alpha = u_sedang;
-                    theta = u_sedang;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                //}
-
-                //rendah
-                //if (tingkat_kesukaran >= -4 && tingkat_kesukaran <= 0) {
-                //  hasil_tingkat_kesukaran = "rendah";
-                if (tingkat_kesukaran >= 0.0) {
-                    u_rendah = 0.0;
-                    alpha = u_rendah;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran > -2.0 && tingkat_kesukaran <= 0.0) {
-                    u_rendah = (0.0 - tingkat_kesukaran) / (0.0 - (-2.0));
-                    alpha = u_rendah;
-                    theta = -2.0 * alpha;
-
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran >= -4 && tingkat_kesukaran <= -2) {
-
-                    u_rendah = (tingkat_kesukaran - (-4.0)) / (-2.0 - (-4.0));
-                    alpha = u_rendah;
-                    theta = 2.0 * (alpha - 2.0);
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran <= -4.0) {
-                    u_rendah = 0.0;
-                    alpha = u_rendah;
-                    theta = u_rendah;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                //}
-
-                //sangat rendah
-                //if (tingkat_kesukaran >= -4 && tingkat_kesukaran <= -2) {
-                //  hasil_tingkat_kesukaran = "sangat rendah";
-                if (tingkat_kesukaran >= -2.0) {
-                    u_sangat_rendah = 0.0;
-                    alpha = u_sangat_rendah;
-                    theta = 0.0;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran >= -4.0 && tingkat_kesukaran <= -2.0) {
-                    u_sangat_rendah = (-2.0 - tingkat_kesukaran) / (-2 - (-4));
-                    alpha = u_sangat_rendah;
-                    theta = -2 * (1 + alpha);
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                if (tingkat_kesukaran <= -4) {
-                    u_sangat_rendah = 1.0;
-                    alpha = u_sangat_rendah;
-                    theta = alpha;
-
-                    sum_alpha += alpha;
-                    sum_theta_x_alpha += alpha * theta;
-                }
-                //}
-
-                //hasil perhitungan fuzzy lho ini
-                theta_akhir = sum_theta_x_alpha / sum_alpha;
-
                 //cari soal selanjutnya
                 //int soal_ke = Integer.parseInt(request.getSession().getAttribute("soal_ke") + "");
 
                 boolean jawaban_benar = soal.getJawaban().equals(jawaban);
                 if (!jawaban_benar) {
-                    tingkat_kesukaran -= 0.2;
+                    thetaSoal -= 0.2;
                 } else {
-                    tingkat_kesukaran += 0.1;
+                    thetaSoal += 0.1;
                 }
 
                 //ambil soal selanjutnya
@@ -492,7 +601,7 @@ public class AmbilUjian extends Controller {
                 SoalModel soalSelanjutnya = new SoalModel();
                 if (userCredential.getPenyajian_soal().equals("Acak")) {
                     System.out.println("acak");
-                    soalSelanjutnya.getSoalSelanjutnya(tingkat_kesukaran, userCredential.getId(), request.getSession().getAttribute("soal_terpakai") + "", jawaban_benar, iddomain, null);
+                    soalSelanjutnya.getSoalSelanjutnya(thetaSoal, userCredential.getId(), request.getSession().getAttribute("soal_terpakai") + "", jawaban_benar, iddomain, null);
                 } else if (userCredential.getPenyajian_soal().equals("Proporsional")) {
                     System.out.println("proporsional");
                     //rotasi skl berdasarkan prioritas
@@ -506,7 +615,7 @@ public class AmbilUjian extends Controller {
                     boolean isAlreadyCycle = false;
                     int iCounterSKLdimajukan = 0;
                     do {
-                        soalSelanjutnya.getSoalSelanjutnya(tingkat_kesukaran, userCredential.getId(), request.getSession().getAttribute("soal_terpakai") + "", jawaban_benar, iddomain, skl_aktif);
+                        soalSelanjutnya.getSoalSelanjutnya(thetaSoal, userCredential.getId(), request.getSession().getAttribute("soal_terpakai") + "", jawaban_benar, iddomain, skl_aktif);
 
                         iSkl_Counter++;
                         if (soalSelanjutnya == null) {
@@ -646,8 +755,9 @@ public class AmbilUjian extends Controller {
 
                 //menghitung theta yg baru :
                 double thetaBaru;
-                thetaBaru = theta_akhir + (sumUminusP / D * sumPQ); // theta + 
-                System.out.println("xtheta + (sumUminusP /D*sumPQ) = " + theta_akhir + "(" + sumUminusP + "/" + D * sumPQ + ")");
+                thetaBaru = thetaHasilPerhitunganModel + (sumUminusP / D * sumPQ);
+
+                System.out.println("xtheta + (sumUminusP /D*sumPQ) = " + thetaHasilPerhitunganModel + "(" + sumUminusP + "/" + D * sumPQ + ")");
                 request.getSession().setAttribute("theta", thetaBaru);
                 System.out.println("xtheta(" + iterasi_ke + ")=" + thetaBaru);
 
@@ -681,7 +791,7 @@ public class AmbilUjian extends Controller {
                 if (iterasi_ke == 1) {
                     theta_awal_tiga_soal = request.getSession().getAttribute("theta_awal_tiga_soal") + "";
                     theta_sebelumnya = Double.parseDouble(theta_awal_tiga_soal);//0
-                    System.out.println("theta awal tiga soal = " + theta);
+                    System.out.println("theta awal tiga soal = " + thetaAwalTigaSoal);
                     request.getSession().setAttribute("theta_sebelumnya", thetaBaru);
                 } else {
                     theta_sebelumnya = Double.parseDouble(request.getSession().getAttribute("theta_sebelumnya") + "");
@@ -741,7 +851,7 @@ public class AmbilUjian extends Controller {
                     index("peserta_test/pengerjaan_soal.jsp");
                 }
 
-                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, "Soal " + soal.getSoal() + ", rasch_b = " + soal.getRasch_b() + ", theta =" + theta_akhir + ", kunci = " + soal.getJawaban() + ", jawaban= " + jawaban + "  jawaban_benar = " + jawaban_benar + ",  soal selanjutnya idsoal = " + (soalSelanjutnya == null ? "KOSONG" : soalSelanjutnya.getIdsoal()) + ", rasch_b = " + (soalSelanjutnya == null ? "KOSONG" : soalSelanjutnya.getRasch_b()));
+                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, "Soal " + soal.getSoal() + ", rasch_b = " + soal.getRasch_b() + ", theta =" + thetaHasilPerhitunganModel + ", kunci = " + soal.getJawaban() + ", jawaban= " + jawaban + "  jawaban_benar = " + jawaban_benar + ",  soal selanjutnya idsoal = " + (soalSelanjutnya == null ? "KOSONG" : soalSelanjutnya.getIdsoal()) + ", rasch_b = " + (soalSelanjutnya == null ? "KOSONG" : soalSelanjutnya.getRasch_b()));
             } else {
                 System.out.print("<result>false</result>");
             }
