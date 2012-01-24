@@ -45,6 +45,7 @@ public class AmbilUjian extends Controller {
         soal.addCriteria("idsoal", idsoal);
         soal.get();
         request.setAttribute("soal", soal);
+        request.getSession().setAttribute("idsoal_tanpa_model", idsoal);
         index(page0);
     }
 
@@ -88,6 +89,7 @@ public class AmbilUjian extends Controller {
         //hapus jawaban yg sudah ada 
         Db.executeQuery("delete from peserta_test_jawaban_dengan_model where idpeserta_test=" + userCredential.getId());
         Db.executeQuery("delete from paket_soal_tiga_butir_jawaban where idpeserta_test=" + userCredential.getId());
+        Db.executeQuery("delete from paket_soal_jawaban where idpeserta_test=" + userCredential.getId());
 
         index("peserta_test/pilih_domain.jsp");
     }
