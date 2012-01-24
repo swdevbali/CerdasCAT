@@ -155,7 +155,7 @@ $(document).ready(function() {
 	<div id="pageContent">
 		
 	  <div class="wikistyle">
-	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Hak Cipta <!-- InstanceEndEditable --></h1>
+	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Tentang Aplikasi<!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
 	    <p id="aIntroductiona">Aplikasi ini dikembangkan untuk Pak Rukli (2011) </p>
 	    <!-- InstanceEndEditable --></div>

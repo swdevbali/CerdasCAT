@@ -152,7 +152,11 @@ $(document).ready(function() {
 	  <div class="wikistyle">
 	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Home<!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
-	    <p id="aIntroductiona">Isi Module</p>
+	    <h2 id="aIntroductiona">Selamat datang!</h2>
+	    <p><img src="<%=Config.base_url%>res/img/study.jpg" width="300" height="201"></p>
+	    <p>Anda sedang berada di dalam modus ${user_credential.peran}. Fungsionalitas aplikasi yang bisa Anda akses, dapat dilihat pada baris navigasi di layar sebelah kanan. Silahkan membuka fungsi-fungsi yang Anda butuhkan, dengan mengklik link navigasi yang telah tersedia.<br>
+	      <br>
+	      Selamat bekerja</p>
 	    <!-- InstanceEndEditable --></div>
 		
 		<div id="comments"></div>

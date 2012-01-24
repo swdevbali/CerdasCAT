@@ -157,7 +157,30 @@ $(document).ready(function() {
 	  <div class="wikistyle">
 	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Bantuan Penggunaaan Aplikasi <!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
-	    <p id="aIntroductiona">Tentang penggunaan aplikasi </p>
+	    <p id="aIntroductiona">Untuk menggunakan aplikasi ini, Anda harus terlebih dahulu mendaftarkan diri melalui menu SignUp. Peserta test yang mendaftarkan diri, sebelumnya telah ditambahkan oleh Admin informasinya ke basis data. Sehingga, hanya peserta test yang telah didaftarkan oleh Admin yang dapat mendaftarkan diri. Setelah itu, peseta test masih harus memverifikasi proses signup dengan mengetikkan kembali nomor peserta yang didapatkan saat pendaftaran sebagai siswa baru.</p>
+	    <p>Keseluruhan aplikasi memiliki fungsi-fungsi yang disesuaikan berdasarkan peran pengguna yang masuk ke dalam sistem, meliputi :</p>
+	    <ol>
+	      <li>Administrator<br>
+	      Merupakan pengelola sistem yang bertanggung jawab penuh terhadap proses kelancaran jalannya sistem. Admin berhak menghapus data, menambah dan mengubah data yang menjadi bagian dari sistem. </li>
+          <li>Pimpinan<br>
+          Pimpinan bertugas utamanya untuk menentukam syarat kelulusan yang meliputi kuota dan nilai skor minimal. Pimpinan dapat mengakses semua laporan yang dihasilkan dalam sistem, namun utamanya mengakses laporan kelulusan. </li>
+	      <li>Guru<br>
+	      Tugas utama guru adalah menambahkan soal yang akan diujikan, termasuk kelengkapan informasi tentang gambar soal, jawaban dan juga SKL soal tersebut. Guru dapat juga mengakses laporan kelulusan. </li>
+	      <li>Peserta Test<br>
+	      Aplikasi ini menyediakan fungsi khusus berupa ujian online berbasikan Computer Adaptive Testing, yang akan menyaring siswa berdasarkan kemampuan realnya dalam menjawab soal. Pada setiap akhir ujian, kemampuan siswa akan dapat langsung diukur menggunakan metode CAT yang telah diuji. </li>
+	      <li>Wali Peserta Test<br>
+          Berperan sebagai wali, maka wali peserta test dapat masuk ke dalam sistem dan menampilkan laporan ujian peserta test yang berkaitan dengannya dan juga menampilkan laporan kelulusan</li>
+        </ol>
+	    <p align="justify">Aplikasi ini dikembangkan dengan menggunakan Java EE dan MySQL. Untuk dapat menjalankan aplikasi ini, klien hanya membutuhkan browser internet (Google Chrome, Mozilla FireFox, Opera, Internet Explore dan lain sebagainya) dan koneksi ke internet/intranet yang stabil dan dapat dihandalkan. </p>
+	    <p align="justify">Adapun untuk menjalankan aplikasi ini sebagai server, maka aplikasi ini membutuhkan persyaratan berikut ini :</p>
+	    <ol>
+	      <li>Processor dengan kecepatan minimal 2GHz </li>
+          <li>Komputer dengan memori minimal 4Gigabyte  </li>
+	      <li>Media penyimpanan harddisk dengan ukuran kosong 2Gigabyte</li>
+	      <li>Koneksi ke private VPN untuk IP pribadi atau koneksi ke jaringan intranet</li>
+	      <li>Router yang akan mengatur skema komunikasi di dalam jaringan intranet</li>
+        </ol>
+	    <p>&nbsp;</p>
 	    <!-- InstanceEndEditable --></div>
 		
 		<div id="comments"></div>
