@@ -69,7 +69,7 @@ public class SoalModel extends _SoalModel {
 
     //penyajian soal tetap
     public List getSoalUntukSiswa(String idpeserta_test, String iddomain) {
-        return Db.get("SELECT s.idsoal FROM paket_soal ps, paket_soal_detail psd,soal s,peserta_test pt where ps.idpaket_soal = psd.idpaket_soal and s.idsoal = psd.idsoal and pt.idpaket_soal = ps.idpaket_soal and s.iddomain = " + iddomain + " and pt.id=" + idpeserta_test, SoalModel.class.getName());
+        return Db.get("SELECT s.idsoal,s.jawaban FROM paket_soal ps, paket_soal_detail psd,soal s,peserta_test pt where ps.idpaket_soal = psd.idpaket_soal and s.idsoal = psd.idsoal and pt.idpaket_soal = ps.idpaket_soal and s.iddomain = " + iddomain + " and pt.id=" + idpeserta_test, SoalModel.class.getName());
     }
 
 

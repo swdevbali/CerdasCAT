@@ -159,14 +159,24 @@ $(document).ready(function() {
 	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Laporan Kelulusan <!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
                     <% //this is all the code that need to be done
-                        String peserta[][] = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
+						 String data[][] = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+						 String peserta[][];
+						 String sqlX="";
+						 if(data[0][3].equals("Tidak Ada"))
+						 {
+						 sqlX = "SELECT id, nomor_peserta,nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' order by nomor_peserta";
+							peserta = Db.getDataSet(sqlX); 
+						 }else{ 
+	                        peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
+						}
                     %>
+					
                     <% if (peserta.length == 0) {%>
                     Tidak ada data laporan yang bisa ditampilkan
                     <%                } else {
                         double skor_minimum = 0;
                         int kuota_maksimum = 0;
-                        String data[][] = Db.getDataSet("select skor_minimum,kuota from konfigurasi");
+                      
                         skor_minimum = Double.parseDouble(data[0][0]);
                         kuota_maksimum = Integer.parseInt(data[0][1]);
                     %>
@@ -215,6 +225,8 @@ $(document).ready(function() {
                     <br/>
 
                     <%
+						 if(!data[0][3].equals("Tidak Ada"))
+						 {
 
                             //tabel bobot penilaian
                             String bobotKriteria[][] = Db.getDataSet("SELECT idpenilaian,bobot FROM penilaian");
@@ -302,8 +314,43 @@ $(document).ready(function() {
                                 Db.executeQuery("update peserta_test set skor_akhir = " + totalNilaiKriteria + ",skor_domain=" + totalNilaiDomain + " where id=" + peserta[i][0]);
                             }
                         }
+						}
                     %>
                     <a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan?cetak=true" target="_blank">Cetak</a>
+
+<%					
+					 if(data[0][3].equals("Tidak Ada"))
+					 {
+%>
+	      <table width="100%" id="rounded-corner" border="0">
+                        <thead>
+
+                            <tr>
+                                <td scope="col" class="rounded-company">No.</td>
+                                <td scope="col" class="rounded-q1">Nomor Peserta </td>
+                                <td scope="col" class="rounded-q1">Nama Lengkap </td>
+                                <td scope="col" class="rounded-q1">Asal SD </td>
+                                <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
+                            </tr>
+                        </thead>
+                        <%
+							  data = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+                             peserta = Db.getDataSet("SELECT id,nomor_peserta,nama_lengkap,asal,skor_akhir FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' and skor_akhir>" + data[0][0] + " order by skor_akhir desc limit 0," + data[0][1]);
+                            for (int i = 0; i < peserta.length; i++) {
+                        %>
+                        <tr>
+                            <td><%=i + 1%></td>
+                            <td><%=peserta[i][1]%></td>
+                            <td><%=peserta[i][2]%></td>
+                            <td><%=peserta[i][3]%></td>
+                            <td><%=format.format(Double.parseDouble(peserta[i][4]))%></td>
+ 
+                        </tr>
+                        <% }%>
+                    </table>
+<%					 
+					 } else {
+%>					 
                     <table width="100%" id="rounded-corner" border="0">
                         <thead>
 
@@ -332,6 +379,7 @@ $(document).ready(function() {
                         </tr>
                         <% }%>
                     </table>
+					<% } %>
                     <!-- InstanceEndEditable --></div>
 		
 		<div id="comments"></div>

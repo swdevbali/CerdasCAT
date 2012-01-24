@@ -210,7 +210,7 @@
                                 <td width="100"><a href="<%=Config.base_url%>index/AmbilUjian/ambilSoalTanpaModel/${item.idsoal}">Soal ${status.count}</a></td>
                             </c:forEach>
                         </tr>
-                    </table>
+                    </table>Jawaban = ${soal.jawaban}
                     <form name="formSoal" method="post" action="<%=Config.base_url%>index/AmbilUjian/jawabSoal">
                         <input name="idsoal" type="hidden" value="${soal.idsoal}">
                         <%

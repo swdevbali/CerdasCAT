@@ -159,7 +159,6 @@ $(document).ready(function() {
 	    <!-- InstanceBeginEditable name="isi_modul" -->
 	    <p id="aIntroductiona">Jawaban Anda sudah disimpan, dan segera akan diproses. Semoga hasilnya bagus!</p>
                       <hr/>
-                      Skor Anda = ${hasilAkhir}
 	    <!-- InstanceEndEditable --></div>
 		
 		<div id="comments"></div>

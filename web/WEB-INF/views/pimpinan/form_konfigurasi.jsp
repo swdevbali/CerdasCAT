@@ -155,10 +155,10 @@ $(document).ready(function() {
 	<div id="pageContent">
 		
 	  <div class="wikistyle">
-	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Konfigurasi Penerimaan <!-- InstanceEndEditable --></h1>
+	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Konfigurasi Kelulusan <!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
 		<%
-		String data[][]=Db.getDataSet("select skor_minimum,kuota from konfigurasi");
+		String data[][]=Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
 		/*String isiDomain[] = data[0][2].split(">>");
 		Hashtable hashDomain = new Hashtable();
 		for(int i=0;i<isiDomain.length;i++)
@@ -182,6 +182,49 @@ $(document).ready(function() {
               </label></td>
             </tr>
             <tr>
+              <td>Inisialisasi</td>
+              <td><label>
+                <select name="inisialisasi_kemampuan" id="inisialisasi_kemampuan">
+                  <option value="Theta=0" <% if(data[0][2].equals("Tidak Ada")) { %> selected="selected" <% } %>>Theta=0</option>
+                  <option value="Tiga Butir" <% if(data[0][2].equals("Tidak Ada")) { %> selected="selected" <% } %>>Tiga Butir</option>
+                  <option value="Tidak Ada" <% if(data[0][2].equals("Tidak Ada")) { %> selected="selected" <% } %>>Tidak Ada</option>
+                </select>
+              </label></td>
+            </tr>
+            <tr>
+              <td>Model</td>
+              <td><label>
+                <select name="model_logistik" id="model_logistik">
+                  <option value="Tidak Ada" <% if(data[0][3].equals("Tidak Ada")) { %> selected="selected" <% } %>>Tidak Ada</option>
+                  <option value="1PL" <% if(data[0][3].equals("1PL")) { %> selected="selected" <% } %>>1PL</option>
+                  <option value="2PL" <% if(data[0][3].equals("2PL")) { %> selected="selected" <% } %>>2PL</option>
+                  <option value="3PL" <% if(data[0][3].equals("3PL")) { %> selected="selected" <% } %>>3PL</option>
+                  <option value="Rasch" <% if(data[0][3].equals("Rasch")) { %> selected="selected" <% } %>>Rasch</option>
+                </select>
+              </label></td>
+            </tr>
+            <tr>
+              <td>Metode</td>
+              <td><label>
+                <select name="metode" id="metode">
+                  <option value="Tidak Ada" <% if(data[0][4].equals("Tidak Ada")) { %> selected="selected" <% } %>>Tidak Ada</option>
+                  <option value="Fumahilow"  <% if(data[0][4].equals("Fumahilow")) { %> selected="selected" <% } %>>Fumahilow</option>
+                  <option value="Futsuhilow"  <% if(data[0][4].equals("Futsuhilow")) { %> selected="selected" <% } %>>Futsuhilow</option>
+                  <option value="Fusuhilow"  <% if(data[0][4].equals("Fusuhilow")) { %> selected="selected" <% } %>>Fusuhilow</option>
+                </select>
+              </label></td>
+            </tr>
+            <tr>
+              <td>Penyajian Soal </td>
+              <td><label>
+                <select name="penyajian_soal" id="penyajian_soal">
+                  <option value="Acak"  <% if(data[0][5].equals("Acak")) { %> selected="selected" <% } %>>Acak</option>
+                  <option value="Proporsional"  <% if(data[0][5].equals("Proporsional")) { %> selected="selected" <% } %>>Proporsional</option>
+                  <option value="Tetap"  <% if(data[0][5].equals("Tetap")) { %> selected="selected" <% } %>>Tetap</option>
+                </select>
+              </label></td>
+            </tr>
+            <tr>
               <td>Domain</td>
               <td><label>
 			  <%
@@ -194,8 +237,7 @@ $(document).ready(function() {
 				if(cekDomain.length>0) { %> checked<% } %>>
                 <%=domain[i][1]%></label><br/>
 			  <% }
-			  %>
-			  </td>
+			  %>			  </td>
             </tr>
             <tr>
               <td>&nbsp;</td>
@@ -216,5 +258,5 @@ $(document).ready(function() {
 				<p align="center">Hak Cipta (C) Rukli 2011 <a href="http://www.playapps.net/"></a>				</p>
 		  </div>
 		</div>
-   </body>
+</body>
 <!-- InstanceEnd --></html>

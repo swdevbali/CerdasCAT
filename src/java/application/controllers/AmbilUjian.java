@@ -144,18 +144,25 @@ public class AmbilUjian extends Controller {
         //hapus dulu jawaban yang lama
         boolean isSukses = Db.executeQuery("delete from paket_soal_jawaban where idpaket_soal='" + idpaket_soal + "' and idsoal='" + idsoal + "' and idpeserta_test='" + idpeserta_test + "'");
 
-        isSukses = isSukses && Db.executeQuery("insert into paket_soal_jawaban(idpaket_soal,idsoal,idpeserta_test,jawaban) values ('" + idpaket_soal + "','" + idsoal + "','" + idpeserta_test + "','" + jawaban + "')");
+        SoalModel soal = new SoalModel();
+        soal.addCriteria("idsoal", idsoal);
+        soal.get();
+        String nilai = soal.getJawaban().equals(jawaban) ? "1" : "0";
+
+        isSukses = isSukses && Db.executeQuery("insert into paket_soal_jawaban(idpaket_soal,idsoal,idpeserta_test,jawaban,nilai) values ('" + idpaket_soal + "','" + idsoal + "','" + idpeserta_test + "','" + jawaban + "'," + nilai + ")");
         String iddomain = request.getSession().getAttribute("iddomain") + "";
         List x = (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain);
-        int nextSoal=0;
-        for(int i = 0; i < x.size();i++)
-        {
-            SoalModel soal = (SoalModel) x.get(i);
-            if(soal.getIdsoal().equals(idsoal)) {
-                nextSoal=i+1;
+        int nextSoal = 0;
+        for (int i = 0; i < x.size(); i++) {
+            soal = (SoalModel) x.get(i);
+            if (soal.getIdsoal().equals(idsoal)) {
+                nextSoal = i + 1;
                 break;
             }
-        }if(nextSoal>=x.size()) nextSoal=0;
+        }
+        if (nextSoal >= x.size()) {
+            nextSoal = 0;
+        }
         ServletUtil.redirect(Config.base_url + "index/AmbilUjian/ambilSoalTanpaModel/" + ((SoalModel) x.get(nextSoal)).getIdsoal(), request, response);
 
 
@@ -180,7 +187,7 @@ public class AmbilUjian extends Controller {
     public void selesaiJawabSoal() {
         PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
         //hitung nilai jawaban siswa
-        String data[][] = Db.getDataSet("select sum(pd.bobot) from paket_soal_jawaban pj, paket_soal_detail pd, soal s,peserta_test pt where pj.idsoal = s.idsoal and pd.idsoal = s.idsoal and pj.jawaban = s.jawaban and pd.idpaket_soal = pj.idpaket_soal and pt.idpaket_soal=pd.idpaket_soal and pt.id=" + userCredential.getId());
+        String data[][] = Db.getDataSet("select sum(pj.nilai * pd.bobot) from paket_soal_jawaban pj, paket_soal_detail pd, soal s,peserta_test pt where pj.idsoal = s.idsoal and pd.idsoal = s.idsoal and pj.jawaban = s.jawaban and pd.idpaket_soal = pj.idpaket_soal and pt.idpaket_soal=pd.idpaket_soal and pt.id=" + userCredential.getId());
 
         //simpan hasil jawaban
         String hasilAkhir = data[0][0];

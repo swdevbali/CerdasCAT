@@ -37,67 +37,75 @@
 	  <div class="wikistyle">
 	    <h1 align="center" id="Startinguptheproject">Aplikasi Cerdas CAT </h1>
 	    
-		<% //this is all the code that need to be done
-			String peserta[][]=Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
-		%>
-		<% if(peserta.length==0) { %>
-		Tidak ada data laporan yang bisa ditampilkan
-		<% 
-		} else {
-			double skor_minimum=0;
-			int kuota_maksimum=0;
-			String data[][] = Db.getDataSet("select skor_minimum,kuota from konfigurasi");
-			skor_minimum = Double.parseDouble(data[0][0]);
-			kuota_maksimum = Integer.parseInt(data[0][1]);
-		%>
-	    <p id="aIntroductiona">&nbsp;</p>
-	    <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#666666">
-          <tr>
-            <td colspan="2"><div align="center">
-              <p class="style1">LAPORAN KELULUSAN </p>
-              <p>&nbsp;</p>
-            </div></td>
-          </tr>
-          <tr>
-            <td width="49%">Inisialisasi</td>
-            <td width="51%"><%=peserta[0][4]%></td>
-          </tr>
-          <tr>
-            <td>Model</td>
-            <td><%=peserta[0][5]%></td>
-          </tr>
-          <tr>
-            <td>Metode</td>
-            <td><%=peserta[0][6]%></td>
-          </tr>
-          <tr>
-            <td>Penyajian Soal </td>
-            <td><%=peserta[0][7]%></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>Skor Minimum</td>
-            <td><%=skor_minimum%></td>
-          </tr>
-          <tr>
-            <td>Kuota Maksimum</td>
-            <td><%=kuota_maksimum%></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-        </table>
-		<br/>
-  
+		   <% //this is all the code that need to be done
+						 String data[][] = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+						 String peserta[][];
+						 String sqlX="";
+						 if(data[0][3].equals("Tidak Ada"))
+						 {
+						 sqlX = "SELECT id, nomor_peserta,nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' order by nomor_peserta";
+							peserta = Db.getDataSet(sqlX); 
+						 }else{ 
+	                        peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
+						}
+                    %>
+					
+                    <% if (peserta.length == 0) {%>
+                    Tidak ada data laporan yang bisa ditampilkan
+                    <%                } else {
+                        double skor_minimum = 0;
+                        int kuota_maksimum = 0;
+                      
+                        skor_minimum = Double.parseDouble(data[0][0]);
+                        kuota_maksimum = Integer.parseInt(data[0][1]);
+                    %>
+                    <p id="aIntroductiona">&nbsp;</p>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#666666">
+                        <tr>
+                            <td colspan="2"><div align="center"><strong>LAPORAN KELULUSAN </strong></div></td>
+                        </tr>
+                        <tr>
+                            <td width="49%">Inisialisasi</td>
+                            <td width="51%"><%=peserta[0][4]%></td>
+                        </tr>
+                        <tr>
+                            <td>Model</td>
+                            <td><%=peserta[0][5]%></td>
+                        </tr>
+                        <tr>
+                            <td>Metode</td>
+                            <td><%=peserta[0][6]%></td>
+                        </tr>
+                        <tr>
+                            <td>Penyajian Soal </td>
+                            <td><%=peserta[0][7]%></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Skor Minimum</td>
+                            <td><%=skor_minimum%></td>
+                        </tr>
+                        <tr>
+                            <td>Kuota Maksimum</td>
+                            <td><%=kuota_maksimum%></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    <br/>
+
                     <%
+						 if(!data[0][3].equals("Tidak Ada"))
+						 {
 
                             //tabel bobot penilaian
                             String bobotKriteria[][] = Db.getDataSet("SELECT idpenilaian,bobot FROM penilaian");
@@ -185,18 +193,53 @@
                                 Db.executeQuery("update peserta_test set skor_akhir = " + totalNilaiKriteria + ",skor_domain=" + totalNilaiDomain + " where id=" + peserta[i][0]);
                             }
                         }
+						}
                     %>
                     <a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan?cetak=true" target="_blank"></a>
-                    <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" id="rounded-corner">
+
+<%					
+					 if(data[0][3].equals("Tidak Ada"))
+					 {
+%>
+	      <table width="80%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#000000" id="rounded-corner">
                         <thead>
 
                             <tr>
-                                <td class="rounded-company" scope="col"><strong>No.</strong></td>
-                                <td class="rounded-q1" scope="col"><strong>Nomor Peserta </strong></td>
-                                <td class="rounded-q1" scope="col"><strong>Nama Lengkap </strong></td>
-                                <td class="rounded-q1" scope="col"><strong>Asal SD </strong></td>
-                                <td scope="col" class="rounded-q1"><div align="right"><strong>Nilai Domain </strong></div></td>
-                                <td scope="col" class="rounded-q1"><div align="right"><strong>Skor Kelulusan  </strong></div></td>
+                                <td scope="col" class="rounded-company">No.</td>
+                                <td scope="col" class="rounded-q1">Nomor Peserta </td>
+                                <td scope="col" class="rounded-q1">Nama Lengkap </td>
+                                <td scope="col" class="rounded-q1">Asal SD </td>
+                                <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
+                            </tr>
+                        </thead>
+                        <%
+							  data = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+                             peserta = Db.getDataSet("SELECT id,nomor_peserta,nama_lengkap,asal,skor_akhir FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' and skor_akhir>" + data[0][0] + " order by skor_akhir desc limit 0," + data[0][1]);
+                            for (int i = 0; i < peserta.length; i++) {
+                        %>
+                        <tr>
+                            <td><%=i + 1%></td>
+                            <td><%=peserta[i][1]%></td>
+                            <td><%=peserta[i][2]%></td>
+                            <td><%=peserta[i][3]%></td>
+                            <td><%=format.format(Double.parseDouble(peserta[i][4]))%></td>
+ 
+                        </tr>
+                        <% }%>
+        </table>
+<%					 
+					 } else {
+%>					 
+                    <table width="100%" id="rounded-corner" border="0">
+                        <thead>
+
+                            <tr>
+                                <td scope="col" class="rounded-company">No.</td>
+                                <td scope="col" class="rounded-q1">Nomor Peserta </td>
+                                <td scope="col" class="rounded-q1">Nama Lengkap </td>
+                                <td scope="col" class="rounded-q1">Asal SD </td>
+                                <td scope="col" class="rounded-q1">Nilai Domain </td>
+                                <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
                             </tr>
                         </thead>
                         <%
@@ -206,15 +249,16 @@
                             for (int i = 0; i < peserta.length; i++) {
                         %>
                         <tr>
-                            <td><div align="right"><%=i + 1%></div></td>
+                            <td><%=i + 1%></td>
                             <td><%=peserta[i][1]%></td>
                             <td><%=peserta[i][2]%></td>
                             <td><%=peserta[i][3]%></td>
-                            <td><div align="right"><%=format.format(Double.parseDouble(peserta[i][4]))%></div></td>
-                            <td><div align="right"><%=format.format(Double.parseDouble(peserta[i][5]))%></div></td>
+                            <td><%=format.format(Double.parseDouble(peserta[i][4]))%></td>
+                            <td><%=format.format(Double.parseDouble(peserta[i][5]))%></td>
                         </tr>
                         <% }%>
-        </table>
+                    </table>
+					<% } %>
 
 </div>
 		

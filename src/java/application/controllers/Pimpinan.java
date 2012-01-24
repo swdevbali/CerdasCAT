@@ -131,7 +131,11 @@ public class Pimpinan extends Controller {
             }
            
         }
-        Db.executeQuery("update konfigurasi set skor_minimum = " + skor_minimum + ", kuota=" + kuota);
+        String metode = request.getParameter("metode");
+        String model_logistik = request.getParameter("model_logistik");
+        String inisialisasi_kemampuan = request.getParameter("inisialisasi_kemampuan");
+        String penyajian_soal = request.getParameter("penyajian_soal");
+        Db.executeQuery("update konfigurasi set skor_minimum = " + skor_minimum + ", kuota=" + kuota + ",metode='" + metode + "',model_logistik='" + model_logistik + "',inisialisasi_kemampuan='" + inisialisasi_kemampuan + "',penyajian_soal='" + penyajian_soal + "'");
         request.setAttribute("message", "Konfigurasi sudah tersimpan");
         index("pimpinan/form_konfigurasi.jsp");
     }

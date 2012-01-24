@@ -213,17 +213,71 @@ $(document).ready(function() {
         </table>
 		<c:forEach items="${domain}" var="item" varStatus="status" >
 	    <p id="aIntroductiona"><strong>${item.domain}</strong></p>
+		
+		<% if(p.getMetode().equals("Tidak Ada")) { %>
+		
 		<%
 			String checked="";
 			
 			
 			DomainModel domainModel = ((DomainModel) pageContext.getAttribute("item"));
-			String sql = " SELECT s.idsoal,p.thetaAwal,b,p.nilai as u,se,selisihSE,thetaAkhir,skor,waktu,skl.nama_skl FROM " +
+			String sql = "SELECT s.idsoal,skl.nama_skl,s.rasch_b,p.jawaban,s.jawaban as kunci,if(s.jawaban=p.jawaban,1,0) as nilai,psd.bobot, nilai* bobot as skor " +
+" FROM paket_soal_jawaban p, soal s, domain d,skl,paket_soal_detail psd " +
+" where s.idskl=skl.idskl and p.idsoal=s.idsoal and s.iddomain = d.iddomain and psd.idsoal=s.idsoal  and p.idpeserta_test =" + p.getId() +
+" and d.iddomain=" + domainModel.getIddomain() +" order by p.idpaket_soal_jawaban";
+			String data[][] = Db.getDataSet(sql);
+		%>
+	    <a href="<%=Config.base_url%>index/LihatHasilTest?cetak=true" target="_blank">Cetak</a>
+	    <table width="100%" border="0" id="rounded-corner">
+		<thead>
+			<tr>
+			<th scope="col" class="rounded-company">No.</th>
+			<th scope="col" class="rounded-q1">ID Soal </th>
+			<th scope="col" class="rounded-q1">SKL</th>
+			<th align="right" class="rounded-q1" scope="col">b</th>
+			<th align="right" class="rounded-q1" scope="col">Jawaban</th>
+			<th align="right" class="rounded-q1" scope="col">Kunci</th>
+			<th align="right" class="rounded-q1" scope="col">Nilai</th>
+			<th align="right" class="rounded-q1" scope="col">Bobot</th>
+			<th align="right" class="rounded-q4" scope="col">Skor</th>
+			
+			</tr>
+		</thead>
+		<%
+			for(int i = 0; i < data.length; i++)
+			{
+				
+		%>
+          <tr>
+            <td><%=i+1%></td>
+            <td><%=data[i][0]%></td>
+            <td><%=data[i][1]%></td>
+            <td align="right"><%=format.format(Double.parseDouble(data[i][2]))%></td>
+            <td align="right"><%=data[i][3]%></td>
+            <td align="right"><%=data[i][4]%></td>
+            <td align="right"><%=data[i][5]%></td>
+			 <td align="right"><%=data[i][6]%></td>
+			 <td align="right"><%=data[i][7]%></td> 			
+          </tr>
+		 <% } %>
+        </table><br>
+Total skor = <%=p.getSkor_akhir()%>
+		<% } else { %>
+		
+		
+		
+		
+		<%
+			 String checked="";
+			
+			
+			 DomainModel domainModel = ((DomainModel) pageContext.getAttribute("item"));
+			 String sql = " SELECT s.idsoal,p.thetaAwal,b,p.nilai as u,se,selisihSE,thetaAkhir,skor,waktu,skl.nama_skl FROM " +
 						  " peserta_test_jawaban_dengan_model p, soal s, domain d,skl " +
 						  " where s.idskl=skl.idskl and p.idsoal=s.idsoal and s.iddomain = d.iddomain and p.idpeserta_test = '" + 	
 						    p.getId() + "' and d.iddomain='"+ domainModel.getIddomain() +
 							"' order by p.idpeserta_test_jawaban_dengan_model";
-			String data[][] = Db.getDataSet(sql);
+			 String data[][] = Db.getDataSet(sql);
 		%>
 	    <a href="<%=Config.base_url%>index/LihatHasilTest?cetak=true" target="_blank">Cetak</a>
 	    <table width="100%" border="0" id="rounded-corner">
@@ -275,7 +329,10 @@ $(document).ready(function() {
 		 <% } %>
         </table>
 		<img src="http://localhost/ruklis3/index.php?idpeserta_test=<%=p.getId()%>&iddomain=${item.iddomain}">	
+		
+		<% } %>
         </c:forEach>
+		
 		    <!-- InstanceEndEditable --></div>
 		
 		<div id="comments"></div>
