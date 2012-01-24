@@ -1,4 +1,4 @@
-x<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,recite18th.library.Db,application.config.Config,recite18th.library.Pagination" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,recite18th.library.Db,application.config.Config,recite18th.library.Pagination,application.models.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%
@@ -36,7 +36,7 @@ x<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sq
 		   	});
 			
 		//kode u/ jawab
-		$("#btnJawab").click(
+/*		$("#btnJawab").click(
 			function()
 			{
 				//TOFIX : ini kok hasilnya A terus sih? kudu masukin nama form kah?
@@ -51,7 +51,7 @@ x<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sq
 					}
 				});
 			}
-		);
+		);*/
 		
 		//kode u/ jawab
 		$("#btnSelesai").click(
@@ -203,27 +203,40 @@ $(document).ready(function() {
 	  <div class="wikistyle">
 	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Pelaksanaan Ujian<!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
-	    <form name="formSoal" method="post" action="">
-	      <label>Soal 
-	      <select name="idsoal" id="idsoal">
-				<c:forEach items="${row_idsoal}" var="item" varStatus="status">
-				  <option value="${item.idsoal}">${status.count}</option>
-		    </c:forEach>		   
-          </select>
-		  <img src="" id="gambar"/><br/>
+		<table width="100%" border="0">
+		
+  <tr>
+  <c:forEach items="${row_idsoal}" var="item" varStatus="status">
+    <td width="100"><a href="<%=Config.base_url%>index/AmbilUjian/ambilSoalTanpaModel/${item.idsoal}">Soal ${status.count}</a></td>
+	</c:forEach>
+  </tr>
+</table>
+		<form name="formSoal" method="post" action="<%=Config.base_url%>index/AmbilUjian/jawabSoal">
+		<input name="idsoal" type="hidden" value="${soal.idsoal}">
+		  <img src="<%=Config.base_url%>upload/${soal.gambar}" id="gambar"/><br/>
 		  Jawaban 
-		  <label>
-		  <select name="optJawaban" id="optJawaban">
-		    <option value="A">A</option>
-		    <option value="B">B</option>
-		    <option value="C">C</option>
-		    <option value="D">D</option>
-	      </select>
-		  </label>
+		  <input name="optJawaban" type="radio" value="A">
+		  A
+		  <input name="optJawaban" type="radio" value="B">
+		  B
+		  <input name="optJawaban" type="radio" value="C">
+		  C
+		  <input name="optJawaban" type="radio" value="D">
+		  D
 		  <br/>
-		  <input name="btnJawab" type="button" id="btnJawab" value="Jawab">
+		  <input name="btnJawab" type="button" id="btnJawab" value="Jawab" onClick="javascript: submitJawaban()">
+		  <script type="text/javascript">
+			function submitJawaban()
+			{
+				if(confirm('Jawab soal ini?'))
+				{
+				  document.formSoal.submit();
+				 }
+			}
+			</script>
 	    <input name="btnSelesai" type="button" id="btnSelesai" value="Selesai">
-	    </form>
+	    <br>
+		</form>
 	    <p id="aIntroductiona">&nbsp;</p>
 	    <!-- InstanceEndEditable --></div>
 		

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import recite18th.util.LoginUtil;
+import recite18th.util.ServletUtil;
 
 /**
  * @author Rukli
@@ -35,6 +36,18 @@ public class AmbilUjian extends Controller {
         controllerName = "AmbilUjian";
     }
 
+    public void ambilSoalTanpaModel(String idsoal) {
+        //request.getSession().removeAttribute("message");
+        PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
+        String iddomain = request.getSession().getAttribute("iddomain") + "";
+        request.setAttribute("row_idsoal", (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain));
+        SoalModel soal = new SoalModel();
+        soal.addCriteria("idsoal", idsoal);
+        soal.get();
+        request.setAttribute("soal", soal);
+        index(page0);
+    }
+
     public void mulaiUjianDomain(String iddomain) {
         PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
 
@@ -42,8 +55,10 @@ public class AmbilUjian extends Controller {
         request.getSession().removeAttribute("skl");
         if ("Tidak Ada".equals(userCredential.getMetode())) //KASUS PENYAJIAN SOAL TETAP
         {
-            request.setAttribute("row_idsoal", (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain));
-            index(page0);
+            request.getSession().removeAttribute("message");
+            List x = (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain);
+            ServletUtil.redirect(Config.base_url + "index/AmbilUjian/ambilSoalTanpaModel/" + ((SoalModel) x.get(0)).getIdsoal(), request, response);
+            //index(page0);
         } else if ("Futsuhilow".equals(userCredential.getMetode()) || "Fusuhilow".equals(userCredential.getMetode()) || "Fumahilow".equals(userCredential.getMetode())) {
             List tigaSoal = (new SoalModel()).getTigaButirSoal(userCredential.getId(), iddomain);
             request.getSession().setAttribute("soal_terpakai", "");
@@ -117,7 +132,10 @@ public class AmbilUjian extends Controller {
     }
 
     //TANPA METODE
-    public void jawabSoal(String idsoal, String jawaban) {
+    public void jawabSoal() {
+        String idsoal, jawaban;
+        idsoal = request.getParameter("idsoal");
+        jawaban = request.getParameter("optJawaban");
         PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
         String idpaket_soal = "" + userCredential.getIdpaket_soal();
         String idpeserta_test = "" + userCredential.getId();
@@ -125,22 +143,35 @@ public class AmbilUjian extends Controller {
         boolean isSukses = Db.executeQuery("delete from paket_soal_jawaban where idpaket_soal='" + idpaket_soal + "' and idsoal='" + idsoal + "' and idpeserta_test='" + idpeserta_test + "'");
 
         isSukses = isSukses && Db.executeQuery("insert into paket_soal_jawaban(idpaket_soal,idsoal,idpeserta_test,jawaban) values ('" + idpaket_soal + "','" + idsoal + "','" + idpeserta_test + "','" + jawaban + "')");
+        String iddomain = request.getSession().getAttribute("iddomain") + "";
+        List x = (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain);
+        int nextSoal=0;
+        for(int i = 0; i < x.size();i++)
+        {
+            SoalModel soal = (SoalModel) x.get(i);
+            if(soal.getIdsoal().equals(idsoal)) {
+                nextSoal=i+1;
+                break;
+            }
+        }if(nextSoal>=x.size()) nextSoal=0;
+        ServletUtil.redirect(Config.base_url + "index/AmbilUjian/ambilSoalTanpaModel/" + ((SoalModel) x.get(nextSoal)).getIdsoal(), request, response);
 
-        PrintWriter out = null;
+
+        /*PrintWriter out = null;
         response.setContentType("text/xml");
         try {
-            out = response.getWriter();
-            if (isSukses) {
-                out.println("<result>true</result>");
-            } else {
-                out.println("<result>false</result>");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            out.flush();
-            out.close();
+        out = response.getWriter();
+        if (isSukses) {
+        out.println("<result>true</result>");
+        } else {
+        out.println("<result>false</result>");
         }
+        } catch (IOException e) {
+        e.printStackTrace();
+        } finally {
+        out.flush();
+        out.close();
+        }*/
     }
 
     //TANPA METODE
@@ -526,7 +557,7 @@ public class AmbilUjian extends Controller {
                     double sumU = 0, sumUxtheta = 0;
                     sumU = (st_a + st_b + st_c) + (t_a + t_b + t_c) + (s_a + s_b + s_c) + (r_a + r_b + r_c) + (sr_a + sr_b + sr_c);
                     sumUxtheta = (st_a + st_b + st_c) * 4.001 + (t_a + t_b + t_c) * 2.001 + (s_a + s_b + s_c) * 0.001 + (r_a + r_b + r_c) * -1.999 + (sr_a + sr_b + sr_c) * -3.999;
-                    thetaHasilPerhitunganModel = sumUxtheta / sumU;
+                    thetaHasilPerhitunganModel = sumUxtheta / sumU; //theta fusuhilow lho
                 } else if ("Fumahilow".equals(userCredential.getMetode())) {
                     double st_b = 0, st_c = 0, t_b = 0, t_c = 0, s_b = 0, s_c = 0, r_b = 0, r_c = 0, sr_b = 0, sr_c = 0;
 
@@ -582,7 +613,7 @@ public class AmbilUjian extends Controller {
 
                     double sumTheta = theta_st_b + theta_st_c + theta_t_b + theta_t_c + theta_s_b + theta_s_c + theta_r_b + theta_r_c + theta_sr_b + theta_sr_c;
                     double sumU = (st_b + st_c) * 1 + (t_b + t_c) * 2 + (s_b + s_c) * 2 + (r_b + r_c) * 2 + (sr_b + sr_c) * 2;
-                    thetaHasilPerhitunganModel = sumTheta / sumU;
+                    thetaHasilPerhitunganModel = sumTheta / sumU; //theta hasil metode fumahilow lho
                 }
                 //cari soal selanjutnya
                 //int soal_ke = Integer.parseInt(request.getSession().getAttribute("soal_ke") + "");
