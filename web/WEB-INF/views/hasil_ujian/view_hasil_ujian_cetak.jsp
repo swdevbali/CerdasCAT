@@ -15,10 +15,12 @@
 	Model model = (Model) session.getAttribute("user_credential");
 	PesertaTestModel p = null;
 	
-	if(model instanceof PesertaTestModel)
+		if(model instanceof PesertaTestModel)
 	{
 		PesertaTestModel userCredential = (PesertaTestModel) model;
-		p = (PesertaTestModel) session.getAttribute("user_credential");
+		p = new PesertaTestModel();
+		p.addCriteria("id", userCredential.getId());
+		p.get();		
 	} else if(model instanceof WaliPesertaTestModel) {
 		WaliPesertaTestModel userCredential = (WaliPesertaTestModel) model;
 		p = new PesertaTestModel();
@@ -140,7 +142,19 @@
 		 <% } %>
         </table>
 	    <div align="center"><br>
-	      Total skor = <%=p.getSkor_akhir()%>
+        <table width="180" border="0">
+          <tr>
+            <td>Total skor</td>
+            <td><%=p.getSkor_akhir()%></td>
+          </tr>
+          <tr>
+            <td>Waktu tempuh</td>
+            <td><% String waktu[][] = Db.getDataSet("select waktu_tempuh from waktu_tempuh where idpeserta_test=" + p.getId() + " and iddomain = " + domainModel.getIddomain());
+out.print(waktu[0][0]);
+%></td>
+          </tr>
+        </table>
+        <br/> 
 	      <% } else { %>
 	      
 	      

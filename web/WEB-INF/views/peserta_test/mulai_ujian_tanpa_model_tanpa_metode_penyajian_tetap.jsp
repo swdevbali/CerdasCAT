@@ -57,13 +57,50 @@
                 $("#btnSelesai").click(
                 function()
                 {
-                    window.location="<%=Config.base_url%>index/AmbilUjian/selesaiJawabSoal";
+                    window.location="<%=Config.base_url%>index/AmbilUjian/selesaiJawabSoal/"+document.getElementById('waktu_tempuh').value;
                 }
             );
                 //		
                 $('#idsoal').trigger('change');
             });
         </script>
+		<style type="text/css">
+@import "<%=Config.base_url%>res/css/jquery.countdown.css";.style2 {color: #FF0000}
+</style> 
+<script type="text/javascript" src="<%=Config.base_url%>res/js/jquery.countdown.js"></script>
+<script type="text/javascript"> 
+
+$(function () {
+	var startTime = new Date();
+	startTime.setFullYear(<%=Integer.parseInt(session.getAttribute("clockYear")+"")+1900%>,<%=Integer.parseInt(session.getAttribute("clockMonth")+"")+1%>,<%=Integer.parseInt(session.getAttribute("clockDay")+"")%>);
+	startTime.setHours(<%=session.getAttribute("clockHour")%>);
+	startTime.setMinutes(<%=session.getAttribute("clockMin")%>);
+	startTime.setSeconds(<%=session.getAttribute("clockSec")%>);
+	
+	startTime = new Date();
+	startTime.setHours(<%=session.getAttribute("clockHour")%>);
+	startTime.setMinutes(<%=session.getAttribute("clockMin")%>);
+	startTime.setSeconds(<%=session.getAttribute("clockSec")%>);
+	
+	var endTime = startTime;
+	endTime.setMinutes(endTime.getMinutes() + <%=session.getAttribute("waktu_maksimal")%>);
+	
+	$('#timer').countdown({until: endTime,format: 'MS',onExpiry: timeUp,onTick: watchCountdown});
+});
+
+function timeUp() { 
+   $("form:first").submit();
+} 
+function watchCountdown(periods) { 
+
+	if(periods[5]=="0")
+	{
+    	$('#sisa').text('Waktu tersisa kurang dari 1 menit lagi'); 
+	}
+	$('#waktu_tempuh').val(periods[5] + ":" + periods[6]);
+
+}
+</script>
         <!-- InstanceEndEditable -->
         <script>
             // What is $(document).ready ? See: http://flowplayer.org/tools/documentation/basics.html#document_ready
@@ -203,6 +240,10 @@
                 <div class="wikistyle">
                     <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Pelaksanaan Ujian<!-- InstanceEndEditable --></h1>
                     <!-- InstanceBeginEditable name="isi_modul" -->
+					 <br/>
+ <div id="timer"></div>
+ <p>&nbsp;</p>
+ <div id="sisa" class="style2" align="center"></div>
                     <table width="100%" border="0">
 
                         <tr>
@@ -221,7 +262,9 @@
                             }
                         %>
                        
-                        <img src="<%=Config.base_url%>upload/${soal.gambar}" id="gambar"/><br/>
+                        <img src="<%=Config.base_url%>upload/${soal.gambar}" id="gambar"/>
+                        <input name="waktu_tempuh" type="hidden" id="waktu_tempuh">
+                        <br/>
                         Jawaban 
                         <input name="optJawaban" type="radio" value="A" <% if (pointJawaban.equals("A")) {%> checked <% }%>>
                         A

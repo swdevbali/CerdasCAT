@@ -56,7 +56,18 @@ public class AmbilUjian extends Controller {
         request.getSession().removeAttribute("skl");
         if ("Tidak Ada".equals(userCredential.getMetode())) //KASUS PENYAJIAN SOAL TETAP
         {
+            //timer
+            Date now = new Date();
+            request.getSession().setAttribute("clockYear", now.getYear());
+            request.getSession().setAttribute("clockMonth", now.getMonth());
+            request.getSession().setAttribute("clockDay", now.getDate());
+            request.getSession().setAttribute("clockHour", now.getHours());
+            request.getSession().setAttribute("clockMin", now.getMinutes());
+            request.getSession().setAttribute("clockSec", now.getSeconds());
             request.getSession().removeAttribute("message");
+            request.getSession().setAttribute("clock", now.toString());
+            String waktu[][] = Db.getDataSet("SELECT distinct ps.waktu_maksimal FROM paket_soal ps, paket_soal_detail psd,soal s,peserta_test pt where ps.idpaket_soal = psd.idpaket_soal and s.idsoal = psd.idsoal and pt.idpaket_soal = ps.idpaket_soal and s.iddomain = " + iddomain + " and pt.id=" + userCredential.getId());
+            request.getSession().setAttribute("waktu_maksimal", waktu[0][0]);
             List x = (new SoalModel()).getSoalUntukSiswa(userCredential.getId(), iddomain);
             ServletUtil.redirect(Config.base_url + "index/AmbilUjian/ambilSoalTanpaModel/" + ((SoalModel) x.get(0)).getIdsoal(), request, response);
             //index(page0);
@@ -184,16 +195,35 @@ public class AmbilUjian extends Controller {
     }
 
     //TANPA METODE
-    public void selesaiJawabSoal() {
-        PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
-        //hitung nilai jawaban siswa
-        String data[][] = Db.getDataSet("select sum(pj.nilai * pd.bobot) from paket_soal_jawaban pj, paket_soal_detail pd, soal s,peserta_test pt where pj.idsoal = s.idsoal and pd.idsoal = s.idsoal and pj.jawaban = s.jawaban and pd.idpaket_soal = pj.idpaket_soal and pt.idpaket_soal=pd.idpaket_soal and pt.id=" + userCredential.getId());
+    public void selesaiJawabSoal(String waktu_tempuh) {
+        try {
+            PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
+            //hitung nilai jawaban siswa
+            String data[][] = Db.getDataSet("select sum(pj.nilai * pd.bobot) from paket_soal_jawaban pj, paket_soal_detail pd, soal s,peserta_test pt where pj.idsoal = s.idsoal and pd.idsoal = s.idsoal and pj.jawaban = s.jawaban and pd.idpaket_soal = pj.idpaket_soal and pt.idpaket_soal=pd.idpaket_soal and pt.id=pj.idpeserta_test and pt.id=" + userCredential.getId());
 
-        //simpan hasil jawaban
-        String hasilAkhir = data[0][0];
-        Db.executeQuery("update peserta_test set skor_akhir=" + hasilAkhir + " where id=" + userCredential.getId());
-        request.setAttribute("hasilAkhir", hasilAkhir);
-        index("peserta_test\\selesai_ambil_ujian.jsp");
+            //simpan hasil jawaban
+            String hasilAkhir = data[0][0];
+            Db.executeQuery("update peserta_test set skor_akhir=" + hasilAkhir + " where id=" + userCredential.getId());
+
+            //waktu tempuh
+
+            String iddomain = request.getSession().getAttribute("iddomain") + "";
+            String idpeserta_test = userCredential.getId();
+            String waktu[][] = Db.getDataSet("SELECT distinct ps.waktu_maksimal FROM paket_soal ps, paket_soal_detail psd,soal s,peserta_test pt where ps.idpaket_soal = psd.idpaket_soal and s.idsoal = psd.idsoal and pt.idpaket_soal = ps.idpaket_soal and s.iddomain = " + iddomain + " and pt.id=" + userCredential.getId());
+            DateFormat df = new SimpleDateFormat("mm:ss");
+            Date date2 = df.parse(waktu[0][0] + ":00");
+            Date date1 = df.parse(waktu_tempuh);
+            long remainder = date2.getTime() - date1.getTime();
+
+            Db.executeQuery("delete from waktu_tempuh where idpeserta_test = " + idpeserta_test + " and iddomain =" + iddomain);
+            Db.executeQuery("insert into waktu_tempuh(iddomain,idpeserta_test,waktu_tempuh) values(" + iddomain + "," + idpeserta_test + ",'" + df.format(remainder) + "')");
+
+
+            request.setAttribute("hasilAkhir", hasilAkhir);
+            index("peserta_test\\selesai_ambil_ujian.jsp");
+        } catch (ParseException ex) {
+            Logger.getLogger(AmbilUjian.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void lihatHasilUjian() {

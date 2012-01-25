@@ -11,7 +11,9 @@
 	if(model instanceof PesertaTestModel)
 	{
 		PesertaTestModel userCredential = (PesertaTestModel) model;
-		p = (PesertaTestModel) session.getAttribute("user_credential");
+		p = new PesertaTestModel();
+		p.addCriteria("id", userCredential.getId());
+		p.get();		
 	} else if(model instanceof WaliPesertaTestModel) {
 		WaliPesertaTestModel userCredential = (WaliPesertaTestModel) model;
 		p = new PesertaTestModel();
@@ -240,7 +242,6 @@ $(document).ready(function() {
 			<th align="right" class="rounded-q1" scope="col">Nilai</th>
 			<th align="right" class="rounded-q1" scope="col">Bobot</th>
 			<th align="right" class="rounded-q4" scope="col">Skor</th>
-			
 			</tr>
 		</thead>
 		<%
@@ -261,7 +262,21 @@ $(document).ready(function() {
           </tr>
 		 <% } %>
         </table><br>
-Total skor = <%=p.getSkor_akhir()%>
+        <table width="180" border="0">
+          <tr>
+            <td>Total skor</td>
+            <td><%=p.getSkor_akhir()%></td>
+          </tr>
+          <tr>
+            <td>Waktu tempuh</td>
+            <td><% 
+				String sql2 = "select waktu_tempuh from waktu_tempuh where idpeserta_test=" + p.getId() + " and iddomain = " + domainModel.getIddomain();
+				String waktu[][] = Db.getDataSet(sql2);
+out.print(waktu[0][0]);
+%></td>
+          </tr>
+        </table>
+        <br/> 
 		<% } else { %>
 		
 		
@@ -332,7 +347,6 @@ Total skor = <%=p.getSkor_akhir()%>
 		
 		<% } %>
         </c:forEach>
-		
 		    <!-- InstanceEndEditable --></div>
 		
 		<div id="comments"></div>

@@ -305,7 +305,7 @@ CREATE TABLE `paket_soal_jawaban` (
   CONSTRAINT `FK_paket_soal_jawaban_1` FOREIGN KEY (`idpaket_soal`) REFERENCES `paket_soal` (`idpaket_soal`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_paket_soal_jawaban_2` FOREIGN KEY (`idsoal`) REFERENCES `soal` (`idsoal`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_paket_soal_jawaban_3` FOREIGN KEY (`idpeserta_test`) REFERENCES `peserta_test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=244 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `paket_soal_jawaban`
@@ -315,20 +315,6 @@ CREATE TABLE `paket_soal_jawaban` (
 INSERT INTO `paket_soal_jawaban` (`idpaket_soal_jawaban`,`idpaket_soal`,`idsoal`,`idpeserta_test`,`jawaban`,`nilai`) VALUES 
  (60,1,328,120,'A',0),
  (61,1,369,120,'A',0),
- (145,1,9,122,'A',0),
- (146,1,328,122,'B',0),
- (147,1,331,122,'C',0),
- (148,1,369,122,'D',0),
- (149,1,381,122,'B',1),
- (150,1,388,122,'B',1),
- (151,1,391,122,'B',0),
- (154,1,331,123,'B',0),
- (155,1,369,123,'C',1),
- (156,1,381,123,'B',1),
- (157,1,388,123,'B',1),
- (158,1,391,123,'C',0),
- (159,1,9,123,'C',1),
- (160,1,328,123,'D',1),
  (161,1,9,124,'C',1),
  (162,1,328,124,'D',1),
  (163,1,331,124,'C',0),
@@ -356,7 +342,10 @@ INSERT INTO `paket_soal_jawaban` (`idpaket_soal_jawaban`,`idpaket_soal`,`idsoal`
  (187,1,381,121,'B',1),
  (188,1,388,121,'B',1),
  (189,1,391,121,'D',1),
- (190,1,9,121,'C',1);
+ (190,1,9,121,'C',1),
+ (240,1,9,123,'C',1),
+ (242,1,9,122,'C',1),
+ (243,1,328,122,'D',1);
 /*!40000 ALTER TABLE `paket_soal_jawaban` ENABLE KEYS */;
 
 
@@ -838,9 +827,6 @@ INSERT INTO `paket_soal_tiga_butir_jawaban` (`idpaket_soal_tiga_butir_jawaban`,`
  (2098,4,167,116,'A'),
  (2099,4,196,116,'A'),
  (2100,4,14,116,'B'),
- (2194,4,167,118,'A'),
- (2195,4,196,118,'A'),
- (2196,4,14,118,'A'),
  (2200,4,167,131,'B'),
  (2201,4,196,131,'C'),
  (2202,4,14,131,'A'),
@@ -1419,8 +1405,8 @@ INSERT INTO `peserta_test` (`id`,`username`,`password`,`peran`,`nomor_peserta`,`
  (119,'fuma1','fuma1','Peserta Test','fuma1','Fumahilow','Rasch','Proporsional','Tiga Butir','Fuma','SDN 1 Lamappoloware','Soppeng','1997-01-02','Wanita',NULL,NULL,NULL,4,'Sangat Tinggi',1,0),
  (120,'tetap1','tetap1','Peserta Test','tetap1','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap1','SDN 1 Lamappoloware','Soppeng','1997-01-02','Wanita',NULL,1,NULL,NULL,NULL,1,0),
  (121,'tetap','tetap','Peserta Test','tetap','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','tetap','SDN 1 Lamappoloware','Talepu','1997-01-02','Pria',NULL,1,6,NULL,NULL,1,0),
- (122,'tetap2','tetap2','Peserta Test','tetap2','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap2','SDN 161 Karya','Soppeng','1997-01-02','Pria',NULL,1,4,NULL,NULL,1,0),
- (123,'tetap3','tetap3','Peserta Test','tetap3','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap3','SDN 1 Lamappoloware','Soppeng','1997-01-02','Pria',NULL,1,15,NULL,NULL,1,0),
+ (122,'tetap2','tetap2','Peserta Test','tetap2','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap2','SDN 161 Karya','Soppeng','1997-01-02','Pria',NULL,1,3,NULL,NULL,1,0),
+ (123,'tetap3','tetap3','Peserta Test','tetap3','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap3','SDN 1 Lamappoloware','Soppeng','1997-01-02','Pria',NULL,1,2,NULL,NULL,1,0),
  (124,'tetap4','tetap4','Peserta Test','tetap4','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap4','SDN 161 Karya','Watansoppeng','1997-01-02','Pria',NULL,1,23,NULL,NULL,1,0),
  (125,'tetap5','tetap5','Peserta Test','tetap5','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap5','SDN 161 Karya','Soppeng','1997-01-02','Pria',NULL,1,32,NULL,NULL,1,0),
  (126,'tetap6','tetap6','Peserta Test','tetap6','Tidak Ada','Tidak Ada','Tetap','Tidak Ada','Tetap6','SDN 1 Lamappoloware','Welonge, Soppeng','2001-10-13','Pria',NULL,1,35,NULL,NULL,1,0),
@@ -3201,7 +3187,6 @@ INSERT INTO `peserta_test_jawaban_dengan_model` (`idpeserta_test_jawaban_dengan_
  (4536,116,188,'A',0,3.06256445513922,2.819,0.560591865348181,0.439408134651819,0.246328625853628,0.57038349212232,0.02,86.0774913549198,2.88619930839359,'00:08'),
  (4537,116,341,'B',0,2.88619930839359,2.435,0.61092434240012,0.38907565759988,0.237695790263101,0.549531138562624,0.02,83.5378681626928,2.68302945301543,'00:03'),
  (4538,116,351,'A',1,2.68302945301543,1.043,0.837538945056161,0.162461054943839,0.136067460570374,0.538577386455278,0.01,69.2875,1.543,'00:02'),
- (4844,118,355,'A',0,-3,-3.107,0.526724507456848,0.473275492543152,0.249285800701189,2.00286293277139,2,11.175,-3.106,'00:01'),
  (4859,131,203,'A',0,0,-0.008,0.501999989333402,0.498000010666598,0.249996000042666,2.00001600002133,2,49.9125,-0.007,'00:02'),
  (4860,131,215,'B',0,-0.007,-0.259,0.562668707679812,0.437331292320188,0.246072633077742,1.41980635742215,0.58,46.775,-0.258,'00:03'),
  (4861,131,183,'B',1,-0.258,-0.531,0.567829251828554,0.432170748171446,0.245399192596379,1.16132518574224,0.26,43.375,-0.53,'00:03'),
@@ -3858,6 +3843,30 @@ INSERT INTO `soal` (`idsoal`,`iddomain`,`soal`,`gambar`,`jawaban`,`lg1_b`,`lg2_a
  (505,10,'','29Mat2_2009.PNG','D',0,0,0,0,0,0,0.051,9),
  (506,1,'Silahkan anda menulis sesuatu di papas tulis, adakah yang sama dengan tulisan ibu.\r\n\r\na. Tidak ada sama sekali\r\n\r\nb. Agak Mirip\r\n\r\nc. Tidak mirip\r\n\r\nd. Tidak mirip sama sekali',NULL,'B',0,0,0,0,0,0,0.061,1);
 /*!40000 ALTER TABLE `soal` ENABLE KEYS */;
+
+
+--
+-- Definition of table `waktu_tempuh`
+--
+
+DROP TABLE IF EXISTS `waktu_tempuh`;
+CREATE TABLE `waktu_tempuh` (
+  `idwaktu_tempuh` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idpeserta_test` int(10) unsigned NOT NULL,
+  `iddomain` int(10) unsigned NOT NULL,
+  `waktu_tempuh` varchar(40) NOT NULL,
+  PRIMARY KEY (`idwaktu_tempuh`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `waktu_tempuh`
+--
+
+/*!40000 ALTER TABLE `waktu_tempuh` DISABLE KEYS */;
+INSERT INTO `waktu_tempuh` (`idwaktu_tempuh`,`idpeserta_test`,`iddomain`,`waktu_tempuh`) VALUES 
+ (7,123,10,'00:05'),
+ (9,122,10,'00:07');
+/*!40000 ALTER TABLE `waktu_tempuh` ENABLE KEYS */;
 
 
 --
