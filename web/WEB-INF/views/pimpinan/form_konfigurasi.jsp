@@ -185,8 +185,8 @@ $(document).ready(function() {
               <td>Inisialisasi</td>
               <td><label>
                 <select name="inisialisasi_kemampuan" id="inisialisasi_kemampuan">
-                  <option value="Theta=0" <% if(data[0][2].equals("Tidak Ada")) { %> selected="selected" <% } %>>Theta=0</option>
-                  <option value="Tiga Butir" <% if(data[0][2].equals("Tidak Ada")) { %> selected="selected" <% } %>>Tiga Butir</option>
+                  <option value="Theta=0" <% if(data[0][2].equals("Theta=0")) { %> selected="selected" <% } %>>Theta=0</option>
+                  <option value="Tiga Butir" <% if(data[0][2].equals("Tiga Butir")) { %> selected="selected" <% } %>>Tiga Butir</option>
                   <option value="Tidak Ada" <% if(data[0][2].equals("Tidak Ada")) { %> selected="selected" <% } %>>Tidak Ada</option>
                 </select>
               </label></td>

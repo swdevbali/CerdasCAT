@@ -9,174 +9,174 @@
 %>
 <!DOCTYPE HTML>
 <html><!-- InstanceBegin template="/Templates/home.dwt" codeOutsideHTMLIsLocked="false" -->
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- InstanceBeginEditable name="doctitle" -->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- InstanceBeginEditable name="doctitle" -->
         <title>Aplikasi Cerdas CAT</title>
         <!-- InstanceEndEditable -->
-<link rel="shortcut icon" type="image/png" href="<%=Config.base_url%>_desain/favicon.png">
-<script src="<%=Config.base_url%>res/js/jquery-1.5.1.js"></script>
-<script src="<%=Config.base_url%>res/js/jquery.tools.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=Config.base_url%>_desain/index.css" media="all">
+        <link rel="shortcut icon" type="image/png" href="<%=Config.base_url%>_desain/favicon.png">
+        <script src="<%=Config.base_url%>res/js/jquery-1.5.1.js"></script>
+        <script src="<%=Config.base_url%>res/js/jquery.tools.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="<%=Config.base_url%>_desain/index.css" media="all">
 
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
-<script>
-// What is $(document).ready ? See: http://flowplayer.org/tools/documentation/basics.html#document_ready
-$(document).ready(function() {
-	var root = $("#scroller").scrollable({circular: true}).autoscroll({ autoplay: true });
-	window.api = root.data("scrollable");
-	$("#scroller").play();
-});
-</script>
+        <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+        <script>
+            // What is $(document).ready ? See: http://flowplayer.org/tools/documentation/basics.html#document_ready
+            $(document).ready(function() {
+                var root = $("#scroller").scrollable({circular: true}).autoscroll({ autoplay: true });
+                window.api = root.data("scrollable");
+                $("#scroller").play();
+            });
+        </script>
 
 
-<style type="text/css">
-<!--
-.style1 {
-	color: #FFFFFF;
-	font-weight: bold;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
--->
-</style>
-</head>
-<body class="">
-	
-		<div id="header">
-			<div class="wrapper">	
-				<h2 id="logo">&nbsp;</h2>
-				<ul id="menu">
-					<li class="">
-						<a href="<%=Config.base_url%>index/main">Home</a><span>&gt;</span>
-					</li>
-					<li class="">
-						<a href="<%=Config.base_url%>index/help">Help</a><span>&gt;</span>
-					</li>
-					<li class="">
-						<a href="<%=Config.base_url%>index/about">About</a><span>&gt;</span>
-					</li>
-				</ul>
-			</div>		
-		</div>
-		
-		<div id="top">
-										<p align="left" class="category">Computerized Adaptive Testing Cerdas
-										<c:if test="${user_credential==null}" >  
-										<img src="<%=Config.base_url%>/_desain/header.jpg" width="943" height="303"> </p>
-                                       
-									   
-									    <div class="scrollable" id="scroller"align="center">   
-   
-   
-   <div class="items">
-      <div align="center">
-         <div align="center">
-           <div align="center">
-		     <img src="<%=Config.base_url%>res/img/1.jpg" />
-             <img src="<%=Config.base_url%>res/img/2.jpg" />
-             <img src="<%=Config.base_url%>res/img/3.jpg" />
-             <img src="<%=Config.base_url%>res/img/4.jpg" />
-             <img src="<%=Config.base_url%>res/img/5.jpg" />
-           </div>
+        <style type="text/css">
+            <!--
+            .style1 {
+                color: #FFFFFF;
+                font-weight: bold;
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+            }
+            -->
+        </style>
+    </head>
+    <body class="">
+
+        <div id="header">
+            <div class="wrapper">	
+                <h2 id="logo">&nbsp;</h2>
+                <ul id="menu">
+                    <li class="">
+                        <a href="<%=Config.base_url%>index/main">Home</a><span>&gt;</span>
+                    </li>
+                    <li class="">
+                        <a href="<%=Config.base_url%>index/help">Help</a><span>&gt;</span>
+                    </li>
+                    <li class="">
+                        <a href="<%=Config.base_url%>index/about">About</a><span>&gt;</span>
+                    </li>
+                </ul>
+            </div>		
         </div>
-      </div>
-   </div>
-</div>
 
-</div>
-</c:if>
-	
+        <div id="top">
+            <p align="left" class="category">Computerized Adaptive Testing Cerdas
+                <c:if test="${user_credential==null}" >  
+                    <img src="<%=Config.base_url%>/_desain/header.jpg" width="943" height="303"> </p>
+
+
+                <div class="scrollable" id="scroller"align="center">   
+
+
+                    <div class="items">
+                        <div align="center">
+                            <div align="center">
+                                <div align="center">
+                                    <img src="<%=Config.base_url%>res/img/1.jpg" />
+                                    <img src="<%=Config.base_url%>res/img/2.jpg" />
+                                    <img src="<%=Config.base_url%>res/img/3.jpg" />
+                                    <img src="<%=Config.base_url%>res/img/4.jpg" />
+                                    <img src="<%=Config.base_url%>res/img/5.jpg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
+
         <div class="wrapper">
-<c:if test="${user_credential!=null}" >
-	<div id="docSidebar">
-        <h2>${user_credential.username}</h2>
-        <p>&nbsp;</p>
-        <div id="toc">
-	 <ul>
-		<c:if test="${user_credential.peran=='Admin'}" >         
-            <li>Kelola Pengguna
-              <ul>
-                <li><a href="<%=Config.base_url%>index/admin/index">Admin</a></li>
-                <li><a href="<%=Config.base_url%>index/Pimpinan/index">Pimpinan</a></li>
-                <li><a href="<%=Config.base_url%>index/pengajar/index">Pengajar</a></li>
-                <li><a href="<%=Config.base_url%>index/PesertaTest/index">Peserta Test</a></li>
-                <li><a href="<%=Config.base_url%>index/WaliPesertaTest/index">Wali Peserta Test </a>   </li>   			             		
-	          </ul>
-            </li>
-			<li><a href="<%=Config.base_url%>index/Domain/index">Kelola Domain</a></li>
-			<li><a href="<%=Config.base_url%>index/Skl/index">Standar Kompetensi Lulus</a></li>
-		 <li>Paket Soal
-		 	<ul>
-			<li><a href="<%=Config.base_url%>index/PaketSoal/index">Penyajian Tetap</a></li>		
-			<li><a href="<%=Config.base_url%>index/PaketSoalTigaButir/index">Paket Tiga Butir Soal</a></li>						
-			<li><a href="<%=Config.base_url%>index/PenentuanDomainSoal/index">Penentuan Domain Soal bagi Siswa</a></li>									
-		   </ul>
-		  </li>
- 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
-	    </c:if>
-		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >
-           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
-		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
-		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
-		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
-           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>
-			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
-	    </c:if>
-		<c:if test="${user_credential.peran=='Pengajar'}" >        
-			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
-			 <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>		
-			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
-	    </c:if>		
-		<c:if test="${user_credential.peran=='Peserta Test'}" >        
-        <c:if test="${user_credential.verified==0}" >
-			 <li><a href="<%=Config.base_url%>index/SignUp/index">Verifikasi</a></li>
-         </c:if>
-         <c:if test="${user_credential.verified==1}"> 	
-			 <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>
-			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
-	    </c:if>		 
-		<c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
-		 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujian Peserta Test</a></li>
-		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan </a></li>
-			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
-	    </c:if>
-		
-      </div>
-    
-	    <h2>&nbsp;</h2>
-      <h2>&nbsp;</h2>
-      <div id="searchBox"></div>
-        
-    </div><!-- docsidebar -->
-</c:if>	
-	<div id="pageContent">
-		
-	  <div class="wikistyle">
-	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Laporan Kelulusan <!-- InstanceEndEditable --></h1>
-	    <!-- InstanceBeginEditable name="isi_modul" -->
+            <c:if test="${user_credential!=null}" >
+                <div id="docSidebar">
+                    <h2>${user_credential.username}</h2>
+                    <p>&nbsp;</p>
+                    <div id="toc">
+                        <ul>
+                            <c:if test="${user_credential.peran=='Admin'}" >         
+                                <li>Kelola Pengguna
+                                    <ul>
+                                        <li><a href="<%=Config.base_url%>index/admin/index">Admin</a></li>
+                                        <li><a href="<%=Config.base_url%>index/Pimpinan/index">Pimpinan</a></li>
+                                        <li><a href="<%=Config.base_url%>index/pengajar/index">Pengajar</a></li>
+                                        <li><a href="<%=Config.base_url%>index/PesertaTest/index">Peserta Test</a></li>
+                                        <li><a href="<%=Config.base_url%>index/WaliPesertaTest/index">Wali Peserta Test </a>   </li>   			             		
+                                    </ul>
+                                </li>
+                                <li><a href="<%=Config.base_url%>index/Domain/index">Kelola Domain</a></li>
+                                <li><a href="<%=Config.base_url%>index/Skl/index">Standar Kompetensi Lulus</a></li>
+                                <li>Paket Soal
+                                    <ul>
+                                        <li><a href="<%=Config.base_url%>index/PaketSoal/index">Penyajian Tetap</a></li>		
+                                        <li><a href="<%=Config.base_url%>index/PaketSoalTigaButir/index">Paket Tiga Butir Soal</a></li>						
+                                        <li><a href="<%=Config.base_url%>index/PenentuanDomainSoal/index">Penentuan Domain Soal bagi Siswa</a></li>									
+                                    </ul>
+                                </li>
+                                <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
+                            </c:if>
+                            <c:if test="${user_credential.peran=='Kepala Sekolah'}" >
+                                <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
+                                <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
+                                <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
+                                <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
+                                <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>
+                                <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
+                            </c:if>
+                            <c:if test="${user_credential.peran=='Pengajar'}" >        
+                                <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
+                                <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
+                                <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
+                                <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>		
+                                <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
+                            </c:if>		
+                            <c:if test="${user_credential.peran=='Peserta Test'}" >        
+                                <c:if test="${user_credential.verified==0}" >
+                                    <li><a href="<%=Config.base_url%>index/SignUp/index">Verifikasi</a></li>
+                                </c:if>
+                                <c:if test="${user_credential.verified==1}"> 	
+                                    <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
+                                    <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
+                                <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan</a></li>
+                                <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
+                            </c:if>		 
+                            <c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
+                                <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujian Peserta Test</a></li>
+                                <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Kelulusan </a></li>
+                                <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
+                            </c:if>
+
+                    </div>
+
+                    <h2>&nbsp;</h2>
+                    <h2>&nbsp;</h2>
+                    <div id="searchBox"></div>
+
+                </div><!-- docsidebar -->
+            </c:if>	
+            <div id="pageContent">
+
+                <div class="wikistyle">
+                    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Laporan Kelulusan <!-- InstanceEndEditable --></h1>
+                    <!-- InstanceBeginEditable name="isi_modul" -->
                     <% //this is all the code that need to be done
-						 String data[][] = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
-						 String peserta[][];
-						 String sqlX="";
-						 if(data[0][3].equals("Tidak Ada"))
-						 {
-						 sqlX = "SELECT id, nomor_peserta,nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' order by nomor_peserta";
-							peserta = Db.getDataSet(sqlX); 
-						 }else{ 
-	                        peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
-						}
+                        String data[][] = Db.getDataSet("select  skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+                        String peserta[][];
+                        String sqlX = "";
+                        if (data[0][3].equals("Tidak Ada")) {
+                            sqlX = "SELECT id, nomor_peserta,nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' order by nomor_peserta";
+                            peserta = Db.getDataSet(sqlX);
+                        } else {
+						sqlX="SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='" + data[0][2] + "' and model_logistik='" + data[0][3] + "' and metode='" + data[0][4] + "' and penyajian_soal='" + data[0][5] + "' order by nomor_peserta";
+                            peserta = Db.getDataSet(sqlX);
+                        }
                     %>
-					
+
                     <% if (peserta.length == 0) {%>
                     Tidak ada data laporan yang bisa ditampilkan
                     <%                } else {
                         double skor_minimum = 0;
                         int kuota_maksimum = 0;
-                      
+
                         skor_minimum = Double.parseDouble(data[0][0]);
                         kuota_maksimum = Integer.parseInt(data[0][1]);
                     %>
@@ -225,8 +225,6 @@ $(document).ready(function() {
                     <br/>
 
                     <%
-						 if(!data[0][3].equals("Tidak Ada"))
-						 {
 
                             //tabel bobot penilaian
                             String bobotKriteria[][] = Db.getDataSet("SELECT idpenilaian,bobot FROM penilaian");
@@ -237,7 +235,13 @@ $(document).ready(function() {
                             for (i = 0; i < peserta.length; i++) {
                                 //hitung Nilai Pembobotan
                                 //ambil domain yang dipakai pada soal peserta ini
-                                String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test=" + peserta[i][0] + " and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
+                                String sql = "";
+                                if (data[0][3].equals("Tidak Ada")) {
+                                    sql = "SELECT d.iddomain,d.domain FROM paket_soal_jawaban p,soal s,domain d where p.idpeserta_test=" + peserta[i][0] + " and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
+                                } else {
+                                    sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test=" + peserta[i][0] + " and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
+
+                                }
                                 String domain[][] = Db.getDataSet(sql);
                                 //if(domain.length<3) continue;/* quick fix */
                                 jumlah_peserta++;
@@ -255,7 +259,13 @@ $(document).ready(function() {
                                     int jum_domain = 0;
                                     double nilaiDomain = 0;
                                     for (int iskl = 0; iskl < skl.length; iskl++) {
-                                        String query_bobot_skl = "SELECT skl.nama_skl, sum(p.skor) as total_skor,ps.bobot  FROM peserta_test_jawaban_dengan_model p,soal s, domain d, skl,pembobotan_skl ps  where skl.idskl=ps.idskl and skl.nama_skl='" + skl[iskl][0] + "'  and s.idskl=skl.idskl and p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " group by skl.nama_skl  order by idpeserta_test_jawaban_dengan_model";
+                                        String query_bobot_skl = "";
+                                        if (data[0][3].equals("Tidak Ada")) {
+                                            query_bobot_skl = "SELECT skl.nama_skl, sum(p.nilai) as total_skor,ps.bobot  FROM paket_soal_jawaban p,soal s, domain d, skl,pembobotan_skl ps  where skl.idskl=ps.idskl and skl.nama_skl='" + skl[iskl][0] + "'  and s.idskl=skl.idskl and p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " group by skl.nama_skl  order by idpaket_soal_jawaban";
+                                        } else {
+                                            query_bobot_skl = "SELECT skl.nama_skl, sum(p.skor) as total_skor,ps.bobot  FROM peserta_test_jawaban_dengan_model p,soal s, domain d, skl,pembobotan_skl ps  where skl.idskl=ps.idskl and skl.nama_skl='" + skl[iskl][0] + "'  and s.idskl=skl.idskl and p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " group by skl.nama_skl  order by idpeserta_test_jawaban_dengan_model";
+                                        }
+
                                         //out.print(query_bobot_skl+"<br/>");
                                         String bskl[][] = Db.getDataSet(query_bobot_skl);
                                         if (bskl.length > 0) {
@@ -266,14 +276,19 @@ $(document).ready(function() {
 
                                     nilaiDomain = iBobotDomain * bobot_skl / 100;
                                     //out.print(i + ": " + peserta[i][2] + " : Nilai bobot SKL untuk domain " + domain[idomain][1] + " : " +  bobot_skl+", Nilai Domainnya = " +nilaiDomain+ "<hr/>");
-                                    String sSkorAkhirPadaDomainIni[][] = Db.getDataSet("SELECT p.skor FROM peserta_test_jawaban_dengan_model p,soal s, domain d where p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " order by idpeserta_test_jawaban_dengan_model desc limit 0,1");
+                                    String sSkorAkhirPadaDomainIni[][] = null;
+                                    if (data[0][3].equals("Tidak Ada")) {
+                                        sSkorAkhirPadaDomainIni = Db.getDataSet("SELECT p.nilai FROM paket_soal_jawaban p,soal s, domain d where p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " order by idpaket_soal_jawaban desc limit 0,1");
+                                    } else {
+                                        sSkorAkhirPadaDomainIni = Db.getDataSet("SELECT p.skor FROM peserta_test_jawaban_dengan_model p,soal s, domain d where p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " order by idpeserta_test_jawaban_dengan_model desc limit 0,1");
+                                    }
                                     double skorAkhirPadaDomainIni = Double.parseDouble(sSkorAkhirPadaDomainIni[0][0]);
                                     totalSkorDomain += skorAkhirPadaDomainIni;
                                     totalNilaiDomain += nilaiDomain;
 
                                 }
 
-                                //masukkan nilai domain
+                                //masukkan nilai domain 
 
                                 //nilai kriteria
                                 double nilaiKriteria = 0, totalNilaiKriteria = 0;
@@ -310,19 +325,16 @@ $(document).ready(function() {
                                         //out.print(ikriteria + ": " + peserta[i][2] + " : Nilai kriteria untuk " + dataNilai[0][2] + " : " + nilaiKriteria + ", Total nila kriteria= " + totalNilaiKriteria + "<hr/>");
                                     }
                                 }
-
                                 Db.executeQuery("update peserta_test set skor_akhir = " + totalNilaiKriteria + ",skor_domain=" + totalNilaiDomain + " where id=" + peserta[i][0]);
                             }
                         }
-						}
                     %>
                     <a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan?cetak=true" target="_blank">Cetak</a>
 
-<%					
-					 if(data[0][3].equals("Tidak Ada"))
-					 {
-%>
-	      <table width="100%" id="rounded-corner" border="0">
+                    <%
+                        if (data[0][3].equals("Tidak Ada")) {
+                    %>
+                    <table width="100%" id="rounded-corner" border="0">
                         <thead>
 
                             <tr>
@@ -330,12 +342,13 @@ $(document).ready(function() {
                                 <td scope="col" class="rounded-q1">Nomor Peserta </td>
                                 <td scope="col" class="rounded-q1">Nama Lengkap </td>
                                 <td scope="col" class="rounded-q1">Asal SD </td>
+                                <td scope="col" class="rounded-q1">Skor Ujian </td>
                                 <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
                             </tr>
                         </thead>
                         <%
-							  data = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
-                             peserta = Db.getDataSet("SELECT id,nomor_peserta,nama_lengkap,asal,skor_akhir FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' and skor_akhir>" + data[0][0] + " order by skor_akhir desc limit 0," + data[0][1]);
+                            data = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+                            peserta = Db.getDataSet("SELECT id,nomor_peserta,nama_lengkap,asal,skor_domain,skor_akhir FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' and skor_akhir>" + data[0][0] + " order by skor_akhir desc limit 0," + data[0][1]);
                             for (int i = 0; i < peserta.length; i++) {
                         %>
                         <tr>
@@ -344,13 +357,13 @@ $(document).ready(function() {
                             <td><%=peserta[i][2]%></td>
                             <td><%=peserta[i][3]%></td>
                             <td><%=format.format(Double.parseDouble(peserta[i][4]))%></td>
- 
+                            <td><%=format.format(Double.parseDouble(peserta[i][5]))%></td>
                         </tr>
                         <% }%>
                     </table>
-<%					 
-					 } else {
-%>					 
+                    <%
+                    } else {
+                    %>					 
                     <table width="100%" id="rounded-corner" border="0">
                         <thead>
 
@@ -360,12 +373,12 @@ $(document).ready(function() {
                                 <td scope="col" class="rounded-q1">Nama Lengkap </td>
                                 <td scope="col" class="rounded-q1">Asal SD </td>
                                 <td scope="col" class="rounded-q1">Nilai Domain </td>
-                                <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
+                                <td scope="col" class="rounded-q1">Skor  </td>
                             </tr>
                         </thead>
                         <%
-                            String konfigurasi[][] = Db.getDataSet("select kuota, skor_minimum from konfigurasi");
-                            peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,skor_domain,skor_akhir FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' and skor_akhir>" + konfigurasi[0][1] + " order by skor_akhir desc limit 0," + konfigurasi[0][0]);
+                            String konfigurasi[][] = Db.getDataSet("select kuota, skor_minimum,model_logistik,metode,inisialisasi_kemampuan,penyajian_soal from konfigurasi");
+                            peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,skor_domain,skor_akhir FROM peserta_test p where inisialisasi_kemampuan='" + konfigurasi[0][4] +"' and model_logistik='" + konfigurasi[0][2] +"' and metode='" + konfigurasi[0][3] +"' and penyajian_soal='" + konfigurasi[0][5] +"' and skor_akhir>" + konfigurasi[0][1] + " order by skor_akhir desc limit 0," + konfigurasi[0][0]);
 
                             for (int i = 0; i < peserta.length; i++) {
                         %>
@@ -379,16 +392,16 @@ $(document).ready(function() {
                         </tr>
                         <% }%>
                     </table>
-					<% } %>
+                    <% }%>
                     <!-- InstanceEndEditable --></div>
-		
-		<div id="comments"></div>
-</div>
+
+                <div id="comments"></div>
+            </div>
         </div>
-		<div id="footer">
-			<div class="wrapper">
-				<p align="center">Hak Cipta (C) Rukli 2011 <a href="http://www.playapps.net/"></a>				</p>
-		  </div>
-		</div>
-   </body>
-<!-- InstanceEnd --></html>
+        <div id="footer">
+            <div class="wrapper">
+                <p align="center">Hak Cipta (C) Rukli 2011 <a href="http://www.playapps.net/"></a>				</p>
+            </div>
+        </div>
+    </body>
+    <!-- InstanceEnd --></html>

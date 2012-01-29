@@ -199,7 +199,7 @@ public class AmbilUjian extends Controller {
         try {
             PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
             //hitung nilai jawaban siswa
-            String data[][] = Db.getDataSet("select sum(pj.nilai * pd.bobot) from paket_soal_jawaban pj, paket_soal_detail pd, soal s,peserta_test pt where pj.idsoal = s.idsoal and pd.idsoal = s.idsoal and pj.jawaban = s.jawaban and pd.idpaket_soal = pj.idpaket_soal and pt.idpaket_soal=pd.idpaket_soal and pt.id=pj.idpeserta_test and pt.id=" + userCredential.getId());
+            String data[][] = Db.getDataSet("select sum(pj.nilai * pd.bobot * psk.bobot/100) from paket_soal_jawaban pj, paket_soal_detail pd, soal s,peserta_test pt,skl,pembobotan_skl psk where pj.idsoal = s.idsoal and pd.idsoal = s.idsoal and pj.jawaban = s.jawaban and pd.idpaket_soal = pj.idpaket_soal and pt.idpaket_soal=pd.idpaket_soal and s.idskl = skl.idskl and psk.idskl = skl.idskl and pt.id=pj.idpeserta_test and pt.id=" + userCredential.getId());
 
             //simpan hasil jawaban
             String hasilAkhir = data[0][0];

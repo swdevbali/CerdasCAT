@@ -37,25 +37,24 @@
 	  <div class="wikistyle">
 	    <h1 align="center" id="Startinguptheproject">Aplikasi Cerdas CAT </h1>
 	    
-		   <% //this is all the code that need to be done
-						 String data[][] = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
-						 String peserta[][];
-						 String sqlX="";
-						 if(data[0][3].equals("Tidak Ada"))
-						 {
-						 sqlX = "SELECT id, nomor_peserta,nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' order by nomor_peserta";
-							peserta = Db.getDataSet(sqlX); 
-						 }else{ 
-	                        peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
-						}
+		    <% //this is all the code that need to be done
+                        String data[][] = Db.getDataSet("select  skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+                        String peserta[][];
+                        String sqlX = "";
+                        if (data[0][3].equals("Tidak Ada")) {
+                            sqlX = "SELECT id, nomor_peserta,nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' order by nomor_peserta";
+                            peserta = Db.getDataSet(sqlX);
+                        } else {
+                            peserta = Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' order by nomor_peserta");
+                        }
                     %>
-					
+
                     <% if (peserta.length == 0) {%>
                     Tidak ada data laporan yang bisa ditampilkan
                     <%                } else {
                         double skor_minimum = 0;
                         int kuota_maksimum = 0;
-                      
+
                         skor_minimum = Double.parseDouble(data[0][0]);
                         kuota_maksimum = Integer.parseInt(data[0][1]);
                     %>
@@ -104,8 +103,6 @@
                     <br/>
 
                     <%
-						 if(!data[0][3].equals("Tidak Ada"))
-						 {
 
                             //tabel bobot penilaian
                             String bobotKriteria[][] = Db.getDataSet("SELECT idpenilaian,bobot FROM penilaian");
@@ -116,7 +113,13 @@
                             for (i = 0; i < peserta.length; i++) {
                                 //hitung Nilai Pembobotan
                                 //ambil domain yang dipakai pada soal peserta ini
-                                String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test=" + peserta[i][0] + " and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
+                                String sql = "";
+                                if (data[0][3].equals("Tidak Ada")) {
+                                    sql = "SELECT d.iddomain,d.domain FROM paket_soal_jawaban p,soal s,domain d where p.idpeserta_test=" + peserta[i][0] + " and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
+                                } else {
+                                    sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test=" + peserta[i][0] + " and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
+
+                                }
                                 String domain[][] = Db.getDataSet(sql);
                                 //if(domain.length<3) continue;/* quick fix */
                                 jumlah_peserta++;
@@ -134,7 +137,13 @@
                                     int jum_domain = 0;
                                     double nilaiDomain = 0;
                                     for (int iskl = 0; iskl < skl.length; iskl++) {
-                                        String query_bobot_skl = "SELECT skl.nama_skl, sum(p.skor) as total_skor,ps.bobot  FROM peserta_test_jawaban_dengan_model p,soal s, domain d, skl,pembobotan_skl ps  where skl.idskl=ps.idskl and skl.nama_skl='" + skl[iskl][0] + "'  and s.idskl=skl.idskl and p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " group by skl.nama_skl  order by idpeserta_test_jawaban_dengan_model";
+                                        String query_bobot_skl = "";
+                                        if (data[0][3].equals("Tidak Ada")) {
+                                            query_bobot_skl = "SELECT skl.nama_skl, sum(p.nilai) as total_skor,ps.bobot  FROM paket_soal_jawaban p,soal s, domain d, skl,pembobotan_skl ps  where skl.idskl=ps.idskl and skl.nama_skl='" + skl[iskl][0] + "'  and s.idskl=skl.idskl and p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " group by skl.nama_skl  order by idpaket_soal_jawaban";
+                                        } else {
+                                            query_bobot_skl = "SELECT skl.nama_skl, sum(p.skor) as total_skor,ps.bobot  FROM peserta_test_jawaban_dengan_model p,soal s, domain d, skl,pembobotan_skl ps  where skl.idskl=ps.idskl and skl.nama_skl='" + skl[iskl][0] + "'  and s.idskl=skl.idskl and p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " group by skl.nama_skl  order by idpeserta_test_jawaban_dengan_model";
+                                        }
+
                                         //out.print(query_bobot_skl+"<br/>");
                                         String bskl[][] = Db.getDataSet(query_bobot_skl);
                                         if (bskl.length > 0) {
@@ -145,14 +154,19 @@
 
                                     nilaiDomain = iBobotDomain * bobot_skl / 100;
                                     //out.print(i + ": " + peserta[i][2] + " : Nilai bobot SKL untuk domain " + domain[idomain][1] + " : " +  bobot_skl+", Nilai Domainnya = " +nilaiDomain+ "<hr/>");
-                                    String sSkorAkhirPadaDomainIni[][] = Db.getDataSet("SELECT p.skor FROM peserta_test_jawaban_dengan_model p,soal s, domain d where p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " order by idpeserta_test_jawaban_dengan_model desc limit 0,1");
+                                    String sSkorAkhirPadaDomainIni[][] = null;
+                                    if (data[0][3].equals("Tidak Ada")) {
+                                        sSkorAkhirPadaDomainIni = Db.getDataSet("SELECT p.nilai FROM paket_soal_jawaban p,soal s, domain d where p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " order by idpaket_soal_jawaban desc limit 0,1");
+                                    } else {
+                                        sSkorAkhirPadaDomainIni = Db.getDataSet("SELECT p.skor FROM peserta_test_jawaban_dengan_model p,soal s, domain d where p.idsoal = s.idsoal and s.iddomain = d.iddomain and d.iddomain=" + domain[idomain][0] + " and idpeserta_test=" + peserta[i][0] + " order by idpeserta_test_jawaban_dengan_model desc limit 0,1");
+                                    }
                                     double skorAkhirPadaDomainIni = Double.parseDouble(sSkorAkhirPadaDomainIni[0][0]);
                                     totalSkorDomain += skorAkhirPadaDomainIni;
                                     totalNilaiDomain += nilaiDomain;
 
                                 }
 
-                                //masukkan nilai domain
+                                //masukkan nilai domain 
 
                                 //nilai kriteria
                                 double nilaiKriteria = 0, totalNilaiKriteria = 0;
@@ -189,19 +203,16 @@
                                         //out.print(ikriteria + ": " + peserta[i][2] + " : Nilai kriteria untuk " + dataNilai[0][2] + " : " + nilaiKriteria + ", Total nila kriteria= " + totalNilaiKriteria + "<hr/>");
                                     }
                                 }
-
                                 Db.executeQuery("update peserta_test set skor_akhir = " + totalNilaiKriteria + ",skor_domain=" + totalNilaiDomain + " where id=" + peserta[i][0]);
                             }
                         }
-						}
                     %>
                     <a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan?cetak=true" target="_blank"></a>
 
-<%					
-					 if(data[0][3].equals("Tidak Ada"))
-					 {
-%>
-	      <table width="80%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#000000" id="rounded-corner">
+                    <%
+                        if (data[0][3].equals("Tidak Ada")) {
+                    %>
+                    <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" id="rounded-corner">
                         <thead>
 
                             <tr>
@@ -209,12 +220,13 @@
                                 <td scope="col" class="rounded-q1">Nomor Peserta </td>
                                 <td scope="col" class="rounded-q1">Nama Lengkap </td>
                                 <td scope="col" class="rounded-q1">Asal SD </td>
+                                <td scope="col" class="rounded-q1">Skor Ujian </td>
                                 <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
                             </tr>
                         </thead>
                         <%
-							  data = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
-                             peserta = Db.getDataSet("SELECT id,nomor_peserta,nama_lengkap,asal,skor_akhir FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' and skor_akhir>" + data[0][0] + " order by skor_akhir desc limit 0," + data[0][1]);
+                            data = Db.getDataSet("select skor_minimum,kuota,inisialisasi_kemampuan,model_logistik,metode,penyajian_soal from konfigurasi");
+                            peserta = Db.getDataSet("SELECT id,nomor_peserta,nama_lengkap,asal,skor_domain,skor_akhir FROM peserta_test p where model_logistik='Tidak Ada' and metode='Tidak Ada' and skor_akhir>" + data[0][0] + " order by skor_akhir desc limit 0," + data[0][1]);
                             for (int i = 0; i < peserta.length; i++) {
                         %>
                         <tr>
@@ -223,14 +235,14 @@
                             <td><%=peserta[i][2]%></td>
                             <td><%=peserta[i][3]%></td>
                             <td><%=format.format(Double.parseDouble(peserta[i][4]))%></td>
- 
+                            <td><%=format.format(Double.parseDouble(peserta[i][5]))%></td>
                         </tr>
                         <% }%>
         </table>
-<%					 
-					 } else {
-%>					 
-                    <table width="100%" id="rounded-corner" border="0">
+                    <%
+                    } else {
+                    %>					 
+                    <table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" id="rounded-corner">
                         <thead>
 
                             <tr>
@@ -239,7 +251,7 @@
                                 <td scope="col" class="rounded-q1">Nama Lengkap </td>
                                 <td scope="col" class="rounded-q1">Asal SD </td>
                                 <td scope="col" class="rounded-q1">Nilai Domain </td>
-                                <td scope="col" class="rounded-q1">Skor Kelulusan  </td>
+                                <td scope="col" class="rounded-q1">Skor  </td>
                             </tr>
                         </thead>
                         <%
@@ -257,9 +269,11 @@
                             <td><%=format.format(Double.parseDouble(peserta[i][5]))%></td>
                         </tr>
                         <% }%>
-                    </table>
-					<% } %>
+        </table>
+                    <% }%>
+                    <br/>
 
+                
 </div>
 		
 		<div id="comments"></div>
