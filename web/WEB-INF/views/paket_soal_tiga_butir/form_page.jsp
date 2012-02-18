@@ -18,7 +18,10 @@
 <script src="<%=Config.base_url%>res/js/jquery.tools.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=Config.base_url%>_desain/index.css" media="all">
 
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<script type="text/javascript" src="<%=Config.base_url%>res/js/thickbox-compressed.js"></script>
+<link rel="stylesheet" href="<%=Config.base_url%>res/css/thickbox.css" type="text/css" media="screen" />
+<!-- InstanceEndEditable -->
 <script>
 // What is $(document).ready ? See: http://flowplayer.org/tools/documentation/basics.html#document_ready
 $(document).ready(function() {
@@ -115,21 +118,33 @@ window.api = root.data("scrollable");
 		  </li>
  			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
-		<c:if test="${user_credential.peran=='Pimpinan'}" >        
+		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >        
+		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
+		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
+		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
+           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
+           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		<c:if test="${user_credential.peran=='Pengajar'}" >        
-			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li> 
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch </a></li>		
+			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
+			 <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>		
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		
 		<c:if test="${user_credential.peran=='Peserta Test'}" >        
-			 <li><a href="<%=Config.base_url%>index/SignUp/index">Sign Up</a></li> 	
+        <c:if test="${user_credential.verified==0}" >
+			 <li><a href="<%=Config.base_url%>index/SignUp/index">Verifikasi</a></li>
+         </c:if>
+         <c:if test="${user_credential.verified==1}"> 	
 			 <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
-			 <li><a href="<%=Config.base_url%>index/AmbilUjian/lihatHasilUjian">Lihat Hasil Ujian</a></li> 				 				 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		 
 		<c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
+		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		
@@ -183,12 +198,14 @@ window.api = root.data("scrollable");
                 <th width="9%" class="rounded-company" scope="col">Pilih</th>
                 <th width="9%" class="rounded-q1" scope="col">No.</th>
                 <th width="34%" class="rounded-q1" scope="col">Domain</th>
-                <th width="30%" class="rounded-q4" scope="col">Soal (Teks dan Gambar) </th>
+                <th width="34%" class="rounded-q1" scope="col">SKL</th>
+                <th width="34%" class="rounded-q1" scope="col">Tingkat Kesukaran</th>
+                <th width="30%" class="rounded-q4" scope="col">Soal </th>
               </tr>
             </thead>
             <tfoot>
               <tr>
-                <td colspan="3" class="rounded-foot-left"><%=Pagination.createLinks(pagenum)%></td>
+                <td colspan="5" class="rounded-foot-left"><%=Pagination.createLinks(pagenum)%></td>
               </tr>
             </tfoot>
             <tbody>
@@ -214,7 +231,9 @@ window.api = root.data("scrollable");
                   </label></td>
                   <td>${status.count}</td>
                   <td>${item.domain}</td>
-                  <td>Todo: Fly image</td>
+                  <td>${item.nama_skl}</td>
+                  <td>${item.rasch_b}</td>
+                  <td><a href="<%=Config.base_url%>upload/${item.gambar}" class="thickbox">Tampilkan</a></td>
                 </tr>
             </c:forEach>				
             </tbody>

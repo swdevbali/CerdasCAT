@@ -47,9 +47,10 @@ public class SoalModel extends _SoalModel {
                 kenaikan = "desc";
             }
             String sql;
-            if (idskl == null) { //penyajian acak
+            if (idskl == null)
+            { //penyajian acak
                 sql = "SELECT * FROM soal s where s.idsoal not in (select idsoal from paket_soal_tiga_butir_jawaban p where  p.idpeserta_test=" + idpeserta_test + ") and rasch_b " + operator_pencarian + " " + theta + " " + soal_terpakai + " and s.iddomain = " + iddomain + "  order by rasch_b " + kenaikan + " limit 0,1";
-            } else { //penyajian proporsional
+            } else {//penyajian proporsional
                 sql = "SELECT * FROM soal s where s.idsoal not in (select idsoal from paket_soal_tiga_butir_jawaban p where  p.idpeserta_test=" + idpeserta_test + ") and rasch_b " + operator_pencarian + " " + theta + " " + soal_terpakai + " and s.iddomain = " + iddomain + " and s.idskl=" + idskl + "  order by rasch_b " + kenaikan + " limit 0,1";
             }
             setQuery(sql);
@@ -78,7 +79,7 @@ public class SoalModel extends _SoalModel {
         pesertaTestModel.addCriteria("id", idpeserta_test);
         pesertaTestModel.get();
         if ("Rasch".equals(pesertaTestModel.getModel_logistik())) {
-            return Db.get("SELECT s.idsoal,s.gambar,s.jawaban FROM paket_soal_tiga_butir ps, paket_soal_tiga_butir_detail psd,soal s,peserta_test pt where ps.idpaket_soal_tiga_butir = psd.idpaket_soal_tiga_butir and s.idsoal = psd.idsoal and pt.idpaket_soal_tiga_butir = ps.idpaket_soal_tiga_butir and s.iddomain = " + iddomain + " and  pt.id=" + idpeserta_test + " order by s.rasch_b", SoalModel.class.getName());
+            return Db.get("SELECT s.idsoal,s.gambar,s.jawaban FROM paket_soal_tiga_butir ps, paket_soal_tiga_butir_detail psd,soal s,peserta_test pt where ps.idpaket_soal_tiga_butir = psd.idpaket_soal_tiga_butir and s.idsoal = psd.idsoal and pt.idpaket_soal_tiga_butir = ps.idpaket_soal_tiga_butir and s.iddomain = " + iddomain + " and  pt.id=" + idpeserta_test + " order by s.rasch_b asc", SoalModel.class.getName());
         }
 
         return null;

@@ -10,7 +10,7 @@ import recite18th.controller.Controller;
 
 /**
  *
- * @author Eko SW
+ * @author Rukli
  */
 public class Admin extends Controller{
     public Admin(){

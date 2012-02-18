@@ -115,21 +115,33 @@ window.api = root.data("scrollable");
 		  </li>
  			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
-		<c:if test="${user_credential.peran=='Pimpinan'}" >        
+		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >        
+		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
+		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
+		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
+           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
+           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		<c:if test="${user_credential.peran=='Pengajar'}" >        
-			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li> 
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch </a></li>		
+			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
+			 <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>		
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		
 		<c:if test="${user_credential.peran=='Peserta Test'}" >        
-			 <li><a href="<%=Config.base_url%>index/SignUp/index">Sign Up</a></li> 	
+        <c:if test="${user_credential.verified==0}" >
+			 <li><a href="<%=Config.base_url%>index/SignUp/index">Verifikasi</a></li>
+         </c:if>
+         <c:if test="${user_credential.verified==1}"> 	
 			 <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
-			 <li><a href="<%=Config.base_url%>index/AmbilUjian/lihatHasilUjian">Lihat Hasil Ujian</a></li> 				 				 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		 
 		<c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
+		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		
@@ -147,6 +159,18 @@ window.api = root.data("scrollable");
 	    <h1 id="Startinguptheproject"><!-- InstanceBeginEditable name="judul_modul" -->Sign Up Peserta Test <!-- InstanceEndEditable --></h1>
 	    <!-- InstanceBeginEditable name="isi_modul" -->
 	    <h2 id="aIntroductiona">Formulir Pendaftaran Peserta Test </h2>
+        <c:if test="${!user_credential.verified}">
+        Silahkan masukkan nomor ujian Anda disini untuk melakukan verifikasi:<br/>
+        <form action="<%=Config.base_url%>index/SignUp/verifikasi" method="post" name="form_verifikasi">
+          <label for="txtNomorPeserta">Nomor Peserta</label>
+          <input type="text" name="txtNomorPeserta" id="txtNomorPeserta">
+          <input type="submit" name="submit" id="submit" value="Verifikasi">
+        </form><br/>
+        ${verification_error}
+        </c:if>
+        
+        <c:if test="${user_credential.verified}">
+        <h2>Anda sudah diverifikasi</h2>
 <form action="<%=Config.base_url%>index/SignUp/save" method="post" enctype="multipart/form-data" name="form2">
                 <table width="50%" align="center" id="hor-zebra" summary="Employee Pay Sheet">
                   <thead>
@@ -181,52 +205,45 @@ window.api = root.data("scrollable");
                     </tr>
                     <tr >
                       <td>Nomor Peserta </td>
-                      <td><label>
-                        <input name="nomor_peserta" type="text" id="nomor_peserta" value="${model.nomor_peserta}">
+                      <td><label>${model.nomor_peserta}
                         <input name="id" type="hidden" id="id" value="${model.id}">
                       </label></td>
                     </tr>
                     <tr >
                       <td>Nama Lengkap </td>
                       <td><label>
-                        <input name="nama_lengkap" type="text" id="nama_lengkap" value="${model.nama_lengkap}">
+                        ${model.nama_lengkap}
                       </label></td>
                     </tr>
                     <tr >
                       <td>Asal</td>
-                      <td><a href="SD 1 Bantul">
+                      <td>
                         <label>
-                        <input name="asal" type="text" id="asal" value="${model.asal}">
+                       ${model.asal}
                         </label>
                       </a></td>
                     </tr>
                     <tr >
                       <td>Tempat Lahir </td>
                       <td><label>
-                        <input name="tempat_lahir" type="text" id="tempat_lahir" value="${model.tempat_lahir}">
+                       ${model.tempat_lahir}
                       </label></td>
                     </tr>
                     <tr >
                       <td>Tanggal Lahir </td>
                       <td><label>
-                        <input name="tanggal_lahir" type="text" id="tanggal_lahir" value="${model.tanggal_lahir}">
+                       ${model.tanggal_lahir}
                       </label></td>
                     </tr>
                     <tr >
                       <td>Jenis Kelamin </td>
                       <td><label>
-                        <select name="jenis_kelamin" id="jenis_kelamin">
-                          <option value="-1">--- Pilih Jenis Kelamin ---</option>
-                          <option value="Pria" <c:if test="${model.jenis_kelamin=='Pria'}">selected="selected"</c:if>>Pria</option>
-                          <option value="Wanita" <c:if test="${model.jenis_kelamin=='Wanita'}">selected="selected"</c:if>>Wanita</option>
-                      </select>
+                       ${model.jenis_kelamin}
                       </label></td>
                     </tr>
                     <tr >
-                      <td>Foto</td>
-                      <td><label>
-                        <input name="foto" type="file" id="foto">
-                      </label></td>
+                      <td valign="top">Foto</td>
+                      <td valign="top"><label><img src="<%=Config.base_url%>upload/${user_credential.foto}" alt="foto" width="198" height="155"></label></td>
                     </tr>
                     <tr >
                       <td>&nbsp;</td>
@@ -238,8 +255,9 @@ window.api = root.data("scrollable");
                           <input name="Button" type="button" id="Submit" value="Batal" onClick="javascript:history.back(-1);"></td>
                     </tr>
                   </tbody>
-      </table>
+    </table>
         </form>
+        </c:if>
 	    <p>&nbsp; </p>
 	    <!-- InstanceEndEditable --></div>
 		

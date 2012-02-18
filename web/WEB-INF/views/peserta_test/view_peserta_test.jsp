@@ -25,12 +25,13 @@
   <th scope="col" class="rounded-q1">Skor Akhir</th>
   <th scope="col" class="rounded-q1">Idpaket Soal Tiga Butir</th>
   <th scope="col" class="rounded-q1">Tingkat Kesukaran</th>
+  <th scope="col" class="rounded-q1">Verified</th>
   <th scope="col" class="rounded-q4">Aksi</th>
   </tr>
 </thead>
 <tfoot>
   <tr>
-    <td colspan="20" class="rounded-foot-left"><%=Pagination.createLinks(pagenum)%></td>
+    <td colspan="21" class="rounded-foot-left"><%=Pagination.createLinks(pagenum)%></td>
     <td class="rounded-foot-right">&nbsp;</td>
   </tr>
 </tfoot>
@@ -57,6 +58,7 @@
       <td>${item.skor_akhir}</td>
       <td>${item.idpaket_soal_tiga_butir}</td>
       <td>${item.tingkat_kesukaran}</td>
+      <td>${item.verified}</td>
       <td>
          <a href="<%=Config.base_url%>index/PesertaTest/input/${item.id}">Ubah</a>
          <a href="<%=Config.base_url%>index/PesertaTest/delete/${item.id}" onClick="return confirm('Apakah Anda yakin?');">Hapus</a>

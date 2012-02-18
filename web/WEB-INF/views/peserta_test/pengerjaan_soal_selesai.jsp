@@ -115,21 +115,33 @@ window.api = root.data("scrollable");
 		  </li>
  			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
-		<c:if test="${user_credential.peran=='Pimpinan'}" >        
+		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >        
+		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
+		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
+		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
+           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
+           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		<c:if test="${user_credential.peran=='Pengajar'}" >        
-			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li> 
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch </a></li>		
+			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
+			 <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>		
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		
 		<c:if test="${user_credential.peran=='Peserta Test'}" >        
-			 <li><a href="<%=Config.base_url%>index/SignUp/index">Sign Up</a></li> 	
+        <c:if test="${user_credential.verified==0}" >
+			 <li><a href="<%=Config.base_url%>index/SignUp/index">Verifikasi</a></li>
+         </c:if>
+         <c:if test="${user_credential.verified==1}"> 	
 			 <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
-			 <li><a href="<%=Config.base_url%>index/AmbilUjian/lihatHasilUjian">Lihat Hasil Ujian</a></li> 				 				 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		 
 		<c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
+		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		
@@ -148,7 +160,7 @@ window.api = root.data("scrollable");
 	    <!-- InstanceBeginEditable name="isi_modul" -->
         <p>Ujian sudah berhenti.<br>
           <strong>TODO </strong>dijelaskan alasan berhenti : waktu sudah habis, SE &lt; 0.01 atau tidak ada soal yang sesuai dengan kemampuan.</p>
-        <p>Kembali ke <a href="<%=Config.base_url%>index/AmbilUjian">Menu Domain</a> <br>
+        <p>Kembali ke <a href="<%=Config.base_url%>index/AmbilUjian/indexOnProgress">Menu Domain</a> <br>
         Terimakasih atas partisipasinya.         </p>
 	    <!-- InstanceEndEditable --></div>
 		

@@ -117,21 +117,33 @@ window.api = root.data("scrollable");
 		  </li>
  			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
-		<c:if test="${user_credential.peran=='Pimpinan'}" >        
+		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >        
+		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
+		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
+		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
+           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
+           <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		<c:if test="${user_credential.peran=='Pengajar'}" >        
-			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li> 
-			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch </a></li>		
+			 <li><a href="<%=Config.base_url%>index/soal/index">Kelola Soal</a></li>
+			 <li><a href="<%=Config.base_url%>index/pengajar/bukaViewInputPenilaian/-1">Input Penilaian</a></li> 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPengajarRasch">Laporan Hasil Ujian Model Rasch</a></li>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>		
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		
 		<c:if test="${user_credential.peran=='Peserta Test'}" >        
-			 <li><a href="<%=Config.base_url%>index/SignUp/index">Sign Up</a></li> 	
+        <c:if test="${user_credential.verified==0}" >
+			 <li><a href="<%=Config.base_url%>index/SignUp/index">Verifikasi</a></li>
+         </c:if>
+         <c:if test="${user_credential.verified==1}"> 	
 			 <li><a href="<%=Config.base_url%>index/AmbilUjian/index">Ambil Ujian</a></li> 				 	
-			 <li><a href="<%=Config.base_url%>index/AmbilUjian/lihatHasilUjian">Lihat Hasil Ujian</a></li> 				 				 
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest">Lihat Hasil Ujianku</a></li> 				 		</c:if>
+			 <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>		 
 		<c:if test="${user_credential.peran=='Wali Peserta Test'}" >        
+		<li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
 		
@@ -158,7 +170,7 @@ window.api = root.data("scrollable");
           <tr valign="top">
             <td>Nama Peserta Test </td>
             <td>:</td>
-            <td>${user_credential.username}</td>
+            <td>${user_credential.nama_lengkap}</td>
           </tr>
           <tr valign="top">
             <td>Metode</td>
@@ -181,9 +193,9 @@ window.api = root.data("scrollable");
             <td>${user_credential.penyajian_soal}</td>
           </tr>
           <tr valign="top">
+            <td>Nama Sekolah</td>
             <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>${user_credential.asal}</td>
           </tr>
         </table>
 		<c:forEach items="${domain}" var="item" varStatus="status" >
@@ -193,9 +205,9 @@ window.api = root.data("scrollable");
 			
 			
 			DomainModel domainModel = ((DomainModel) pageContext.getAttribute("item"));
-			String sql = " SELECT s.idsoal,p.thetaAwal,b,p.nilai as u,se,selisihSE,thetaAkhir,skor,waktu FROM " +
-						  " peserta_test_jawaban_dengan_model p, soal s, domain d " +
-						  " where p.idsoal=s.idsoal and s.iddomain = d.iddomain and p.idpeserta_test = '" + 	
+			String sql = " SELECT s.idsoal,p.thetaAwal,b,p.nilai as u,se,selisihSE,thetaAkhir,skor,waktu,skl.nama_skl FROM " +
+						  " peserta_test_jawaban_dengan_model p, soal s, domain d,skl " +
+						  " where s.idskl=skl.idskl and p.idsoal=s.idsoal and s.iddomain = d.iddomain and p.idpeserta_test = '" + 	
 						    p.getId() + "' and d.iddomain='"+ domainModel.getIddomain() +
 							"' order by p.idpeserta_test_jawaban_dengan_model";
 			String data[][] = Db.getDataSet(sql);
@@ -205,6 +217,7 @@ window.api = root.data("scrollable");
 			<tr>
 			<th scope="col" class="rounded-company">No.</th>
 			<th scope="col" class="rounded-q1">ID Soal </th>
+			<th scope="col" class="rounded-q1">SKL</th>
 			<th align="right" class="rounded-q1" scope="col">Theta Awal </th>
 			<% if(!p.getModel_logistik().equals("Rasch")) { %>
 			<th align="right" class="rounded-q1" scope="col">a</th>
@@ -229,6 +242,7 @@ window.api = root.data("scrollable");
           <tr>
             <td><%=i+1%></td>
             <td><%=data[i][0]%></td>
+            <td><%=data[i][9]%></td>
             <td align="right"><%=format.format(Double.parseDouble(data[i][1]))%></td>
 			<% if(!p.getModel_logistik().equals("Rasch")) { %>
             <td align="right">&nbsp;</td>

@@ -43,7 +43,7 @@ public class PaketSoalTigaButir extends Controller {
 
     @Override
     public void input(String pkFieldValue) {
-        List row_soal = Db.get("select s.*,d.domain from soal s,domain d where s.iddomain = d.iddomain", SoalModel.class.getName());
+        List row_soal = Db.get("select s.*,d.domain,skl.nama_skl,gambar from soal s,domain d,skl  where s.iddomain = d.iddomain and s.idskl=skl.idskl", SoalModel.class.getName());
         request.setAttribute("row_soal", row_soal);
         //work around u/ belum bs ambil model...
         request.getSession().setAttribute("idpaket_soal_tiga_butir", pkFieldValue);

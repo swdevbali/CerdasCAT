@@ -3,11 +3,12 @@
  * Don't change this file. Instead, change the derived class PesertaTestModel
  * 
  */
-
 package application.models;
+
 import recite18th.model.Model;
-public class _PesertaTestModel extends Model
-{
+
+public class _PesertaTestModel extends Model {
+
     public String id;
     public String username;
     public String password;
@@ -27,151 +28,187 @@ public class _PesertaTestModel extends Model
     public String skor_akhir;
     public String idpaket_soal_tiga_butir;
     public String tingkat_kesukaran;
-    public _PesertaTestModel()
-    {
-        tableName="peserta_test";
-        pkFieldName="id";
+    public String verified;
+    public String skor_domain;
+
+    public String getSkor_domain() {
+        return skor_domain;
+    }
+
+    public void setSkor_domain(String skor_domain) {
+        this.skor_domain = skor_domain;
+    }
+
+    public _PesertaTestModel() {
+        tableName = "peserta_test";
+        pkFieldName = "id";
         fqn = PesertaTestModel.class.getName();
         plainClassName = "PesertaTestModel";
     }
-    public void setId(String id)
-    {
-        this.id=id;
+
+    public void setId(String id) {
+        this.id = id;
     }
-    public String getId()
-    {        return this.id;
+
+    public String getId() {
+        return this.id;
     }
-    public void setUsername(String username)
-    {
-        this.username=username;
+
+    public void setUsername(String username) {
+        this.username = username;
     }
-    public String getUsername()
-    {        return this.username;
+
+    public String getUsername() {
+        return this.username;
     }
-    public void setPassword(String password)
-    {
-        this.password=password;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public String getPassword()
-    {        return this.password;
+
+    public String getPassword() {
+        return this.password;
     }
-    public void setPeran(String peran)
-    {
-        this.peran=peran;
+
+    public void setPeran(String peran) {
+        this.peran = peran;
     }
-    public String getPeran()
-    {        return this.peran;
+
+    public String getPeran() {
+        return this.peran;
     }
-    public void setNomor_peserta(String nomor_peserta)
-    {
-        this.nomor_peserta=nomor_peserta;
+
+    public void setNomor_peserta(String nomor_peserta) {
+        this.nomor_peserta = nomor_peserta;
     }
-    public String getNomor_peserta()
-    {        return this.nomor_peserta;
+
+    public String getNomor_peserta() {
+        return this.nomor_peserta;
     }
-    public void setMetode(String metode)
-    {
-        this.metode=metode;
+
+    public void setMetode(String metode) {
+        this.metode = metode;
     }
-    public String getMetode()
-    {        return this.metode;
+
+    public String getMetode() {
+        return this.metode;
     }
-    public void setModel_logistik(String model_logistik)
-    {
-        this.model_logistik=model_logistik;
+
+    public void setModel_logistik(String model_logistik) {
+        this.model_logistik = model_logistik;
     }
-    public String getModel_logistik()
-    {        return this.model_logistik;
+
+    public String getModel_logistik() {
+        return this.model_logistik;
     }
-    public void setPenyajian_soal(String penyajian_soal)
-    {
-        this.penyajian_soal=penyajian_soal;
+
+    public void setPenyajian_soal(String penyajian_soal) {
+        this.penyajian_soal = penyajian_soal;
     }
-    public String getPenyajian_soal()
-    {        return this.penyajian_soal;
+
+    public String getPenyajian_soal() {
+        return this.penyajian_soal;
     }
-    public void setInisialisasi_kemampuan(String inisialisasi_kemampuan)
-    {
-        this.inisialisasi_kemampuan=inisialisasi_kemampuan;
+
+    public void setInisialisasi_kemampuan(String inisialisasi_kemampuan) {
+        this.inisialisasi_kemampuan = inisialisasi_kemampuan;
     }
-    public String getInisialisasi_kemampuan()
-    {        return this.inisialisasi_kemampuan;
+
+    public String getInisialisasi_kemampuan() {
+        return this.inisialisasi_kemampuan;
     }
-    public void setNama_lengkap(String nama_lengkap)
-    {
-        this.nama_lengkap=nama_lengkap;
+
+    public void setNama_lengkap(String nama_lengkap) {
+        this.nama_lengkap = nama_lengkap;
     }
-    public String getNama_lengkap()
-    {        return this.nama_lengkap;
+
+    public String getNama_lengkap() {
+        return this.nama_lengkap;
     }
-    public void setAsal(String asal)
-    {
-        this.asal=asal;
+
+    public void setAsal(String asal) {
+        this.asal = asal;
     }
-    public String getAsal()
-    {        return this.asal;
+
+    public String getAsal() {
+        return this.asal;
     }
-    public void setTempat_lahir(String tempat_lahir)
-    {
-        this.tempat_lahir=tempat_lahir;
+
+    public void setTempat_lahir(String tempat_lahir) {
+        this.tempat_lahir = tempat_lahir;
     }
-    public String getTempat_lahir()
-    {        return this.tempat_lahir;
+
+    public String getTempat_lahir() {
+        return this.tempat_lahir;
     }
-    public void setTanggal_lahir(String tanggal_lahir)
-    {
-        this.tanggal_lahir=tanggal_lahir;
+
+    public void setTanggal_lahir(String tanggal_lahir) {
+        this.tanggal_lahir = tanggal_lahir;
     }
-    public String getTanggal_lahir()
-    {        return this.tanggal_lahir;
+
+    public String getTanggal_lahir() {
+        return this.tanggal_lahir;
     }
-    public void setJenis_kelamin(String jenis_kelamin)
-    {
-        this.jenis_kelamin=jenis_kelamin;
+
+    public void setJenis_kelamin(String jenis_kelamin) {
+        this.jenis_kelamin = jenis_kelamin;
     }
-    public String getJenis_kelamin()
-    {        return this.jenis_kelamin;
+
+    public String getJenis_kelamin() {
+        return this.jenis_kelamin;
     }
-    public void setFoto(String foto)
-    {
-        this.foto=foto;
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
-    public String getFoto()
-    {        return this.foto;
+
+    public String getFoto() {
+        return this.foto;
     }
-    public void setIdpaket_soal(String idpaket_soal)
-    {
-        this.idpaket_soal=idpaket_soal;
+
+    public void setIdpaket_soal(String idpaket_soal) {
+        this.idpaket_soal = idpaket_soal;
     }
-    public String getIdpaket_soal()
-    {        return this.idpaket_soal;
+
+    public String getIdpaket_soal() {
+        return this.idpaket_soal;
     }
-    public void setSkor_akhir(String skor_akhir)
-    {
-        this.skor_akhir=skor_akhir;
+
+    public void setSkor_akhir(String skor_akhir) {
+        this.skor_akhir = skor_akhir;
     }
-    public String getSkor_akhir()
-    {        return this.skor_akhir;
+
+    public String getSkor_akhir() {
+        return this.skor_akhir;
     }
-    public void setIdpaket_soal_tiga_butir(String idpaket_soal_tiga_butir)
-    {
-        this.idpaket_soal_tiga_butir=idpaket_soal_tiga_butir;
+
+    public void setIdpaket_soal_tiga_butir(String idpaket_soal_tiga_butir) {
+        this.idpaket_soal_tiga_butir = idpaket_soal_tiga_butir;
     }
-    public String getIdpaket_soal_tiga_butir()
-    {        return this.idpaket_soal_tiga_butir;
+
+    public String getIdpaket_soal_tiga_butir() {
+        return this.idpaket_soal_tiga_butir;
     }
-    public void setTingkat_kesukaran(String tingkat_kesukaran)
-    {
-        this.tingkat_kesukaran=tingkat_kesukaran;
+
+    public void setTingkat_kesukaran(String tingkat_kesukaran) {
+        this.tingkat_kesukaran = tingkat_kesukaran;
     }
-    public String getTingkat_kesukaran()
-    {        return this.tingkat_kesukaran;
+
+    public String getTingkat_kesukaran() {
+        return this.tingkat_kesukaran;
     }
-    public void get()
-    {
+
+    public void setVerified(String verified) {
+        this.verified = verified;
+    }
+
+    public String getVerified() {
+        return this.verified;
+    }
+
+    public void get() {
         _PesertaTestModel result = (_PesertaTestModel) super.getModel();
-        if(result!=null)
-        {
+        if (result != null) {
             setId(result.getId());
             setUsername(result.getUsername());
             setPassword(result.getPassword());
@@ -191,6 +228,7 @@ public class _PesertaTestModel extends Model
             setSkor_akhir(result.getSkor_akhir());
             setIdpaket_soal_tiga_butir(result.getIdpaket_soal_tiga_butir());
             setTingkat_kesukaran(result.getTingkat_kesukaran());
+            setVerified(result.getVerified());
         }
     }
 }

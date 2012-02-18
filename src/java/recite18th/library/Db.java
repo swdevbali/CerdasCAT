@@ -64,9 +64,9 @@ public class Db {
         Logger.getLogger(Db.class.getName()).log(Level.INFO, "Database Initialization");
         if (con == null & !Database.DB.equals("")) {
             try {
-                if (Database.DB_TYPE.equals("mysql")) {
+                if ("mysql".equals(Database.DB_TYPE)) {
                     Class.forName("com.mysql.jdbc.Driver");
-                } else if (Database.DB_TYPE.equals("mssql")) {
+                } else if ("mssql".equals(Database.DB_TYPE)) {
                     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 } else {
                     Class.forName("sun.jdbc.odbc.JdbcOdbc");

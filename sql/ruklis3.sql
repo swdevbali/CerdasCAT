@@ -1,7 +1,7 @@
 -- MySQL Administrator dump 1.4
 --
 -- ------------------------------------------------------
--- Server version	5.5.16
+-- Server version	5.1.37
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -67,6 +67,143 @@ INSERT INTO `domain` (`iddomain`,`domain`) VALUES
  (10,'Matematika'),
  (11,'IPA');
 /*!40000 ALTER TABLE `domain` ENABLE KEYS */;
+
+
+--
+-- Definition of table `kelulusan`
+--
+
+DROP TABLE IF EXISTS `kelulusan`;
+CREATE TABLE `kelulusan` (
+  `idkelulusan` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_kelulusan` varchar(45) NOT NULL,
+  PRIMARY KEY (`idkelulusan`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kelulusan`
+--
+
+/*!40000 ALTER TABLE `kelulusan` DISABLE KEYS */;
+INSERT INTO `kelulusan` (`idkelulusan`,`nama_kelulusan`) VALUES 
+ (1,'Kelulusan UASBN 2010');
+/*!40000 ALTER TABLE `kelulusan` ENABLE KEYS */;
+
+
+--
+-- Definition of table `kelulusan_bobot`
+--
+
+DROP TABLE IF EXISTS `kelulusan_bobot`;
+CREATE TABLE `kelulusan_bobot` (
+  `idkelulusan_bobot` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idkelulusan` int(10) unsigned NOT NULL,
+  `idkriteria_kelulusan` int(10) unsigned NOT NULL,
+  `bobot` double NOT NULL,
+  PRIMARY KEY (`idkelulusan_bobot`),
+  KEY `FK_kelulusan_bobot_1` (`idkelulusan`),
+  KEY `FK_kelulusan_bobot_2` (`idkriteria_kelulusan`),
+  CONSTRAINT `FK_kelulusan_bobot_1` FOREIGN KEY (`idkelulusan`) REFERENCES `kelulusan` (`idkelulusan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_kelulusan_bobot_2` FOREIGN KEY (`idkriteria_kelulusan`) REFERENCES `kriteria_kelulusan` (`idkriteria_kelulusan`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kelulusan_bobot`
+--
+
+/*!40000 ALTER TABLE `kelulusan_bobot` DISABLE KEYS */;
+INSERT INTO `kelulusan_bobot` (`idkelulusan_bobot`,`idkelulusan`,`idkriteria_kelulusan`,`bobot`) VALUES 
+ (11,1,1,40),
+ (12,1,2,20),
+ (13,1,3,5),
+ (14,1,4,30),
+ (15,1,5,5);
+/*!40000 ALTER TABLE `kelulusan_bobot` ENABLE KEYS */;
+
+
+--
+-- Definition of table `konfigurasi`
+--
+
+DROP TABLE IF EXISTS `konfigurasi`;
+CREATE TABLE `konfigurasi` (
+  `idkonfigurasi` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `kuota` int(10) unsigned NOT NULL,
+  `skor_minimum` double NOT NULL,
+  PRIMARY KEY (`idkonfigurasi`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `konfigurasi`
+--
+
+/*!40000 ALTER TABLE `konfigurasi` DISABLE KEYS */;
+INSERT INTO `konfigurasi` (`idkonfigurasi`,`kuota`,`skor_minimum`) VALUES 
+ (1,3,70.12);
+/*!40000 ALTER TABLE `konfigurasi` ENABLE KEYS */;
+
+
+--
+-- Definition of table `kriteria_kelulusan`
+--
+
+DROP TABLE IF EXISTS `kriteria_kelulusan`;
+CREATE TABLE `kriteria_kelulusan` (
+  `idkriteria_kelulusan` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `kriteria_kelulusan` varchar(45) NOT NULL,
+  PRIMARY KEY (`idkriteria_kelulusan`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kriteria_kelulusan`
+--
+
+/*!40000 ALTER TABLE `kriteria_kelulusan` DISABLE KEYS */;
+INSERT INTO `kriteria_kelulusan` (`idkriteria_kelulusan`,`kriteria_kelulusan`) VALUES 
+ (1,'Nilai Pembobotan'),
+ (2,'Ujian Sekolah'),
+ (3,'Pengamatan'),
+ (4,'Stakeholder'),
+ (5,'Lain-Lain');
+/*!40000 ALTER TABLE `kriteria_kelulusan` ENABLE KEYS */;
+
+
+--
+-- Definition of table `laporan_kelulusan`
+--
+
+DROP TABLE IF EXISTS `laporan_kelulusan`;
+CREATE TABLE `laporan_kelulusan` (
+  `idlaporan_kelulusan` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idpeserta_test` int(10) unsigned NOT NULL,
+  `nilai_pembobotan` double NOT NULL,
+  `nilai_kriteria` double NOT NULL,
+  PRIMARY KEY (`idlaporan_kelulusan`)
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `laporan_kelulusan`
+--
+
+/*!40000 ALTER TABLE `laporan_kelulusan` DISABLE KEYS */;
+INSERT INTO `laporan_kelulusan` (`idlaporan_kelulusan`,`idpeserta_test`,`nilai_pembobotan`,`nilai_kriteria`) VALUES 
+ (97,1,0,0),
+ (98,3,32.42,61.018),
+ (99,4,0,0),
+ (100,6,0,0),
+ (101,7,0,0),
+ (102,8,0,0),
+ (103,9,0,0),
+ (104,10,0,0),
+ (105,11,0,0),
+ (106,12,0,0),
+ (107,13,0,0),
+ (108,14,0,0),
+ (109,15,23.2675,49.207),
+ (110,16,0,0),
+ (111,17,0,0),
+ (112,18,18.23,38.842);
+/*!40000 ALTER TABLE `laporan_kelulusan` ENABLE KEYS */;
 
 
 --
@@ -262,7 +399,7 @@ CREATE TABLE `paket_soal_tiga_butir_jawaban` (
   CONSTRAINT `FK_paket_soal_tiga_butir_jawaban_1` FOREIGN KEY (`idsoal`) REFERENCES `soal` (`idsoal`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_paket_soal_tiga_butir_jawaban_2` FOREIGN KEY (`idpaket_soal_tiga_butir`) REFERENCES `paket_soal_tiga_butir` (`idpaket_soal_tiga_butir`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_paket_soal_tiga_butir_jawaban_3` FOREIGN KEY (`idpeserta_test`) REFERENCES `peserta_test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=865 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=847 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `paket_soal_tiga_butir_jawaban`
@@ -279,13 +416,63 @@ INSERT INTO `paket_soal_tiga_butir_jawaban` (`idpaket_soal_tiga_butir_jawaban`,`
  (796,4,28,6,'A'),
  (797,4,12,6,'A'),
  (798,4,17,6,'B'),
- (847,3,64,3,'A'),
- (848,3,69,3,'A'),
- (849,3,56,3,'A'),
- (862,3,5,3,'A'),
- (863,3,118,3,'A'),
- (864,3,21,3,'A');
+ (799,3,64,3,'A'),
+ (800,3,69,3,'A'),
+ (801,3,56,3,'B'),
+ (844,3,5,3,'A'),
+ (845,3,118,3,'A'),
+ (846,3,21,3,'A');
 /*!40000 ALTER TABLE `paket_soal_tiga_butir_jawaban` ENABLE KEYS */;
+
+
+--
+-- Definition of table `pembobotan`
+--
+
+DROP TABLE IF EXISTS `pembobotan`;
+CREATE TABLE `pembobotan` (
+  `idpembobotan` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_pembobotan` varchar(45) NOT NULL,
+  PRIMARY KEY (`idpembobotan`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pembobotan`
+--
+
+/*!40000 ALTER TABLE `pembobotan` DISABLE KEYS */;
+INSERT INTO `pembobotan` (`idpembobotan`,`nama_pembobotan`) VALUES 
+ (1,'Pembobotan UASBN 2011');
+/*!40000 ALTER TABLE `pembobotan` ENABLE KEYS */;
+
+
+--
+-- Definition of table `pembobotan_domain`
+--
+
+DROP TABLE IF EXISTS `pembobotan_domain`;
+CREATE TABLE `pembobotan_domain` (
+  `idpembobotan_domain` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idpembobotan` int(10) unsigned NOT NULL,
+  `iddomain` int(10) unsigned NOT NULL,
+  `bobot` double NOT NULL,
+  PRIMARY KEY (`idpembobotan_domain`),
+  KEY `FK_pembobotan_domain_1` (`idpembobotan`),
+  KEY `FK_pembobotan_domain_2` (`iddomain`),
+  CONSTRAINT `FK_pembobotan_domain_1` FOREIGN KEY (`idpembobotan`) REFERENCES `pembobotan` (`idpembobotan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_pembobotan_domain_2` FOREIGN KEY (`iddomain`) REFERENCES `domain` (`iddomain`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pembobotan_domain`
+--
+
+/*!40000 ALTER TABLE `pembobotan_domain` DISABLE KEYS */;
+INSERT INTO `pembobotan_domain` (`idpembobotan_domain`,`idpembobotan`,`iddomain`,`bobot`) VALUES 
+ (13,1,1,20),
+ (14,1,11,20),
+ (15,1,10,60);
+/*!40000 ALTER TABLE `pembobotan_domain` ENABLE KEYS */;
 
 
 --
@@ -381,7 +568,7 @@ CREATE TABLE `peserta_test_domain` (
   KEY `FK_peserta_test_domain_2` (`iddomain`),
   CONSTRAINT `FK_peserta_test_domain_1` FOREIGN KEY (`idpeserta_test`) REFERENCES `peserta_test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_peserta_test_domain_2` FOREIGN KEY (`iddomain`) REFERENCES `domain` (`iddomain`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `peserta_test_domain`
@@ -399,7 +586,7 @@ INSERT INTO `peserta_test_domain` (`idpeserta_test_domain`,`idpeserta_test`,`idd
  (32,9,10),
  (33,9,11),
  (41,6,10),
- (44,3,10);
+ (42,3,10);
 /*!40000 ALTER TABLE `peserta_test_domain` ENABLE KEYS */;
 
 
@@ -429,7 +616,7 @@ CREATE TABLE `peserta_test_jawaban_dengan_model` (
   KEY `FK_peserta_test_jawaban_dengan_model_2` (`idsoal`),
   CONSTRAINT `FK_peserta_test_jawaban_dengan_model_1` FOREIGN KEY (`idpeserta_test`) REFERENCES `peserta_test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_peserta_test_jawaban_dengan_model_2` FOREIGN KEY (`idsoal`) REFERENCES `soal` (`idsoal`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=889 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=887 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `peserta_test_jawaban_dengan_model`
@@ -437,10 +624,48 @@ CREATE TABLE `peserta_test_jawaban_dengan_model` (
 
 /*!40000 ALTER TABLE `peserta_test_jawaban_dengan_model` DISABLE KEYS */;
 INSERT INTO `peserta_test_jawaban_dengan_model` (`idpeserta_test_jawaban_dengan_model`,`idpeserta_test`,`idsoal`,`jawaban`,`nilai`,`thetaAwal`,`b`,`P`,`Q`,`PQ`,`SE`,`selisihSE`,`skor`,`thetaAkhir`,`waktu`) VALUES 
- (886,3,171,'A',0,0,1.952,0.5,0.5,0.25,1,0.15470053837925168,74.4,1.952,'2:41'),
- (887,3,193,'A',0,1.952,1.316,0.5,0.5,0.25,0.8944271909999159,0.8944271909999159,66.45,1.316,'2:46'),
- (888,3,180,'A',0,1.316,1.094,0.5,0.5,0.25,0.8164965809277261,0.07793061007218971,63.675,1.094,'2:56');
+ (884,3,171,'A',0,0,1.952,0.5,0.5,0.25,2,2,74.4,1.952,'2:57'),
+ (885,3,193,'A',0,1.952,1.316,0.5,0.5,0.25,1.41421356237309,1.41421356237309,66.45,1.316,'3:0'),
+ (886,3,180,'A',0,1.316,1.094,0.5,0.5,0.25,1.15470053837925,0.259513023993843,63.675,1.094,'2:55');
 /*!40000 ALTER TABLE `peserta_test_jawaban_dengan_model` ENABLE KEYS */;
+
+
+--
+-- Definition of table `peserta_test_kriteria_kelulusan`
+--
+
+DROP TABLE IF EXISTS `peserta_test_kriteria_kelulusan`;
+CREATE TABLE `peserta_test_kriteria_kelulusan` (
+  `idpeserta_test_kriteria_kelulusan` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idpeserta_test` int(10) unsigned NOT NULL,
+  `idkriteria_kelulusan` int(10) unsigned NOT NULL,
+  `nilai` double NOT NULL,
+  PRIMARY KEY (`idpeserta_test_kriteria_kelulusan`),
+  KEY `FK_peserta_test_kriteria_kelulusan_1` (`idpeserta_test`),
+  KEY `FK_peserta_test_kriteria_kelulusan_2` (`idkriteria_kelulusan`),
+  CONSTRAINT `FK_peserta_test_kriteria_kelulusan_1` FOREIGN KEY (`idpeserta_test`) REFERENCES `peserta_test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_peserta_test_kriteria_kelulusan_2` FOREIGN KEY (`idkriteria_kelulusan`) REFERENCES `kriteria_kelulusan` (`idkriteria_kelulusan`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `peserta_test_kriteria_kelulusan`
+--
+
+/*!40000 ALTER TABLE `peserta_test_kriteria_kelulusan` DISABLE KEYS */;
+INSERT INTO `peserta_test_kriteria_kelulusan` (`idpeserta_test_kriteria_kelulusan`,`idpeserta_test`,`idkriteria_kelulusan`,`nilai`) VALUES 
+ (6,3,2,90),
+ (7,3,3,89),
+ (8,3,4,70),
+ (9,3,5,92),
+ (10,15,2,90),
+ (11,15,3,76),
+ (12,15,4,55),
+ (13,15,5,32),
+ (14,18,2,87),
+ (15,18,3,65),
+ (16,18,4,33),
+ (17,18,5,20);
+/*!40000 ALTER TABLE `peserta_test_kriteria_kelulusan` ENABLE KEYS */;
 
 
 --
@@ -526,7 +751,7 @@ CREATE TABLE `soal` (
   KEY `FK_soal_2` (`idskl`),
   CONSTRAINT `FK_soal_1` FOREIGN KEY (`iddomain`) REFERENCES `domain` (`iddomain`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_soal_2` FOREIGN KEY (`idskl`) REFERENCES `skl` (`idskl`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Dumping data for table `soal`
@@ -534,9 +759,9 @@ CREATE TABLE `soal` (
 
 /*!40000 ALTER TABLE `soal` DISABLE KEYS */;
 INSERT INTO `soal` (`idsoal`,`iddomain`,`soal`,`gambar`,`jawaban`,`lg1_b`,`lg2_a`,`lg2_b`,`lg3_a`,`lg3_b`,`lg3_c`,`rasch_b`,`idskl`) VALUES 
- (5,10,'','2MAT1_2010.jpg','A',0,0,0,0,0,0,-0.661,1),
+ (5,10,'','2MAT1_2010.jpg','A',0,0,0,0,0,0,-2.098,7),
  (7,10,'eee','21MAT1_2010.jpg','D',0,0,0,0,0,0,0.161,1),
- (8,10,'','3MAT1_2010.png','C',0,0,0,0,0,0,0.014,1),
+ (8,10,'','3MAT1_2010.png','C',0,0,0,0,0,0,1.24,1),
  (9,10,'','18MAT1_2010.jpg','C',0,0,0,0,0,0,-0.976,1),
  (10,10,'','9MAT1_2009.gif','C',0,0,0,0,0,0,-0.976,1),
  (11,10,'','9MAT1_2009.gif','C',0,0,0,0,0,0,-1.05,1),
@@ -545,28 +770,28 @@ INSERT INTO `soal` (`idsoal`,`iddomain`,`soal`,`gambar`,`jawaban`,`lg1_b`,`lg2_a
  (14,10,'','33MAT1_2010.jpg','C',0,0,0,0,0,0,0.146,1),
  (15,10,'','14MAT1_2009.jpg','D',0,0,0,0,0,0,3.452,1),
  (16,10,'','15MAT1_2009.jpg','C',0,0,0,0,0,0,0.786,1),
- (17,10,'','2MAT1_2010.jpg','A',0,0,0,0,0,0,3.215,1),
+ (17,10,'','2MAT1_2010.jpg','D',0,0,0,0,0,0,-2.098,1),
  (18,10,'','39MAT1_2010.jpg','C',0,0,0,0,0,0,0,1),
  (19,10,'','19MAT1_2010.jpg','A',0,0,0,0,0,0,-2.356,1),
- (20,10,'','36MAT1_2010.jpg','B',0,0,0,0,0,0,-1.953,1),
+ (20,10,'','36MAT1_2010.jpg','B',0,0,0,0,0,0,-1.953,7),
  (21,10,'','38MAT1_2010.jpg','D',0,0,0,0,0,0,2.578,1),
  (22,10,'','19MAT1_2010.jpg','D',0,0,0,0,0,0,0.304,1),
  (23,10,'','36MAT1_2010.jpg','D',0,0,0,0,0,0,0.009,1),
  (24,10,'','32MAT1_2010.jpg','B',0,0,0,0,0,0,-3.987,1),
  (25,10,'','30MAT1_2010.jpg','D',0,0,0,0,0,0,0.954,1),
  (26,10,'','3MAT1_2010.jpg','B',0,0,0,0,0,0,2.457,1),
- (27,10,'','10MAT1_2010.jpg','B',0,0,0,0,0,0,3.986,1),
+ (27,10,'','10MAT1_2010.jpg','B',0,0,0,0,0,0,0.485,7),
  (28,10,'','39MAT1_2010.jpg','C',0,0,0,0,0,0,0.982,1),
  (29,10,'','34MAT1_2010.jpg','B',0,0,0,0,0,0,0,1),
  (30,10,'','16MAT1_2010.jpg','D',0,0,0,0,0,0,0.001,1),
  (31,10,'','20MAT1_2010.jpg','C',0,0,0,0,0,0,-0.002,1),
  (32,10,'','26MAT1_2010.jpg','B',0,0,0,0,0,0,0.567,1),
- (33,10,'','5MAT1_2010.jpg','C',0,0,0,0,0,0,1.234,1),
+ (33,10,'','5MAT1_2010.jpg','D',0,0,0,0,0,0,-2.186,7),
  (34,10,'','12MAT1_2010.jpg','C',0,0,0,0,0,0,-1.134,1),
- (35,10,'','10MAT1_2010.jpg','C',0,0,0,0,0,0,3.678,1),
- (36,10,'','1MAT1_2010.png','C',0,0,0,0,0,0,-3.895,1),
+ (35,10,'','10MAT1_2010.jpg','B',0,0,0,0,0,0,0.485,7),
+ (36,10,'','1MAT1_2010.png','C',0,0,0,0,0,0,-1.2,1),
  (37,10,'','3MAT1_2010.png','D',0,0,0,0,0,0,-3.101,1),
- (38,10,'','7MAT1_2010.jpg','A',0,0,0,0,0,0,0.001,1),
+ (38,10,'','7MAT1_2010.jpg','D',0,0,0,0,0,0,-1.956,1),
  (49,1,'','soal2.JPG','D',0,0,0,0,0,0,-3.123,1),
  (50,1,'','soal1.JPG','A',0,0,0,0,0,0,-3.987,1),
  (51,1,'','soal3.JPG','D',0,0,0,0,0,0,-1.098,1),
@@ -658,11 +883,11 @@ INSERT INTO `soal` (`idsoal`,`iddomain`,`soal`,`gambar`,`jawaban`,`lg1_b`,`lg2_a
  (167,10,'','1MAT1_2010.jpg','C',0,0,0,0,0,0,-3.978,7),
  (168,10,'','2MAT1_2010.jpg','D',0,0,0,0,0,0,-3.471,7),
  (169,10,'','3MAT1_2010.jpg','C',0,0,0,0,0,0,-3.091,7),
- (170,10,'','4MAT1_2010.jpg','A',0,0,0,0,0,0,1.121,7),
+ (170,10,'','4MAT1_2010.jpg','A',0,0,0,0,0,0,0.54,7),
  (171,10,'','5MAT1_2010.jpg','D',0,0,0,0,0,0,1.952,7),
- (172,10,'','6MAT1_2010.jpg','A',0,0,0,0,0,0,-1.316,7),
- (173,10,'','8MAT1_2010.jpg','C',0,0,0,0,0,0,0.802,7),
- (174,10,'','9MAT1_2010.jpg','B',0,0,0,0,0,0,1.915,7),
+ (172,10,'','6MAT1_2010.jpg','A',0,0,0,0,0,0,-2.186,7),
+ (173,10,'','8MAT1_2010.jpg','C',0,0,0,0,0,0,-1.514,7),
+ (174,10,'','9MAT1_2010.jpg','B',0,0,0,0,0,0,-0.728,7),
  (175,10,'','25MAT1_2010.jpg','C',0,0,0,0,0,0,1.654,8),
  (176,10,'','26MAT1_2010.jpg','A',0,0,0,0,0,0,-1.255,8),
  (177,10,'','27MAT1_2010.jpg','C',0,0,0,0,0,0,0.628,9),
@@ -681,7 +906,8 @@ INSERT INTO `soal` (`idsoal`,`iddomain`,`soal`,`gambar`,`jawaban`,`lg1_b`,`lg2_a
  (190,10,'','21MAT1_2010.jpg','C',0,0,0,0,0,0,2.105,9),
  (191,10,'','22MAT1_2010.jpg','D',0,0,0,0,0,0,2.812,9),
  (192,10,'','23MAT1_2010.jpg','A',0,0,0,0,0,0,3.689,9),
- (193,10,'','24MAT1_2010.jpg','D',0,0,0,0,0,0,1.316,9);
+ (193,10,'','24MAT1_2010.jpg','D',0,0,0,0,0,0,1.316,9),
+ (194,10,'','1MAT1_2010.jpg','D',0,0,0,0,0,0,-2.864,7);
 /*!40000 ALTER TABLE `soal` ENABLE KEYS */;
 
 

@@ -8,6 +8,11 @@ import java.io.*;
 import recite18th.library.Db;
 import application.config.Config;
 import application.models.DomainModel;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +28,7 @@ public class AmbilUjian extends Controller {
     private static final String page1 = "peserta_test/mulai_ujian_rasch_futsuhilow_penyajian_proporsional.jsp";
     private double D = 1;
     double pengali = 12.5;
+    double A = 2.71828182845904;
 
     public AmbilUjian() {
         //TODO : I have and Idea to check the security here... 
@@ -56,12 +62,45 @@ public class AmbilUjian extends Controller {
     public void index() {
         //cleanup session
         request.getSession().removeAttribute("soal_terpakai");
+        request.getSession().removeAttribute("soal_terpakai");
         PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
 
         //ups, domain dulu
         List row = Db.get("select d.* from domain d,peserta_test_domain p where p.iddomain=d.iddomain and p.idpeserta_test=" + userCredential.getId(), DomainModel.class.getName());
         request.setAttribute("row", row);
+
+        //hapus jawaban yg lama disini
+        //hapus jawaban yg sudah ada 
+        Db.executeQuery("delete from peserta_test_jawaban_dengan_model where idpeserta_test=" + userCredential.getId());
+        Db.executeQuery("delete from paket_soal_tiga_butir_jawaban where idpeserta_test=" + userCredential.getId());
+
         index("peserta_test/pilih_domain.jsp");
+    }
+
+    //kembali ke menu pemilihan domain, tanpa menghapus jawaban yang sudah ada
+    public void indexOnProgress() {
+        //cleanup session
+        request.getSession().removeAttribute("soal_terpakai");
+        request.getSession().removeAttribute("theta_awal_tiga_soal");
+        request.getSession().removeAttribute("SEsebelumnya");
+        request.getSession().removeAttribute("theta");
+        request.getSession().removeAttribute("iterasi_ke");
+        request.getSession().removeAttribute("skl");
+        request.getSession().removeAttribute("iddomain");
+        request.getSession().removeAttribute("soal_terpakai");
+        request.getSession().removeAttribute("theta_awal");
+        request.getSession().removeAttribute("soal_ke");
+        request.getSession().removeAttribute("sumPQ");
+        request.getSession().removeAttribute("sumUminusP");
+
+        PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
+
+        //ups, domain dulu
+        List row = Db.get("select d.* from domain d,peserta_test_domain p where p.iddomain=d.iddomain and p.idpeserta_test=" + userCredential.getId(), DomainModel.class.getName());
+        request.setAttribute("row", row);
+
+        index("peserta_test/pilih_domain.jsp");
+
     }
 
     public void ambilSoal(String idsoal) {
@@ -156,19 +195,26 @@ public class AmbilUjian extends Controller {
             i++;
         }
 
-        //hitung tingkat kesukaran
+        //hitung theta awal (Inisialisasi kemampuan)
         String tingkat_kesukaran;
+        double thetaAwal = 0;
         if (isSoal1Benar && isSoal2Benar && isSoal3Benar) {
             tingkat_kesukaran = "Sangat Tinggi";
-        } else if ((isSoal1Benar && isSoal2Benar) || isSoal1Benar || (isSoal1Benar && isSoal3Benar)) {
+            thetaAwal = 3;
+        } else if ((isSoal1Benar && isSoal3Benar) || isSoal3Benar || (isSoal2Benar && isSoal3Benar)) {
             tingkat_kesukaran = "Tinggi";
-        } else if ((isSoal2Benar && isSoal3Benar) || isSoal2Benar) {
+            thetaAwal = 2;
+        } else if ((isSoal1Benar && isSoal2Benar) || isSoal2Benar) {
             tingkat_kesukaran = "Sedang";
-        } else if (isSoal3Benar) {
+            thetaAwal = 0;
+        } else if (isSoal1Benar) {
             tingkat_kesukaran = "Rendah";
+            thetaAwal = -2;
         } else {
             tingkat_kesukaran = "Sangat Rendah";
+            thetaAwal = -3;
         }
+        request.getSession().setAttribute("theta_awal_tiga_soal", thetaAwal);
 
         //simpan ke basisdata
         Db.executeQuery("update peserta_test set tingkat_kesukaran='" + tingkat_kesukaran + "' where id ='" + userCredential.getId() + "'");
@@ -182,38 +228,36 @@ public class AmbilUjian extends Controller {
         SoalModel soalPertama = new SoalModel();
         soalPertama.getSoalPertama(tingkat_kesukaran, userCredential.getId(), iddomain);
         request.getSession().setAttribute("skl", soalPertama.getIdskl());
-        request.getSession().setAttribute("theta_awal_tiga_soal", (Double.parseDouble(soalPertama.getRasch_b())));
+        //request.getSession().setAttribute("theta_awal_tiga_soal", (Double.parseDouble(soalPertama.getRasch_b())));
         request.getSession().setAttribute("soal_ke", 1);
         request.getSession().removeAttribute("iterasi_ke");
         request.getSession().removeAttribute("theta_awal");
         request.setAttribute("item", soalPertama);
-        
-        //hapus jawaban yg sudah ada 
-        Db.executeQuery("delete from peserta_test_jawaban_dengan_model where idpeserta_test="+userCredential.getId());
+
         index("peserta_test/pengerjaan_soal.jsp");
 
-    /* ini waktu mengetest hasil dari menjawab tiga butir soal
-    //forward
-    PrintWriter out = null;
-    response.setContentType("text/xml");
-    try 
-    {
-    out = response.getWriter();
-    if(isSukses)
-    {
-    out.println("<return><result>true</result><tingkat_kesukaran>"+tingkat_kesukaran+"</tingkat_kesukaran></return>");
-    }else 
-    {
-    out.println("<return><result>false</result></return>");
-    }
-    }catch(IOException e)
-    {
-    e.printStackTrace();
-    }finally
-    {
-    out.flush();
-    out.close();
-    }*/
+        /* ini waktu mengetest hasil dari menjawab tiga butir soal
+        //forward
+        PrintWriter out = null;
+        response.setContentType("text/xml");
+        try 
+        {
+        out = response.getWriter();
+        if(isSukses)
+        {
+        out.println("<return><result>true</result><tingkat_kesukaran>"+tingkat_kesukaran+"</tingkat_kesukaran></return>");
+        }else 
+        {
+        out.println("<return><result>false</result></return>");
+        }
+        }catch(IOException e)
+        {
+        e.printStackTrace();
+        }finally
+        {
+        out.flush();
+        out.close();
+        }*/
     }
 
     /*
@@ -224,7 +268,7 @@ public class AmbilUjian extends Controller {
         String idsoal = request.getParameter("idsoal");
         String jawaban = request.getParameter("optJawaban");
         PesertaTestModel userCredential = (PesertaTestModel) LoginUtil.getLogin(request);
-        String idpaket_soal = "" + userCredential.getIdpaket_soal();
+        //String idpaket_soal = "" + userCredential.getIdpaket_soal();
         String idpeserta_test = "" + userCredential.getId();
         //hapus dulu jawaban yang lama
 
@@ -246,7 +290,8 @@ public class AmbilUjian extends Controller {
 
                 // selesaikan perhitungan model yg dipakai disini
                 Double tingkat_kesukaran = Double.parseDouble(soal.getRasch_b());
-                String hasil_tingkat_kesukaran = "", hasil_theta = "";
+                //, hasil_theta = "";
+                String hasil_tingkat_kesukaran = "";
                 Double u_sangat_rendah, u_rendah, u_sedang = null, u_tinggi = null, u_sangat_tinggi = null;
 
                 double alpha = 0.0;
@@ -431,7 +476,7 @@ public class AmbilUjian extends Controller {
                 theta_akhir = sum_theta_x_alpha / sum_alpha;
 
                 //cari soal selanjutnya
-                int soal_ke = Integer.parseInt(request.getSession().getAttribute("soal_ke") + "");
+                //int soal_ke = Integer.parseInt(request.getSession().getAttribute("soal_ke") + "");
 
                 boolean jawaban_benar = soal.getJawaban().equals(jawaban);
                 if (!jawaban_benar) {
@@ -458,28 +503,29 @@ public class AmbilUjian extends Controller {
                     int iSkl_maks = 0, iSkl_Counter = 0;
                     iSkl_maks = Integer.parseInt(skl_maks[0][0]);
                     System.out.println("proporsional skl_maks #1 = " + iSkl_maks);
-                    boolean isAlreadyCycle=false;
+                    boolean isAlreadyCycle = false;
+                    int iCounterSKLdimajukan = 0;
                     do {
                         soalSelanjutnya.getSoalSelanjutnya(tingkat_kesukaran, userCredential.getId(), request.getSession().getAttribute("soal_terpakai") + "", jawaban_benar, iddomain, skl_aktif);
-                        iSkl_Counter++;
-                        
-                        
 
+                        iSkl_Counter++;
                         if (soalSelanjutnya == null) {
                             skl_aktif = getNextIdSkl(skl_aktif, iddomain);
+                            //iCounterSKLdimajukan++;
                             System.out.println("proporsional skl aktif ga ada, dimajukan ke = " + skl_aktif);
                         }
-                        
+
                         //SOLUTION : test with Mr. Ruk's 
-                        //cyclic this : solusi agar pemilhan soal selanjutnya jika skl tidak memenuhi, diulang dari pertam
-                        if(iSkl_Counter==iSkl_maks && soalSelanjutnya == null && !isAlreadyCycle)                            
+                        //cyclic this : solusi agar pemilhan soal selanjutnya jika skl tidak memenuhi, diulang dari pertama
+                        if (iSkl_Counter == iSkl_maks && soalSelanjutnya == null) //&& !isAlreadyCycle                           
                         {
                             System.out.println("cyclic skl : solusi u/ skl sudah habis, ulang dari awal");
                             isAlreadyCycle = true;
                             iSkl_Counter = 0;
+                            iCounterSKLdimajukan++;
                         }
-                        
-                    } while (soalSelanjutnya == null || iSkl_Counter < iSkl_maks);
+
+                    } while (soalSelanjutnya == null && iCounterSKLdimajukan < 5);//||iSkl_Counter < iSkl_maks);&& iCounterSKLdimajukan<iSkl_maks
                     //NEXT : 
                     /*
                      * ini kasusnya, soalselanjutnya habis, karena dia ngotot berusaha mencari di soal dengan skl tersebut
@@ -499,21 +545,33 @@ public class AmbilUjian extends Controller {
 
                 //Hitung SE : dari UNIVERSI CAT
                 int u = 0;
-                double P = 0; // e^(theta - b)/(1+e^(theta-b)
-                double Q = 0;
+                double P = 0.0; // e^(theta - b)/(1+e^(theta-b)
+                double Q = 0.0;
                 //double uMinusP = 0;
-                double PQ = 0;
-                double SE = 0;
-                double sumPQ = 0;
-                double sumUminusP = 0;
-                double selisihSE = 0;
-                double SEsebelumnya = 0;
+                double PQ = 0.0;
+                double SE = 0.0;
+                double sumPQ = 0.0;
+                double sumUminusP = 0.0;
+                double selisihSE = 0.0;
+                double SEsebelumnya = 0.0;
 
                 if (jawaban_benar) {
                     u = 1;
                 }
-                P = Math.pow(Math.E, D * (theta_akhir - b)) / (1 + Math.pow(Math.E, D * (theta_akhir - b)));
-                //P = Math.pow(Math.E,D*(theta - b)) / (1 + Math.pow(Math.E,D*(theta - b)));
+                //thetaBaru
+                //P = Math.pow(Math.E, D * (theta_akhir - b)) / (1 + Math.pow(Math.E, D * (theta_akhir - b)));
+                //P = Math.pow(Math.E, D * (thetaBaru - b)) / (1 + Math.pow(Math.E, D * (thetaBaru - b)));
+
+                //patch of perhitungan P
+
+                if (request.getSession().getAttribute("iterasi_ke") == null) {
+                    double tigaButir = Double.parseDouble("" + request.getSession().getAttribute("theta_awal_tiga_soal"));
+                    P = Math.pow(Math.E, D * (tigaButir - b)) / (1 + Math.pow(Math.E, D * (tigaButir - b)));
+
+                } else {
+                    double thetaSebelumnya = Double.parseDouble(request.getSession().getAttribute("theta_sebelumnya") + "");
+                    P = Math.pow(Math.E, D * (thetaSebelumnya - b)) / (1 + Math.pow(Math.E, D * (thetaSebelumnya - b)));
+                }
                 Q = 1 - P;
                 //uMinusP = u - P;
                 PQ = P * Q;
@@ -538,6 +596,8 @@ public class AmbilUjian extends Controller {
 
                 request.getSession().setAttribute("sumPQ", sumPQ);
                 request.getSession().setAttribute("sumUminusP", sumUminusP);
+
+
                 SE = 1 / (D * (Math.sqrt(sumPQ)));
 
                 if (request.getSession().getAttribute("iterasi_ke") != null) {
@@ -556,7 +616,11 @@ public class AmbilUjian extends Controller {
 
                         selisihSE = Math.abs(SE - SEsebelumnya);
                         System.out.println("selisih SE " + selisihSE);
-                        if (selisihSE <= 0.01) {
+
+                        DecimalFormat twoDForm = new DecimalFormat("#.##");
+                        double selisihSE2digit = Double.valueOf(twoDForm.format(selisihSE));
+
+                        if (selisihSE2digit <= 0.01) {//selisihSE
                             System.out.println("selesai ujian, penaksiran konvergen;");
                         } else {
                             System.out.println("soal berikutnya;" + soalSelanjutnya.getIdsoal());
@@ -616,7 +680,7 @@ public class AmbilUjian extends Controller {
                 System.out.println("iterasi_ke = " + iterasi_ke);
                 if (iterasi_ke == 1) {
                     theta_awal_tiga_soal = request.getSession().getAttribute("theta_awal_tiga_soal") + "";
-                    theta_sebelumnya = 0;//Double.parseDouble(theta_awal_tiga_soal);
+                    theta_sebelumnya = Double.parseDouble(theta_awal_tiga_soal);//0
                     System.out.println("theta awal tiga soal = " + theta);
                     request.getSession().setAttribute("theta_sebelumnya", thetaBaru);
                 } else {
@@ -624,26 +688,51 @@ public class AmbilUjian extends Controller {
                     request.getSession().setAttribute("theta_sebelumnya", thetaBaru);
                 }
 
-                
+
                 String waktu = request.getParameter("waktu");
+                //hitung sisa waktu 3menit - waktu
+                //borrowed from http://en.allexperts.com/q/Java-1046/substract-time-values-java.htm
+                DateFormat df = new SimpleDateFormat("mm:ss");
+                Date date2 = df.parse("03:00");
+                Date date1 = df.parse(waktu);
+                long remainder = date2.getTime() - date1.getTime();
+                if (request.getSession().getAttribute("SEsebelumnya") != null) {
+                    SEsebelumnya = Double.parseDouble(request.getSession().getAttribute("SEsebelumnya") + "");
+                } else {
+                    SEsebelumnya = 0;
+                }
+
+                String sselisihSE;
                 selisihSE = Math.abs(SE - SEsebelumnya);
+                //request.getSession().setAttribute("SEsebelumnya",SE);
+                if (iterasi_ke == 1) {
+                    sselisihSE = "0";
+                } else {
+                    sselisihSE = selisihSE + "";
+                }
+                DecimalFormat twoDForm = new DecimalFormat("#.##");
+                double selisihSE2digit = Double.valueOf(twoDForm.format(selisihSE));
+
                 isSukses = isSukses && Db.executeQuery(
-                        "insert into peserta_test_jawaban_dengan_model (" +
-                        "idsoal,idpeserta_test,jawaban,nilai," +
-                        "thetaAwal,b,P,Q," +
-                        "PQ,SE," +
-                        "SelisihSE,ThetaAkhir,Skor,waktu" +
-                        ") " +
-                        "values ('" + idsoal + "','" + idpeserta_test + "','" + jawaban + "'," +
-                        u + "," +
-                        theta_sebelumnya + "," + b + "," + P + "," + Q + "," +
-                        +PQ + "," + SE + "," +
-                        selisihSE + "," + thetaBaru + "," + skor + ",'" + waktu + "'" +
-                        ")");
+                        "insert into peserta_test_jawaban_dengan_model ("
+                        + "idsoal,idpeserta_test,jawaban,nilai,"
+                        + "thetaAwal,b,P,Q,"
+                        + "PQ,SE,"
+                        + "SelisihSE,ThetaAkhir,Skor,waktu"
+                        + ") "
+                        + "values ('" + idsoal + "','" + idpeserta_test + "','" + jawaban + "',"
+                        + u + ","
+                        + theta_sebelumnya + "," + b + "," + P + "," + Q + ","
+                        + +PQ + "," + SE + ","
+                        + selisihSE2digit + "," + thetaBaru + "," + skor + ",'" + df.format(remainder) + "'"
+                        + ")");
 
                 System.out.println("eko SEsebelumnya = " + request.getSession().getAttribute("SEsebelumnya") + ", SE = " + SE);
                 request.getSession().setAttribute("SEsebelumnya", SE);
-                if (selisihSE <= 0.01) {
+
+
+
+                if (selisihSE2digit <= 0.01) {
                     //simpan hasil jawaban disini
                     System.out.println("selisihSE selesai... = " + selisihSE + ", SE = " + SE + ", SESeblumnya = ");
                     //selesai satu domain, ada link ke menu domaain
@@ -656,6 +745,8 @@ public class AmbilUjian extends Controller {
             } else {
                 System.out.print("<result>false</result>");
             }
+        } catch (ParseException ex) {
+            Logger.getLogger(AmbilUjian.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -666,13 +757,12 @@ public class AmbilUjian extends Controller {
 
     private String getNextIdSkl(String skl_aktif, String iddomain) throws NumberFormatException {
         if (request.getSession().getAttribute("skl") == null) {
-            //ambil skl pertama
             String[][] skl_pertama = Db.getDataSet("select idskl from skl where iddomain = " + iddomain + " and prioritas=1");
             skl_aktif = skl_pertama[0][0];
             request.getSession().setAttribute("skl", skl_aktif);
         } else {
             skl_aktif = "" + request.getSession().getAttribute("skl") + "";
-            String prioritas_skl_aktif[][] = Db.getDataSet("select prioritas from skl where idskl="+skl_aktif);
+            String prioritas_skl_aktif[][] = Db.getDataSet("select prioritas from skl where idskl=" + skl_aktif);
             int iSkl_selanjutnya = Integer.parseInt(prioritas_skl_aktif[0][0]) + 1;
             //roling skl
             String[][] skl_selanjutnya = Db.getDataSet("select idskl from skl where iddomain = " + iddomain + " and prioritas=" + iSkl_selanjutnya);

@@ -2,6 +2,16 @@
 
 <a href="<%=Config.base_url%>index/Domain">Domain</a>
 
+<a href="<%=Config.base_url%>index/Kelulusan">Kelulusan</a>
+
+<a href="<%=Config.base_url%>index/KelulusanBobot">KelulusanBobot</a>
+
+<a href="<%=Config.base_url%>index/Konfigurasi">Konfigurasi</a>
+
+<a href="<%=Config.base_url%>index/KriteriaKelulusan">KriteriaKelulusan</a>
+
+<a href="<%=Config.base_url%>index/LaporanKelulusan">LaporanKelulusan</a>
+
 <a href="<%=Config.base_url%>index/PaketSoal">PaketSoal</a>
 
 <a href="<%=Config.base_url%>index/PaketSoalDetail">PaketSoalDetail</a>
@@ -14,6 +24,10 @@
 
 <a href="<%=Config.base_url%>index/PaketSoalTigaButirJawaban">PaketSoalTigaButirJawaban</a>
 
+<a href="<%=Config.base_url%>index/Pembobotan">Pembobotan</a>
+
+<a href="<%=Config.base_url%>index/PembobotanDomain">PembobotanDomain</a>
+
 <a href="<%=Config.base_url%>index/Pengajar">Pengajar</a>
 
 <a href="<%=Config.base_url%>index/PesertaTest">PesertaTest</a>
@@ -21,6 +35,8 @@
 <a href="<%=Config.base_url%>index/PesertaTestDomain">PesertaTestDomain</a>
 
 <a href="<%=Config.base_url%>index/PesertaTestJawabanDenganModel">PesertaTestJawabanDenganModel</a>
+
+<a href="<%=Config.base_url%>index/PesertaTestKriteriaKelulusan">PesertaTestKriteriaKelulusan</a>
 
 <a href="<%=Config.base_url%>index/Pimpinan">Pimpinan</a>
 

@@ -41,13 +41,22 @@ public class LihatHasilTest extends Controller {
         request.setAttribute("domain", domain);
         super.index();
     }
-    
- 
+
     public void laporanPengajarRasch() {
         PengajarModel userCredential = (PengajarModel) LoginUtil.getLogin(request);
         List domain = Db.get("select * from domain", DomainModel.class.getName());
         request.setAttribute("domain", domain);
         viewPage = "hasil_ujian/view_laporan_pengajar_rasch.jsp";
+        super.index();
+    }
+
+    public void laporanPenerimaan() {
+        String cetak = request.getParameter("cetak");
+        if (cetak!=null && cetak.equals("true")) {
+            viewPage = "hasil_ujian/view_laporan_penerimaan_cetak.jsp";
+        } else {
+            viewPage = "hasil_ujian/view_laporan_penerimaan.jsp";
+        }
         super.index();
     }
 }

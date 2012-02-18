@@ -6,7 +6,8 @@ package application.config;
 
 /**
  * This class is the main configuration of your application
- * @author Eko SW
+ * @author Rukli
+ * 
  */
 public class Config {
     public static final String firstController = "main";//first controller open by framework
@@ -15,7 +16,8 @@ public class Config {
     public static final String mainPage = "index.jsp";
     public static final String page404 =  "page404.jsp";
     public static final String base_url = "http://localhost:8084/CerdasCAT/";
-    public static final String base_path = "D:\\work\\konsultan_ta\\rukli\\work\\CerdasCAT\\build\\web\\";
+    public static final String base_path = "D:\\disertasi\\work\\CerdasCAT\\build\\web\\";
+    //public static final String base_path = "C:\\Users\\Eko SW\\Documents\\Projects\\ta\\CerdasCAT\\work\\CerdasCAT\\build\\web\\";
     public static final String application_title = "Aplikasi Cerdas CAT";
     public static final String production_year = "2011";
     public static final String author = "Rukli";

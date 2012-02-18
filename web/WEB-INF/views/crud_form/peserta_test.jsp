@@ -17,3 +17,4 @@
 <input name="skor_akhir" type="text" id="skor_akhir" value="${model.skor_akhir}">")
 <input name="idpaket_soal_tiga_butir" type="text" id="idpaket_soal_tiga_butir" value="${model.idpaket_soal_tiga_butir}">")
 <input name="tingkat_kesukaran" type="text" id="tingkat_kesukaran" value="${model.tingkat_kesukaran}">")
+<input name="verified" type="text" id="verified" value="${model.verified}">")
