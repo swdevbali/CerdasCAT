@@ -116,11 +116,11 @@ window.api = root.data("scrollable");
 		  </li>
  			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
-		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >        
+		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >
+           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
 		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
 		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
 		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
-           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
            <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
@@ -225,7 +225,7 @@ window.api = root.data("scrollable");
 	for(i=0;i<peserta.length;i++) {
 	//hitung Nilai Pembobotan
 	//ambil domain yang dipakai pada soal peserta ini
-	String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test="+peserta[i][0]+" and p.idsoal=s.idsoal and s.iddomain = d.iddomain group by d.iddomain";
+	String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test="+peserta[i][0]+" and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
 	String domain[][] = Db.getDataSet(sql);
 	if(domain.length<3) continue;/* quick fix */
 	jumlah_peserta++;

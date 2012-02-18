@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,recite18th.library.Db,application.config.Config,recite18th.library.Pagination" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,recite18th.library.Db,application.config.Config,recite18th.library.Pagination,java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%
@@ -115,11 +115,11 @@ window.api = root.data("scrollable");
 		  </li>
  			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
-		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >        
+		<c:if test="${user_credential.peran=='Kepala Sekolah'}" >
+           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
 		 <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_skl">Pembobotan SKL</a></li> 
 		  <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_domain">Pembobotan Domain</a></li> 
 		   <li><a href="<%=Config.base_url%>index/pimpinan/pembobotan_kriteria">Pembobotan Kriteria Penilaian</a></li> 
-           <li><a href="<%=Config.base_url%>index/pimpinan/bukaFormInputKonfigurasi">Konfigurasi Penerimaan</a></li>
            <li><a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan">Laporan Penerimaan </a></li>
 			 <li><a href="<%=Config.base_url%>index/login/logout">Logout</a></li> 
 	    </c:if>
@@ -160,6 +160,12 @@ window.api = root.data("scrollable");
 	    <!-- InstanceBeginEditable name="isi_modul" -->
 		<%
 		String data[][]=Db.getDataSet("select skor_minimum,kuota from konfigurasi");
+		/*String isiDomain[] = data[0][2].split(">>");
+		Hashtable hashDomain = new Hashtable();
+		for(int i=0;i<isiDomain.length;i++)
+		{
+			hashDomain.put(isiDomain[i],i+"");
+		}*/
 		%>
 	    <form name="form1" method="post" action="<%=Config.base_url%>index/pimpinan/saveKonfigurasi">
 	      ${message}
@@ -175,6 +181,22 @@ window.api = root.data("scrollable");
               <td><label>
                 <input name="kuota" type="text" id="kuota" value="<%=data[0][1]%>">
               </label></td>
+            </tr>
+            <tr>
+              <td>Domain</td>
+              <td><label>
+			  <%
+			  	String domain[][] = Db.getDataSet("select iddomain,domain from domain order by domain");
+				for(int i =0; i < domain.length; i++)
+				{
+			   %>
+                <input name="domain_<%=domain[i][0]%>" type="checkbox" id="domain_<%=domain[i][0]%>" value="<%=domain[i][0]%>"  <% 
+				String cekDomain[][] = Db.getDataSet("select * from konfigurasi_domain where iddomain="+domain[i][0]);
+				if(cekDomain.length>0) { %> checked<% } %>>
+                <%=domain[i][1]%></label><br/>
+			  <% }
+			  %>
+			  </td>
             </tr>
             <tr>
               <td>&nbsp;</td>
@@ -195,5 +217,5 @@ window.api = root.data("scrollable");
 				<p align="center">Hak Cipta (C) Rukli 2011 <a href="http://www.playapps.net/"></a>				</p>
 		  </div>
 		</div>
-   </body>
+</body>
 <!-- InstanceEnd --></html>

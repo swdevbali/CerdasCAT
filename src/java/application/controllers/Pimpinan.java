@@ -43,7 +43,7 @@ public class Pimpinan extends Controller {
         Db.executeQuery("delete from pembobotan_skl");
         String flashMessage = "";
         //insert new one
-        String domain[][] = Db.getDataSet("select iddomain,domain from domain order by domain");
+        String domain[][] = Db.getDataSet("select iddomain,domain from domain where iddomain in (select iddomain from konfigurasi_domain) order by domain");
         for (int id = 0; id < domain.length; id++) {
             String skl[][] = Db.getDataSet("select idskl from skl where iddomain=" + domain[id][0]);
             float total_bobot = 0, fbobot = 0;
@@ -69,7 +69,7 @@ public class Pimpinan extends Controller {
         Db.executeQuery("delete from pembobotan_domain");
         String flashMessage = "";
         //insert new one
-        String domain[][] = Db.getDataSet("select iddomain,domain from domain order by domain");
+        String domain[][] = Db.getDataSet("select iddomain,domain from domain where iddomain in (select iddomain from konfigurasi_domain) order by domain");
         float total_bobot = 0;
         for (int id = 0; id < domain.length; id++) {
 
@@ -113,18 +113,25 @@ public class Pimpinan extends Controller {
         request.setAttribute("flash_message", flashMessage);
         index("pimpinan/pembobotan_kriteria.jsp");
     }
-    
-    public void bukaFormInputKonfigurasi()
-    {
+
+    public void bukaFormInputKonfigurasi() {
         request.removeAttribute("message");
         index("pimpinan/form_konfigurasi.jsp");
     }
-    
-    public void saveKonfigurasi()
-    {
+
+    public void saveKonfigurasi() {
         String skor_minimum = request.getParameter("skor_minimum");
         String kuota = request.getParameter("kuota");
-        Db.executeQuery("update konfigurasi set skor_minimum = " + skor_minimum + ", kuota="+kuota);
+        String domain[][] = Db.getDataSet("select iddomain,domain from domain order by domain");
+        Db.executeQuery("delete from konfigurasi_domain");
+        for (int i = 0; i < domain.length; i++) {
+            String nilaiDomain = request.getParameter("domain_" + domain[i][0]);
+            if(nilaiDomain!=null) {
+                Db.executeQuery("insert into konfigurasi_domain values("+domain[i][0]+")");
+            }
+           
+        }
+        Db.executeQuery("update konfigurasi set skor_minimum = " + skor_minimum + ", kuota=" + kuota + ",domain='");
         request.setAttribute("message", "Konfigurasi sudah tersimpan");
         index("pimpinan/form_konfigurasi.jsp");
     }
