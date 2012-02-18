@@ -227,7 +227,7 @@ window.api = root.data("scrollable");
 	//ambil domain yang dipakai pada soal peserta ini
 	String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test="+peserta[i][0]+" and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
 	String domain[][] = Db.getDataSet(sql);
-	if(domain.length<3) continue;/* quick fix */
+	//if(domain.length<3) continue;/* quick fix */
 	jumlah_peserta++;
 	double totalNilaiDomain = 0;
 	for(int idomain = 0; idomain < domain.length; idomain++)

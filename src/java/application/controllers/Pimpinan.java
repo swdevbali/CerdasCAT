@@ -131,7 +131,7 @@ public class Pimpinan extends Controller {
             }
            
         }
-        Db.executeQuery("update konfigurasi set skor_minimum = " + skor_minimum + ", kuota=" + kuota + ",domain='");
+        Db.executeQuery("update konfigurasi set skor_minimum = " + skor_minimum + ", kuota=" + kuota);
         request.setAttribute("message", "Konfigurasi sudah tersimpan");
         index("pimpinan/form_konfigurasi.jsp");
     }
