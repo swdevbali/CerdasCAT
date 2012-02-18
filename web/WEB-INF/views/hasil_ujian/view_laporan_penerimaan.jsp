@@ -254,7 +254,7 @@ window.api = root.data("scrollable");
 		}
 		
 		nilaiDomain = iBobotDomain * bobot_skl/100;
-		//out.print(i + ": " + peserta[i][2] + " : Nilai bobot SKL untuk domain " + domain[idomain][1] + " : " +  bobot_skl+", Nilai Domainnya = " +nilaiDomain+ "<hr/>");
+		out.print(i + ": " + peserta[i][2] + " : Nilai bobot SKL untuk domain " + domain[idomain][1] + " : " +  bobot_skl+", Nilai Domainnya = " +nilaiDomain+ "<hr/>");
        
         totalNilaiDomain+=nilaiDomain;
 		
@@ -266,7 +266,7 @@ window.api = root.data("scrollable");
 		double nilaiKriteria=0, totalNilaiKriteria=0;
 		for(int ikriteria=0;ikriteria<bobotKriteria.length;ikriteria++)
 		{
-			String sqlPenilaian = "select idpenilaian_peserta,nilai from penilaian_peserta where idpeserta_test="+peserta[i][0]+" and idpenilaian="+bobotKriteria[ikriteria][0];
+			String sqlPenilaian = "select idpenilaian_peserta,nilai,nama_penilaian from penilaian_peserta p,penilaian pe where p.idpenilaian = pe.idpenilaian and idpeserta_test="+peserta[i][0]+" and pe.idpenilaian="+bobotKriteria[ikriteria][0];
 			//out.print(sqlPenilaian);
 			String dataNilai[][]=Db.getDataSet(sqlPenilaian);
 			if(dataNilai.length>0) 
@@ -289,7 +289,10 @@ window.api = root.data("scrollable");
 				
 				nilaiKriteria=Double.parseDouble(bobotKriteria[ikriteria][1])*totalNilaiDomain/100;
 				totalNilaiKriteria+=nilaiKriteria;
+			
 			}
+                        if(dataNilai.length>0)
+			out.print(ikriteria + ": " + peserta[i][2] + " : Nilai kriteria untuk " + dataNilai[0][2] + " : " +  nilaiKriteria+", Total nila kriteria= " +totalNilaiKriteria+ "<hr/>");
 		}
 		
 		Db.executeQuery("update peserta_test set skor_akhir = " + totalNilaiKriteria + ",skor_domain="+totalNilaiDomain+" where id="+peserta[i][0]);
@@ -311,7 +314,7 @@ window.api = root.data("scrollable");
 		</thead>
 <%
 	String konfigurasi[][] = Db.getDataSet("select kuota, skor_minimum from konfigurasi");
-	peserta =Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,skor_akhir,skor_domain FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' and skor_akhir>"+konfigurasi[0][1]+" order by skor_akhir desc limit 0,"+konfigurasi[0][0]);
+	peserta =Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,skor_domain,skor_akhir FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' and skor_akhir>"+konfigurasi[0][1]+" order by skor_akhir desc limit 0,"+konfigurasi[0][0]);
 	
 	for(int i=0;i<peserta.length;i++)
 	{

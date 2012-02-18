@@ -52,64 +52,51 @@
 			skor_minimum = Double.parseDouble(data[0][0]);
 			kuota_maksimum = Integer.parseInt(data[0][1]);
 		%>
-	    <p align="center" id="aIntroductiona">&nbsp;</p>
-	    <div align="center">
-  <table width="42%" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#666666">
-    <tr>
-      <td colspan="3"><div align="center">
-        <p class="style2">LAPORAN PENERIMAAN </p>
-        <p>&nbsp;</p>
-      </div></td>
-        </tr>
-    <tr>
-      <td width="42%">Inisialisasi</td>
-          <td width="4%" valign="top">:</td>
-          <td width="54%"><%=peserta[0][4]%></td>
-        </tr>
-    <tr>
-      <td>Model</td>
-          <td valign="top">:</td>
-          <td><%=peserta[0][5]%></td>
-        </tr>
-    <tr>
-      <td>Metode</td>
-          <td valign="top">:</td>
-          <td><%=peserta[0][6]%></td>
-        </tr>
-    <tr>
-      <td>Penyajian Soal </td>
-          <td valign="top">:</td>
-          <td><%=peserta[0][7]%></td>
-        </tr>
-    <tr>
-      <td>&nbsp;</td>
-          <td valign="top">:</td>
-          <td>&nbsp;</td>
-        </tr>
-    <tr>
-      <td>Skor Minimum</td>
-          <td valign="top">:</td>
-          <td><%=skor_minimum%></td>
-        </tr>
-    <tr>
-      <td>Kuota Maksimum</td>
-          <td valign="top">:</td>
-          <td><%=kuota_maksimum%></td>
-        </tr>
-    <tr>
-      <td>&nbsp;</td>
-          <td valign="top">&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-    <tr>
-      <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-  </table>
-  <br/>
-	      
-	      <%
+	    <p id="aIntroductiona">&nbsp;</p>
+	    <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#666666">
+          <tr>
+            <td colspan="2"><div align="center"><strong>LAPORAN PENERIMAAN </strong></div></td>
+          </tr>
+          <tr>
+            <td width="49%">Inisialisasi</td>
+            <td width="51%"><%=peserta[0][4]%></td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td><%=peserta[0][5]%></td>
+          </tr>
+          <tr>
+            <td>Metode</td>
+            <td><%=peserta[0][6]%></td>
+          </tr>
+          <tr>
+            <td>Penyajian Soal </td>
+            <td><%=peserta[0][7]%></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>Skor Minimum</td>
+            <td><%=skor_minimum%></td>
+          </tr>
+          <tr>
+            <td>Kuota Maksimum</td>
+            <td><%=kuota_maksimum%></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+		<br/>
+  
+  <%
   
   	//tabel bobot penilaian
 	String bobotKriteria[][] = Db.getDataSet("SELECT idpenilaian,bobot FROM penilaian");
@@ -118,9 +105,9 @@
 	for(i=0;i<peserta.length;i++) {
 	//hitung Nilai Pembobotan
 	//ambil domain yang dipakai pada soal peserta ini
-	String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test="+peserta[i][0]+" and p.idsoal=s.idsoal and s.iddomain = d.iddomain group by d.iddomain";
+	String sql = "SELECT d.iddomain,d.domain FROM peserta_test_jawaban_dengan_model p,soal s,domain d where p.idpeserta_test="+peserta[i][0]+" and p.idsoal=s.idsoal and s.iddomain = d.iddomain and d.iddomain  in (select iddomain from konfigurasi_domain) group by d.iddomain";
 	String domain[][] = Db.getDataSet(sql);
-	if(domain.length<3) continue;/* quick fix */
+	//if(domain.length<3) continue;/* quick fix */
 	jumlah_peserta++;
 	double totalNilaiDomain = 0;
 	for(int idomain = 0; idomain < domain.length; idomain++)
@@ -147,7 +134,7 @@
 		}
 		
 		nilaiDomain = iBobotDomain * bobot_skl/100;
-		//out.print(i + ": " + peserta[i][2] + " : Nilai bobot SKL untuk domain " + domain[idomain][1] + " : " +  bobot_skl+", Nilai Domainnya = " +nilaiDomain+ "<hr/>");
+		out.print(i + ": " + peserta[i][2] + " : Nilai bobot SKL untuk domain " + domain[idomain][1] + " : " +  bobot_skl+", Nilai Domainnya = " +nilaiDomain+ "<hr/>");
        
         totalNilaiDomain+=nilaiDomain;
 		
@@ -159,7 +146,7 @@
 		double nilaiKriteria=0, totalNilaiKriteria=0;
 		for(int ikriteria=0;ikriteria<bobotKriteria.length;ikriteria++)
 		{
-			String sqlPenilaian = "select idpenilaian_peserta,nilai from penilaian_peserta where idpeserta_test="+peserta[i][0]+" and idpenilaian="+bobotKriteria[ikriteria][0];
+			String sqlPenilaian = "select idpenilaian_peserta,nilai,nama_penilaian from penilaian_peserta p,penilaian pe where p.idpenilaian = pe.idpenilaian and idpeserta_test="+peserta[i][0]+" and pe.idpenilaian="+bobotKriteria[ikriteria][0];
 			//out.print(sqlPenilaian);
 			String dataNilai[][]=Db.getDataSet(sqlPenilaian);
 			if(dataNilai.length>0) 
@@ -182,41 +169,43 @@
 				
 				nilaiKriteria=Double.parseDouble(bobotKriteria[ikriteria][1])*totalNilaiDomain/100;
 				totalNilaiKriteria+=nilaiKriteria;
+			
 			}
+                        if(dataNilai.length>0)
+			out.print(ikriteria + ": " + peserta[i][2] + " : Nilai kriteria untuk " + dataNilai[0][2] + " : " +  nilaiKriteria+", Total nila kriteria= " +totalNilaiKriteria+ "<hr/>");
 		}
 		
 		Db.executeQuery("update peserta_test set skor_akhir = " + totalNilaiKriteria + ",skor_domain="+totalNilaiDomain+" where id="+peserta[i][0]);
 	}
 	}
   %>
-	      
-        </div>
-	    <table width="62%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#333333" id="rounded-corner">
+  <a href="<%=Config.base_url%>index/LihatHasilTest/laporanPenerimaan?cetak=true" target="_blank">Cetak</a>
+		<table width="100%" id="rounded-corner" border="0">
 		<thead>
 		
   <tr>
-    <td height="40" class="rounded-company" scope="col">No.</td>
-    <td scope="col" class="rounded-q1"><div align="center">Nomor Peserta </div></td>
-    <td scope="col" class="rounded-q1"><div align="center">Nama Lengkap </div></td>
-    <td scope="col" class="rounded-q1"><div align="center">Asal SD </div></td>
-    <td scope="col" class="rounded-q1"><div align="center">Nilai Domain </div></td>
-    <td scope="col" class="rounded-q1"><div align="center">Skor Penerimaan  </div></td>
+    <td scope="col" class="rounded-company">No.</td>
+    <td scope="col" class="rounded-q1">Nomor Peserta </td>
+    <td scope="col" class="rounded-q1">Nama Lengkap </td>
+    <td scope="col" class="rounded-q1">Asal SD </td>
+    <td scope="col" class="rounded-q1">Nilai Domain </td>
+    <td scope="col" class="rounded-q1">Skor Penerimaan  </td>
     </tr>
 		</thead>
 <%
 	String konfigurasi[][] = Db.getDataSet("select kuota, skor_minimum from konfigurasi");
-	peserta =Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,skor_akhir,skor_domain FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' and skor_akhir>"+konfigurasi[0][1]+" order by skor_akhir desc limit 0,"+konfigurasi[0][0]);
+	peserta =Db.getDataSet("SELECT id, nomor_peserta, nama_lengkap,asal,skor_domain,skor_akhir FROM peserta_test p where inisialisasi_kemampuan='Tiga Butir' and model_logistik='Rasch' and metode='Futsuhilow' and penyajian_soal='Proporsional' and skor_akhir>"+konfigurasi[0][1]+" order by skor_akhir desc limit 0,"+konfigurasi[0][0]);
 	
 	for(int i=0;i<peserta.length;i++)
 	{
 %>
   <tr>
-    <td><div align="right"><%=i+1%></div></td>
+    <td><%=i+1%></td>
     <td><%=peserta[i][1]%></td>
     <td><%=peserta[i][2]%></td>
     <td><%=peserta[i][3]%></td>
-    <td><div align="right"><%=format.format(Double.parseDouble(peserta[i][4]))%></div></td>
-    <td><div align="right"><%=format.format(Double.parseDouble(peserta[i][5]))%></div></td>
+    <td><%=format.format(Double.parseDouble(peserta[i][4]))%></td>
+    <td><%=format.format(Double.parseDouble(peserta[i][5]))%></td>
     </tr>
 <% } %>
 </table>
